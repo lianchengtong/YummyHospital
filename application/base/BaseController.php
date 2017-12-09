@@ -67,30 +67,4 @@ class BaseController extends Controller
 
         return parent::render($view, $params);
     }
-
-    /**
-     * @param Query $query
-     *
-     * @return string
-     */
-    public function getArticleListDataProvider($query)
-    {
-        $query->orderBy(['id' => SORT_DESC]);
-        $query->andWhere(['type' => Post::TYPE_ARTICLE]);
-
-        if (UserSession::isGuest()) {
-            $query->andWhere(['status' => Post::STATUS_NORMAL]);
-        }
-
-        $dataProvider = new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'class'           => Pagination::className(),
-                'defaultPageSize' => 10,
-            ],
-        ]);
-
-        return $dataProvider;
-
-    }
 }
