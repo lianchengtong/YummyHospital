@@ -2,18 +2,12 @@
 namespace application\controllers;
 
 use application\base\BaseController;
-use common\models\Post;
-use rogeecn\TagEditor\EditorAsset;
+use common\models\User;
 
 class IndexController extends BaseController
 {
     public function actionIndex()
     {
-        $query        = Post::find();
-        $dataProvider = $this->getArticleListDataProvider($query);
-
-        return $this->render([
-            'dataProvider' => $dataProvider,
-        ]);
+        echo User::tableName();
     }
 }

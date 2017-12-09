@@ -14,6 +14,7 @@ use yii\web\IdentityInterface;
  * @property string  $password_hash
  * @property string  $password_reset_token
  * @property string  $email
+ * @property string  $phone
  * @property string  $auth_key
  * @property integer $status
  * @property integer $created_at
@@ -26,13 +27,6 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_VERIFIED = 1;
     const STATUS_DISABLED = 99;
 
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%user}}';
-    }
 
     /**
      * @inheritdoc
@@ -82,7 +76,8 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['nickname', 'auth_key', 'password_reset_token', 'password_hash'], 'string'],
+            ['phone', 'required'],
+            [['nickname', 'phone', 'auth_key', 'password_reset_token', 'password_hash'], 'string'],
             ['email', 'email'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DISABLED]],
