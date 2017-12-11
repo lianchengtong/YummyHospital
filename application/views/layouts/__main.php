@@ -27,26 +27,6 @@ use yii\helpers\Html;
                             'target' => '_blank',
                         ]) ?>
                     </div>
-                    <table class="table table-bordered" id="post-info">
-                        <tr>
-                            <td>
-                                <?= \common\models\Post::totalCount() ?>
-                                <span>POSTS</span>
-                            </td>
-                            <td>
-                                <?= \common\models\Tag::totalCount() ?>
-                                <span>TAGS</span>
-                            </td>
-                        </tr>
-                    </table>
-                    <!--                    <table class="table" id="sns-info">-->
-                    <!--                        <tr>-->
-                    <!--                            <td><a href="#"><span class="glyphicon glyphicon-apple"></span></a></td>-->
-                    <!--                            <td><a href="#"><span class="glyphicon glyphicon-apple"></span></a></td>-->
-                    <!--                            <td><a href="#"><span class="glyphicon glyphicon-apple"></span></a></td>-->
-                    <!--                            <td><a href="#"><span class="glyphicon glyphicon-apple"></span></a></td>-->
-                    <!--                        </tr>-->
-                    <!--                    </table>-->
                 </div>
             </div>
         </div>

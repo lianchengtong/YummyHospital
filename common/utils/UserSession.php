@@ -40,7 +40,7 @@ class UserSession
 
     public static function logout()
     {
-        return self::instance()->logout();
+        return self::instance()->logout(TRUE);
     }
 
     public static function login(IdentityInterface $user, $duration = 0)

@@ -27,7 +27,6 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_VERIFIED = 1;
     const STATUS_DISABLED = 99;
 
-
     /**
      * @inheritdoc
      */

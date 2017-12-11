@@ -9,7 +9,7 @@ $params = ArrayHelper::merge(
 );
 
 return [
-    'id'                  => 'blog',
+    'id'                  => 'YummyHospital',
     'basePath'            => dirname(__DIR__),
     'bootstrap'           => ['log'],
     'defaultRoute'        => 'index',
@@ -21,7 +21,7 @@ return [
     ],
     'components'          => [
         'request'      => [
-            'csrfParam' => '_csrf_blog',
+            'csrfParam' => '_csrf_yummy_hospital',
         ],
         'user'         => [
             'identityClass'   => 'common\models\User',
@@ -29,7 +29,7 @@ return [
             'loginUrl'        => ['/manage/login'],
         ],
         'session'      => [
-            'name' => 'sess_blog',
+            'name' => 'sess_yumm_hospital',
         ],
         'log'          => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -46,15 +46,6 @@ return [
         'urlManager'   => [
             'enablePrettyUrl' => TRUE,
             'showScriptName'  => FALSE,
-            'rules'           => [
-                '/search'                                                    => 'search/index',
-                '/tag/<page:\d+>'                                            => 'tag/index',
-                '/tag'                                                       => 'tag/index',
-                '/page/<page:\d+>'                                           => 'index/index',
-                '/<year:\d{4}>/<month:\d{2}>/<day:\d{2}>/<id:[a-z|0-9|\-]+>' => 'page/index',
-                '/tag/<id:.+?>'                                              => 'tag-list/index',
-                '/<pid:[a-z|0-9|\-]+>'                                       => 'page/index',
-            ],
         ],
         'formatter'    => [
             'dateFormat'     => 'php:y/m/d',

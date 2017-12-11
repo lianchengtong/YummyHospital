@@ -3,14 +3,13 @@
 namespace application\modules\manage\controllers;
 
 use application\base\AuthController;
-use common\utils\UserSession;
 
-class LogoutController extends AuthController
+class DashboardController extends AuthController
 {
     public function actionIndex()
     {
-        UserSession::logout();
-
-        return $this->redirect("/");
+        return $this->render([
+            'message' => 'hello world!',
+        ]);
     }
 }

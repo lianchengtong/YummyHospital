@@ -140,7 +140,12 @@ class View extends \yii\web\View
 
     protected function findViewFile($view, $context = NULL)
     {
-        $path = parent::findViewFile($view, $context);
+        $path          = parent::findViewFile($view, $context);
+        $currentModule = \Yii::$app->controller->module->id;
+        if (in_array($currentModule, ['gii'])) {
+            return $path;
+        }
+
         if (substr($path, -9) == "index.php") {
             return substr($path, 0, -10) . ".php";
         }

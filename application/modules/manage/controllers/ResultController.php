@@ -2,9 +2,9 @@
 
 namespace application\modules\manage\controllers;
 
-use application\base\BaseController;
+use application\base\AuthController;
 
-class ResultController extends BaseController
+class ResultController extends AuthController
 {
     public function actionSuccess()
     {

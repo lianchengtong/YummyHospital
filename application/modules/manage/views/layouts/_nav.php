@@ -1,8 +1,11 @@
 <?php
 \yii\bootstrap\NavBar::begin([
-    'brandLabel' => $this->title,
-    'brandUrl'   => NULL,
-    'options'    => [
+    'brandLabel'            => "Hello World!",
+    'innerContainerOptions' => [
+        'class' => 'container-fluid',
+    ],
+    'brandUrl'              => NULL,
+    'options'               => [
         'class' => 'navbar navbar-default navbar-static-top',
     ],
 ]);
@@ -14,7 +17,7 @@ $rightMenus = [
 if (\common\utils\UserSession::isGuest()) {
     $rightMenus[] = ['label' => '登录', 'url' => ['/manage/login']];
 } else {
-    $rightMenus[] = ['label' => '发表', 'url' => ['/manage/post/create']];
+    $rightMenus[] = ['label' => '用户管理', 'url' => ['/manage/user/index']];
     $rightMenus[] = ['label' => '退出', 'url' => ['/manage/logout']];
 }
 
