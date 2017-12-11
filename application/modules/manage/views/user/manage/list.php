@@ -10,15 +10,18 @@ use yii\helpers\Html;
 
 $this->title                   = $isAdmin ? '管理员列表' : '用户列表';
 $this->params['breadcrumbs'][] = $this->title;
+
+$buttons = [
+    Html::a('创建', [$isAdmin ? 'create-admin' : 'create'], ['class' => 'btn btn-success']),
+];
+
 ?>
 
 <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 <?= PanelGridView::widget([
     'dataProvider' => $dataProvider,
-    'buttons'      => [
-        Html::a('创建', ['create', 'admin' => $isAdmin], ['class' => 'btn btn-success']),
-    ],
+    'buttons'      => $buttons,
     'filterModel'  => $searchModel,
     'columns'      => [
         ['class' => 'yii\grid\SerialColumn'],

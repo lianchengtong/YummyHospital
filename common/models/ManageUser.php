@@ -48,6 +48,15 @@ class ManageUser extends \common\base\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if (!User::findOne($this->user_id)) {
+            return false;
+        }
+
+        return parent::beforeSave($insert);
+    }
+
     public static function getUser($userID)
     {
         return self::find()->where(['user_id' => $userID])->one();
@@ -57,7 +66,7 @@ class ManageUser extends \common\base\ActiveRecord
     {
         $existUserModel = self::getUser($userID);
         if ($existUserModel) {
-            return TRUE;
+            return true;
         }
 
         $model          = new self();
