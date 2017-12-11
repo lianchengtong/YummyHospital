@@ -17,7 +17,7 @@ $rightMenus = [
 if (\common\utils\UserSession::isGuest()) {
     $rightMenus[] = ['label' => '登录', 'url' => ['/manage/login']];
 } else {
-    $rightMenus[] = ['label' => '用户管理', 'url' => ['/manage/user/index']];
+    $rightMenus[] = ['label' => '用户管理', 'url' => ['/manage/user/manage/list']];
     $rightMenus[] = ['label' => '退出', 'url' => ['/manage/logout']];
 }
 

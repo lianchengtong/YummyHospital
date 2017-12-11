@@ -55,14 +55,14 @@ class <?= $controllerClass ?> extends AuthController <?=  "\n" ?>
         ];
     }
 
-    public function actionIndex()
+    public function actionList()
     {
 <?php if (!empty($generator->searchModelClass)): ?>
         $searchModel = new <?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>();
         $params = Yii::$app->request->queryParams;
         $dataProvider = $searchModel->search($params);
 
-        return $this->render('index', [
+        return $this->render('list', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -71,7 +71,7 @@ class <?= $controllerClass ?> extends AuthController <?=  "\n" ?>
             'query' => <?= $modelClass ?>::find(),
         ]);
 
-        return $this->render('index', [
+        return $this->render('list', [
             'dataProvider' => $dataProvider,
         ]);
 <?php endif; ?>
@@ -89,7 +89,7 @@ class <?= $controllerClass ?> extends AuthController <?=  "\n" ?>
         $model = new <?= $modelClass ?>();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['list']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -102,7 +102,7 @@ class <?= $controllerClass ?> extends AuthController <?=  "\n" ?>
         $model = $this->findModel(<?= $actionParams ?>);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['list']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -114,7 +114,7 @@ class <?= $controllerClass ?> extends AuthController <?=  "\n" ?>
     {
         $this->findModel(<?= $actionParams ?>)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['list']);
     }
 
     protected function findModel(<?= $actionParams ?>)

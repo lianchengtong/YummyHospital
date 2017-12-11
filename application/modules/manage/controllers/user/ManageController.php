@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use application\base\AuthController;
 
-class IndexController extends AuthController 
+class ManageController extends AuthController 
 {
     public function behaviors()
     {
@@ -24,13 +24,13 @@ class IndexController extends AuthController
         ];
     }
 
-    public function actionIndex()
+    public function actionList()
     {
         $searchModel = new UserSearch();
         $params = Yii::$app->request->queryParams;
         $dataProvider = $searchModel->search($params);
 
-        return $this->render('index', [
+        return $this->render('list', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
