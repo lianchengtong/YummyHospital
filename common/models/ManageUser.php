@@ -30,6 +30,7 @@ class ManageUser extends \common\base\ActiveRecord
     {
         return [
             [['user_id'], 'required'],
+            [['user_id'], 'unique'],
             [['user_id', 'role', 'created_at', 'updated_at'], 'integer'],
         ];
     }
@@ -51,6 +52,8 @@ class ManageUser extends \common\base\ActiveRecord
     public function beforeSave($insert)
     {
         if (!User::findOne($this->user_id)) {
+            $this->addError("user_id", "用户不存在!");
+
             return false;
         }
 
