@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use yii\helpers\ArrayHelper;
+
 /**
  * This is the model class for table "manage_user".
  *
@@ -63,5 +65,12 @@ class ManageUser extends \common\base\ActiveRecord
         $model->role    = $roleID;
 
         return $model->save();
+    }
+
+    public static function getIDList()
+    {
+        $model = self::find()->select("id")->all();
+
+        return ArrayHelper::getColumn($model, "id");
     }
 }
