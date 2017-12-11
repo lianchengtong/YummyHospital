@@ -16,7 +16,7 @@ class m171209_093610_website_config extends Migration
             'key'        => $this->string()->notNull(),
             'value'      => $this->text(),
             'type'       => $this->string()->notNull()->defaultValue("textInput"),//textInput,
-            'const_data' => $this->text(),//only fill where radio, checkbox, select,
+            'const_data' => $this->text(),
             'group_id'   => $this->integer()->notNull()->defaultValue(0),
             'order'      => $this->integer()->notNull()->defaultValue(0),
             'created_at' => $this->integer(),

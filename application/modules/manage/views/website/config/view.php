@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\User */
+/* @var $model common\models\WebsiteConfig */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
+$this->title                   = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Website Configs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -15,26 +15,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     <?= Html::a('Delete', ['delete', 'id' => $model->id], [
         'class' => 'btn btn-danger',
-        'data' => [
+        'data'  => [
             'confirm' => 'Are you sure you want to delete this item?',
-            'method' => 'post',
+            'method'  => 'post',
         ],
     ]) ?>
 </p>
 
 <?= DetailView::widget([
-    'model' => $model,
+    'model'      => $model,
     'attributes' => [
-            'id',
-            'phone',
-            'email:email',
-            'nickname',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            'status',
-            'created_at',
-            'updated_at',
+        'id',
+        'key',
+        'value:ntext',
+        'type',
+        'const_data:ntext',
+        'group_id',
+        'order',
+        'created_at',
     ],
 ]) ?>
 

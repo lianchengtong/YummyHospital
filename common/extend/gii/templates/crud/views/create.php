@@ -10,14 +10,14 @@ echo "<?php\n";
 ?>
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 
 
 /* @var $this yii\web\View */
 /* @var $model <?= ltrim($generator->modelClass, '\\') ?> */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = <?= $generator->generateString('Create ' . Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>;
+$this->title = <?= $generator->generateString('创建 ' . Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>;
 $this->params['breadcrumbs'][] = ['label' => <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>, 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -30,10 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-body">
         <?= "<?= " ?>$this->render('_form', [
             'model' => $model,
-            'form'  => $form,
+            'form' => $form,
         ]) ?>
     </div>
     <div class="panel-footer text-right">
         <?= "<?= " ?> Html::submitButton("提交", ['class' => 'btn btn-primary']) ?>
     </div>
 </div>
+<?= "<?php " ?>ActiveForm::end(); ?>

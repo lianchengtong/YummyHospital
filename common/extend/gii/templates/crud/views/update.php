@@ -12,16 +12,16 @@ echo "<?php\n";
 ?>
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model <?= ltrim($generator->modelClass, '\\') ?> */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = <?= $generator->generateString('Update {modelClass}: ', ['modelClass' => Inflector::camel2words(StringHelper::basename($generator->modelClass))]) ?> . $model-><?= $generator->getNameAttribute() ?>;
+$this->title = <?= $generator->generateString('编辑 {modelClass}: ', ['modelClass' => Inflector::camel2words(StringHelper::basename($generator->modelClass))]) ?> . $model-><?= $generator->getNameAttribute() ?>;
 $this->params['breadcrumbs'][] = ['label' => <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>, 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model-><?= $generator->getNameAttribute() ?>, 'url' => ['view', <?= $urlParams ?>]];
-$this->params['breadcrumbs'][] = <?= $generator->generateString('Update') ?>;
+$this->params['breadcrumbs'][] = <?= $generator->generateString('编辑') ?>;
 ?>
 
 
@@ -40,4 +40,4 @@ $this->params['breadcrumbs'][] = <?= $generator->generateString('Update') ?>;
         <?= "<?= " ?> Html::submitButton("提交", ['class' => 'btn btn-primary']) ?>
     </div>
 </div>
-
+<?= "<?php " ?>ActiveForm::end(); ?>

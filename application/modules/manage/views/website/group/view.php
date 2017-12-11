@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\User */
+/* @var $model common\models\WebsiteConfigGroup */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Website Config Groups', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -26,15 +26,9 @@ $this->params['breadcrumbs'][] = $this->title;
     'model' => $model,
     'attributes' => [
             'id',
-            'phone',
-            'email:email',
-            'nickname',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            'status',
+            'name',
+            'order',
             'created_at',
-            'updated_at',
     ],
 ]) ?>
 

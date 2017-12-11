@@ -12,7 +12,6 @@ $this->title                   = $isAdmin ? '管理员列表' : '用户列表';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h1><?= Html::encode($this->title) ?></h1>
 <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 <?= PanelGridView::widget([

@@ -4,7 +4,7 @@
     'innerContainerOptions' => [
         'class' => 'container-fluid',
     ],
-    'brandUrl'              => NULL,
+    'brandUrl'              => null,
     'options'               => [
         'class' => 'navbar navbar-default navbar-static-top',
     ],
@@ -23,6 +23,10 @@ if (\common\utils\UserSession::isGuest()) {
         ['label' => '用户', 'items' => [
             ['label' => '注册用户', 'url' => ['/manage/user/manage/list']],
             ['label' => '后台用户', 'url' => ['/manage/user/manage/admin-list']],
+        ]],
+        ['label' => '系统', 'items' => [
+            ['label' => '系统配置', 'url' => ['/manage/website/config/set']],
+            ['label' => '配置管理', 'url' => ['/manage/website/config/list']],
         ]],
     ];
     $rightMenus[] = ['label' => '退出', 'url' => ['/manage/logout']];
