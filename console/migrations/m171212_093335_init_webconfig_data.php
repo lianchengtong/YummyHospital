@@ -81,11 +81,14 @@ class m171212_093335_init_webconfig_data extends Migration
             [4, 'storage.aliyun_oss.network', "阿里云OSS 网络类型", "classic", 'single', 0, json_encode(['classic' => '经典网络', 'vpc' => 'VPC']), time()],
             [4, 'storage.aliyun_oss.is_internal', "阿里云OSS 内网模式", "0", 'single', 0, json_encode(['是', '否']), time()],
             [4, 'storage.aliyun_oss.bucket', "阿里云OSS Bucket", "", 'string', 0, "", time()],
-            [5, 'wechat.token', "Token", "", 'string', 0, "", time()],
+            [5, 'wechat.app_id', "AppID", "", 'string', 0, "", time()],
+            [5, 'wechat.app_secret', "AppSecret", "", 'string', 0, "", time()],
         ]);
     }
 
     public function safeDown()
     {
+        $this->truncateTable($this->_table_config);
+        $this->truncateTable($this->_table_group);
     }
 }
