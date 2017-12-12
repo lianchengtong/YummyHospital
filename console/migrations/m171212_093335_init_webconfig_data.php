@@ -15,6 +15,7 @@ class m171212_093335_init_webconfig_data extends Migration
             ["缓存配置", 2, time()],
             ["文件存储", 3, time()],
             ["微信公众号", 4, time()],
+            ["支付管理", 5, time()],
         ]);
 
         $emailMode = [
@@ -32,6 +33,10 @@ class m171212_093335_init_webconfig_data extends Migration
         $storageMode = [
             'file'       => '本地存储',
             'aliyun_oss' => '阿里云OSS',
+        ];
+        $payment     = [
+            'alipay'    => '支付宝',
+            'wechatpay' => '微信支付',
         ];
 
         $aliyunOSSRegions = [
@@ -82,6 +87,8 @@ class m171212_093335_init_webconfig_data extends Migration
             [4, 'storage.aliyun_oss.is_internal', "阿里云OSS 内网模式", "0", 'single', 0, json_encode(['是', '否']), time()],
             [4, 'storage.aliyun_oss.bucket', "阿里云OSS Bucket", "", 'string', 0, "", time()],
             [5, 'wechat.token', "Token", "", 'string', 0, "", time()],
+            [6, 'payment.alipay.token', "支付宝", "", 'string', 0, "", time()],
+            [6, 'payment.wechatpay.token', "微信支付", "", 'string', 0, "", time()],
         ]);
     }
 
