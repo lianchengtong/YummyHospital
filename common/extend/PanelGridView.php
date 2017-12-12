@@ -11,6 +11,10 @@ class PanelGridView extends GridView
     {
         Html::addCssClass($this->options, 'panel panel-default');
 
+        if ($this->dataProvider->getTotalCount() == 0) {
+            $this->filterModel = NULL;
+        }
+
         $headingButtons = implode("\n", $this->buttons);
         $this->layout   = <<<_CODE
 <div class="panel-heading clearfix">

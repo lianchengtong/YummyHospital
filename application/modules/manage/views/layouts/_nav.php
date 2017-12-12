@@ -20,6 +20,7 @@ if (\common\utils\UserSession::isGuest()) {
     $rightMenus[] = ['label' => '登录', 'url' => ['/manage/login']];
 } else {
     $leftMenus    = [
+        ['label' => '链接', 'url' => ['@admin/link/group/list']],
         ['label' => '分类', 'url' => ['@admin/category/list']],
         ['label' => '文章', 'url' => ['@admin/article/list']],
         ['label' => '用户', 'items' => [

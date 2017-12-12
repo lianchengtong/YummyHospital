@@ -2,28 +2,17 @@
 
 namespace common\models;
 
-use Yii;
-
 /**
  * This is the model class for table "link_group".
  *
  * @property integer $id
- * @property string $name
- * @property string $slug
+ * @property string  $name
+ * @property string  $slug
  */
 class LinkGroup extends \common\base\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'link_group';
-    }
+    protected $enableTimeBehavior = FALSE;
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -33,13 +22,10 @@ class LinkGroup extends \common\base\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id'   => 'ID',
             'name' => 'Name',
             'slug' => 'Slug',
         ];
