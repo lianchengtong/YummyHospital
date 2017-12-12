@@ -1,7 +1,7 @@
 <?php
 \yii\bootstrap\NavBar::begin([
     'brandLabel'            => "Hello World!",
-    'brandUrl'            => ["@admin/dashboard"],
+    'brandUrl'              => ["@admin/dashboard"],
     'innerContainerOptions' => [
         'class' => 'container-fluid',
     ],
@@ -20,13 +20,15 @@ if (\common\utils\UserSession::isGuest()) {
     $rightMenus[] = ['label' => '登录', 'url' => ['/manage/login']];
 } else {
     $leftMenus    = [
+        ['label' => '分类', 'url' => ['@admin/category/list']],
+        ['label' => '文章', 'url' => ['@admin/article/list']],
         ['label' => '用户', 'items' => [
-            ['label' => '注册用户', 'url' => ['/manage/user/manage/list']],
-            ['label' => '后台用户', 'url' => ['/manage/user/manage/admin-list']],
+            ['label' => '注册用户', 'url' => ['@admin/user/manage/list']],
+            ['label' => '后台用户', 'url' => ['@admin/user/manage/admin-list']],
         ]],
         ['label' => '系统', 'items' => [
-            ['label' => '系统配置', 'url' => ['/manage/website/config/set']],
-            ['label' => '配置管理', 'url' => ['/manage/website/config/list']],
+            ['label' => '系统配置', 'url' => ['@admin/website/config/set']],
+            ['label' => '配置管理', 'url' => ['@admin/website/config/list']],
         ]],
     ];
     $rightMenus[] = ['label' => '退出', 'url' => ['/manage/logout']];

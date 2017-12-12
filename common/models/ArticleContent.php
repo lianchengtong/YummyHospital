@@ -2,28 +2,17 @@
 
 namespace common\models;
 
-use Yii;
-
 /**
  * This is the model class for table "article_content".
  *
  * @property integer $id
  * @property integer $article_id
- * @property string $content
+ * @property string  $content
  */
 class ArticleContent extends \common\base\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'article_content';
-    }
+    protected $enableTimeBehavior = FALSE;
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -33,15 +22,12 @@ class ArticleContent extends \common\base\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id'         => 'ID',
             'article_id' => 'Article ID',
-            'content' => 'Content',
+            'content'    => 'Content',
         ];
     }
 }

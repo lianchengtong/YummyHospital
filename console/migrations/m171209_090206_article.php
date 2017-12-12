@@ -10,7 +10,7 @@ class m171209_090206_article extends Migration
     {
         $this->createTable($this->_table, [
             'id'          => $this->primaryKey(),
-            'name'        => $this->string()->notNull()->defaultValue(""),
+            'title'       => $this->string()->notNull()->defaultValue(""),
             'slug'        => $this->string()->notNull()->unique(),
             'head_image'  => $this->string()->notNull()->defaultValue(""),
             'category'    => $this->integer()->notNull(),

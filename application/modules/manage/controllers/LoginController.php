@@ -3,7 +3,7 @@
 namespace application\modules\manage\controllers;
 
 use application\base\BaseController;
-use application\modules\manage\models\LoginForm;
+use application\modules\manage\forms\LoginForm;
 use common\utils\Request;
 use common\utils\UserSession;
 

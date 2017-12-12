@@ -90,11 +90,11 @@ class <?= $controllerClass ?> extends AuthController <?=  "\n" ?>
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['list']);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     public function actionUpdate(<?= $actionParams ?>)
@@ -103,11 +103,10 @@ class <?= $controllerClass ?> extends AuthController <?=  "\n" ?>
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['list']);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     public function actionDelete(<?= $actionParams ?>)

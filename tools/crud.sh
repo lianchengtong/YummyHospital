@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-# sh tools/crud User user\\Index
+# sh tools/crud User user\\Index user
 
 CLASS=$1
 CONTROLLER=$2

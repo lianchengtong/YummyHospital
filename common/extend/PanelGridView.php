@@ -32,4 +32,14 @@ _CODE;
 
         parent::init();
     }
+
+    public function renderTableHeader()
+    {
+        $head = parent::renderTableHeader();
+
+        return strtr($head, [
+            "<thead>"              => "<thead style='background: #f5f5f5'>",
+            'class="form-control"' => 'class="form-control input-sm"',
+        ]);
+    }
 }

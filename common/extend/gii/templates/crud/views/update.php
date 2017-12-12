@@ -28,7 +28,6 @@ $this->params['breadcrumbs'][] = <?= $generator->generateString('编辑') ?>;
 <?= "<?php " ?>$form = ActiveForm::begin(); ?>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h2><?= "<?= " ?> Html::encode($this->title) ?></h2>
     </div>
     <div class="panel-body">
         <?= "<?= " ?>$this->render('_form', [
