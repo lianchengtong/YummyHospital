@@ -2,30 +2,19 @@
 
 namespace common\models;
 
-use Yii;
-
 /**
  * This is the model class for table "doctor_appointment_patient_info".
  *
  * @property integer $id
  * @property integer $appointment_id
- * @property string $username
- * @property string $phone
- * @property string $memo
+ * @property string  $username
+ * @property string  $phone
+ * @property string  $memo
  */
 class DoctorAppointmentPatientInfo extends \common\base\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'doctor_appointment_patient_info';
-    }
+    protected $enableTimeBehavior = FALSE;
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -36,17 +25,14 @@ class DoctorAppointmentPatientInfo extends \common\base\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id'             => 'ID',
             'appointment_id' => 'Appointment ID',
-            'username' => 'Username',
-            'phone' => 'Phone',
-            'memo' => 'Memo',
+            'username'       => 'Username',
+            'phone'          => 'Phone',
+            'memo'           => 'Memo',
         ];
     }
 }

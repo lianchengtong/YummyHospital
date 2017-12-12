@@ -33,10 +33,10 @@ class ItemController extends AuthController
             throw new NotFoundHttpException();
         }
 
-        $searchModel             = new LinkGroupItemSearch();
-        $params                  = Yii::$app->request->queryParams;
-        $params['link_group_id'] = $linkGroupModel->id;
-        $dataProvider            = $searchModel->search($params);
+        $searchModel                                       = new LinkGroupItemSearch();
+        $params                                            = Yii::$app->request->queryParams;
+        $params[$searchModel->formName()]['link_group_id'] = $linkGroupModel->id;
+        $dataProvider                                      = $searchModel->search($params);
 
         return $this->render('list', [
             'searchModel'    => $searchModel,

@@ -4,7 +4,9 @@ namespace application\modules\manage\controllers;
 
 use application\base\AuthController;
 use common\models\DoctorAppointment;
+use common\models\DoctorAppointmentPatientInfo;
 use common\models\search\DoctorAppointment as DoctorAppointmentSearch;
+use common\utils\Request;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
@@ -58,27 +60,73 @@ class AppointmentController extends AuthController
 
     public function actionCreate()
     {
-        $model = new DoctorAppointment();
+        $model        = new DoctorAppointment();
+        $patientModel = new DoctorAppointmentPatientInfo();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['list']);
+        if (Request::isPost()) {
+            $modelLoad        = $model->load(Request::post());
+            $patientModelLoad = $patientModel->load(Request::post());
+
+            if ($modelLoad && $patientModelLoad) {
+                $trans = Yii::$app->getDb()->beginTransaction();
+                try {
+                    if (!$model->save()) {
+                        throw new \Exception("model save fail");
+                    }
+
+                    $patientModel->appointment_id = $model->primaryKey;
+                    if (!$patientModel->save()) {
+                        throw new \Exception("patientModel save fail");
+                    }
+
+                    $trans->commit();
+
+                    return $this->redirect(['all']);
+                } catch (\Exception $e) {
+                    $trans->rollBack();
+                }
+            }
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'model'        => $model,
+            'patientModel' => $patientModel,
         ]);
     }
 
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model        = $this->findModel($id);
+        $patientModel = $model->patientInfo;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['list']);
+        if (Request::isPost()) {
+            $modelLoad        = $model->load(Request::post());
+            $patientModelLoad = $patientModel->load(Request::post());
+
+            if ($modelLoad && $patientModelLoad) {
+                $trans = Yii::$app->getDb()->beginTransaction();
+                try {
+                    if (!$model->save()) {
+                        throw new \Exception("model save fail");
+                    }
+
+                    $patientModel->appointment_id = $model->primaryKey;
+                    if (!$patientModel->save()) {
+                        throw new \Exception("patientModel save fail");
+                    }
+
+                    $trans->commit();
+
+                    return $this->redirect(['all']);
+                } catch (\Exception $e) {
+                    $trans->rollBack();
+                }
+            }
         }
 
-        return $this->render('update', [
-            'model' => $model,
+        return $this->render('create', [
+            'model'        => $model,
+            'patientModel' => $patientModel,
         ]);
     }
 

@@ -35,10 +35,10 @@ class AppointmentTrackController extends AuthController
             return $this->redirect(['list', 'id' => $id]);
         }
 
-        $searchModel              = new DoctorAppointmentTrackSearch();
-        $params                   = Yii::$app->request->queryParams;
-        $params['appointment_id'] = $id;
-        $dataProvider             = $searchModel->search($params);
+        $searchModel                                        = new DoctorAppointmentTrackSearch();
+        $params                                             = Yii::$app->request->queryParams;
+        $params[$searchModel->formName()]['appointment_id'] = $id;
+        $dataProvider                                       = $searchModel->search($params);
 
         return $this->render('list', [
             'searchModel'  => $searchModel,

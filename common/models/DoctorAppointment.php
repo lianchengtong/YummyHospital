@@ -56,6 +56,11 @@ class DoctorAppointment extends \common\base\ActiveRecord
         return $this->hasOne(Doctor::className(), ['id' => 'doctor_id']);
     }
 
+    public function getPatientInfo()
+    {
+        return $this->hasOne(DoctorAppointmentPatientInfo::className(), ['appointment_id' => 'id']);
+    }
+
     public function beforeSave($insert)
     {
         if ($this->isNewRecord) {
