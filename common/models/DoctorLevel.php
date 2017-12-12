@@ -2,27 +2,16 @@
 
 namespace common\models;
 
-use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "doctor_level".
  *
  * @property integer $id
- * @property string $level_name
+ * @property string  $level_name
  */
 class DoctorLevel extends \common\base\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'doctor_level';
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -30,14 +19,25 @@ class DoctorLevel extends \common\base\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id'         => 'ID',
             'level_name' => 'Level Name',
         ];
+    }
+
+    public static function levelList()
+    {
+        $models = self::find()->all();
+
+        return ArrayHelper::map($models, 'id', 'level_name');
+    }
+
+    public static function levelDesc($id)
+    {
+        $list = self::levelList();
+
+        return $list[$id];
     }
 }

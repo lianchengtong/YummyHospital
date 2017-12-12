@@ -15,7 +15,7 @@ class m171209_090655_doctor extends Migration
             'id'         => $this->primaryKey(),
             'head_image' => $this->string()->notNull()->defaultValue(""),
             'level'      => $this->integer()->notNull()->defaultValue(1),
-            'name'       => $this->integer()->notNull(),
+            'name'       => $this->string()->notNull(),
             'summary'    => $this->text(),
             'work_time'  => $this->integer(),
             'introduce'  => $this->text(),
