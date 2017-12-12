@@ -16,12 +16,19 @@ class PanelGridView extends GridView
         }
 
         $headingButtons = implode("\n", $this->buttons);
-        $this->layout   = <<<_CODE
+        $panelHeading   = <<<_CODE_HEAD
 <div class="panel-heading clearfix">
     <div class="pull-right">
          $headingButtons
     </div>
 </div>
+_CODE_HEAD;
+        if (empty($this->buttons)) {
+            $panelHeading = "";
+        }
+
+        $this->layout = <<<_CODE
+$panelHeading
 {items}
 <div class="panel-footer clearfix">
     <div class="pull-left">

@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use yii\helpers\ArrayHelper;
+
 /**
  * This is the model class for table "doctor".
  *
@@ -40,5 +42,12 @@ class Doctor extends \common\base\ActiveRecord
             'introduce'  => '医生介绍',
             'rank'       => '星级',
         ];
+    }
+
+    public static function getList()
+    {
+        $model = self::find()->all();
+
+        return ArrayHelper::map($model, 'id', 'name');
     }
 }

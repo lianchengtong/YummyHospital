@@ -14,7 +14,7 @@ class m171209_092622_doctor_appointment extends Migration
         $this->createTable($this->_table, [
             'id'           => $this->primaryKey(),
             'user_id'      => $this->integer()->notNull(),
-            'docker_id'    => $this->integer()->notNull(),
+            'doctor_id'    => $this->integer()->notNull(),
             'time_begin'   => $this->integer()->notNull()->defaultValue(0),
             'time_end'     => $this->integer()->notNull()->defaultValue(0),
             'order_number' => $this->integer()->notNull(),
