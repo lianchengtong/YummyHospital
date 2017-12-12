@@ -1,10 +1,10 @@
 <?php
 \yii\bootstrap\NavBar::begin([
     'brandLabel'            => "Hello World!",
+    'brandUrl'            => ["@admin/dashboard"],
     'innerContainerOptions' => [
         'class' => 'container-fluid',
     ],
-    'brandUrl'              => null,
     'options'               => [
         'class' => 'navbar navbar-default navbar-static-top',
     ],

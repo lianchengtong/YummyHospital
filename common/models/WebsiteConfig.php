@@ -94,7 +94,7 @@ class WebsiteConfig extends \common\base\ActiveRecord
     {
         $model = self::getByKey($key);
         if (!$model) {
-            return false;
+            return FALSE;
         }
 
         $model->value = $value;
