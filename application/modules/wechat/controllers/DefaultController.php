@@ -12,10 +12,12 @@ class DefaultController extends BaseController
     {
         $wechatAppID     = WebsiteConfig::getValueByKey("wechat.app_id");
         $wechatAppSecret = WebsiteConfig::getValueByKey("wechat.app_secret");
+        $wechatToken = WebsiteConfig::getValueByKey("wechat.token");
 
         $config = [
             'app_id' => $wechatAppID,
             'secret' => $wechatAppSecret,
+            'token' => $wechatToken,
             'log'    => [
                 'level' => 'debug',
                 'file'  => \Yii::getAlias('@runtime/logs/wechat.log'),
@@ -23,8 +25,17 @@ class DefaultController extends BaseController
         ];
 
         $app      = Factory::officialAccount($config);
-        $response = $app->server->serve();
+        try{
+            $response = $app->server->serve();
 
-        return $response->getContent();
+            $app->server->push(function($message){
+                return "hello";
+            });
+
+
+            return $response->getContent();
+        }catch (\Exception $e){
+            echo $e->getMessage();
+        }
     }
 }

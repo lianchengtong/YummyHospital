@@ -8,6 +8,6 @@ class IndexController extends BaseController
 {
     public function actionIndex()
     {
-        echo User::tableName();
+        return time();
     }
 }
