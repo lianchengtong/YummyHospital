@@ -1,4 +1,5 @@
 <?php
+
 namespace application\base;
 
 use common\extend\Pagination;
@@ -12,12 +13,17 @@ use yii\web\Controller;
 
 class BaseController extends Controller
 {
-    public $layoutSnip    = "main";
+    public $layoutSnip = "main";
     public $pageItemCount = 10;
 
     public function goBack($defaultUrl = NULL)
     {
         return parent::goBack(Request::input("__returnUrl"));
+    }
+
+    public function beforeAction($action)
+    {
+        return parent::beforeAction($action);
     }
 
     /**
@@ -46,7 +52,7 @@ class BaseController extends Controller
 
             return $this->getView()->renderFile($layoutFile, [
                 'content' => $content,
-                'snip'    => $snipFile,
+                'snip' => $snipFile,
             ], $this);
         }
 
@@ -55,7 +61,7 @@ class BaseController extends Controller
 
     /**
      * @param string|array $view
-     * @param array        $params
+     * @param array $params
      *
      * @return string
      */

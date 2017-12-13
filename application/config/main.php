@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\ArrayHelper;
 
 $params = ArrayHelper::merge(
@@ -26,9 +27,12 @@ return [
         'request'      => [
             'csrfParam' => '_csrf_yummy_hospital',
         ],
+        'cache'        => [
+            'class' => '\yii\caching\FileCache',
+        ],
         'user'         => [
             'identityClass'   => 'common\models\User',
-            'enableAutoLogin' => TRUE,
+            'enableAutoLogin' => true,
             'loginUrl'        => ['/manage/login'],
         ],
         'session'      => [
@@ -47,8 +51,8 @@ return [
             'errorAction' => '/error/index',
         ],
         'urlManager'   => [
-            'enablePrettyUrl' => TRUE,
-            'showScriptName'  => FALSE,
+            'enablePrettyUrl' => true,
+            'showScriptName'  => false,
         ],
         'formatter'    => [
             'dateFormat'     => 'php:y/m/d',
