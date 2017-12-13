@@ -89,10 +89,14 @@ class m171212_093335_init_webconfig_data extends Migration
             [5, 'wechat.token', "Token", "", 'string', 0, "", time()],
             [6, 'payment.alipay.token', "支付宝", "", 'string', 0, "", time()],
             [6, 'payment.wechatpay.token', "微信支付", "", 'string', 0, "", time()],
+            [5, 'wechat.app_id', "AppID", "", 'string', 0, "", time()],
+            [5, 'wechat.app_secret', "AppSecret", "", 'string', 0, "", time()],
         ]);
     }
 
     public function safeDown()
     {
+        $this->truncateTable($this->_table_config);
+        $this->truncateTable($this->_table_group);
     }
 }

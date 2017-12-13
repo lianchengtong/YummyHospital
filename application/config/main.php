@@ -18,6 +18,9 @@ return [
         'manage' => [
             'class' => 'application\modules\manage\Module',
         ],
+        'wechat' => [
+            'class' => 'application\modules\wechat\Module',
+        ],
     ],
     'components'          => [
         'request'      => [
