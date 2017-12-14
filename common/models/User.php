@@ -1,8 +1,12 @@
 <?php
+
 namespace common\models;
 
 use common\base\ActiveRecord;
+use common\models\interfaces\InterfaceUserAuth;
+use common\utils\UserSession;
 use Yii;
+use yii\base\InvalidParamException;
 use yii\base\NotSupportedException;
 use yii\web\IdentityInterface;
 
@@ -35,7 +39,7 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
-    public static function findIdentityByAccessToken($token, $type = NULL)
+    public static function findIdentityByAccessToken($token, $type = null)
     {
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
@@ -48,7 +52,7 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findByPasswordResetToken($token)
     {
         if (!static::isPasswordResetTokenValid($token)) {
-            return NULL;
+            return null;
         }
 
         return static::findOne([
@@ -60,7 +64,7 @@ class User extends ActiveRecord implements IdentityInterface
     public static function isPasswordResetTokenValid($token)
     {
         if (empty($token)) {
-            return FALSE;
+            return false;
         }
 
         $timestamp = (int)substr($token, strrpos($token, '_') + 1);
@@ -69,15 +73,43 @@ class User extends ActiveRecord implements IdentityInterface
         return $timestamp + $expire >= time();
     }
 
+    public static function randomPassword()
+    {
+        $random = Yii::$app->security->generateRandomKey();
+        return Yii::$app->security->generatePasswordHash($random);
+    }
+
+    public static function getByEmail($email)
+    {
+        return self::find()->where(['email' => $email])->one();
+    }
+
+    /**
+     * @param $type
+     *
+     * @return \common\models\interfaces\InterfaceUserAuth|ActiveRecord
+     */
+    public function getAuthAccount($type)
+    {
+        switch ($type) {
+            case AuthWechat::AUTH_TYPE:
+                $class = AuthWechat::className();
+                break;
+            default:
+                throw new InvalidParamException($type . " : is not defined!");
+        }
+        return call_user_func_array([$class, "getByUserID"], [UserSession::getId()]);
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            ['phone', 'required'],
             [['nickname', 'phone', 'auth_key', 'password_reset_token', 'password_hash'], 'string'],
             ['email', 'email'],
+            [['email', 'phone'], 'default', 'value' => ''],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DISABLED]],
         ];
@@ -108,11 +140,6 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
 
-    public function generateAuthKey()
-    {
-        $this->auth_key = Yii::$app->security->generateRandomString();
-    }
-
     public function generatePasswordResetToken()
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
@@ -120,6 +147,31 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function removePasswordResetToken()
     {
-        $this->password_reset_token = NULL;
+        $this->password_reset_token = null;
+    }
+
+    public function registerUser($userInfo)
+    {
+        $this->setAttributes($userInfo);
+        $this->generateAuthKey();
+        return $this->save();
+    }
+
+    public function generateAuthKey()
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * @param \common\models\interfaces\InterfaceUserAuth $userAuth
+     *
+     * @return bool|array
+     */
+    public function setUserAuth(InterfaceUserAuth $userAuth)
+    {
+        if (!$userAuth->connectWithUser($this)) {
+            return $userAuth->getErrors();
+        }
+        return true;
     }
 }

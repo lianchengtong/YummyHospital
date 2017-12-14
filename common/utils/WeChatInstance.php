@@ -3,6 +3,7 @@
 namespace common\utils;
 
 
+use common\models\AuthWechat;
 use common\models\WebsiteConfig;
 use EasyWeChat\Factory;
 
@@ -29,12 +30,19 @@ class WeChatInstance
         $appSecret = WebsiteConfig::getValueByKey("wechat.app_secret");
         $token     = WebsiteConfig::getValueByKey("wechat.token");
 
+        $refreshToken = "";
+        if (!UserSession::isGuest()) {
+            $authUser     = UserSession::identity()->getAuthAccount(AuthWechat::AUTH_TYPE);
+            $refreshToken = $authUser->getRefreshToken();
+        }
+
         $config = [
-            'app_id' => $appID,
-            'secret' => $appSecret,
-            'token'  => $token,
-            'cache'  => \Yii::$app->cache,
-            'log'    => [
+            'app_id'        => $appID,
+            'secret'        => $appSecret,
+            'token'         => $token,
+            'refresh_token' => $refreshToken,
+            'cache'         => \Yii::$app->cache,
+            'log'           => [
                 'level' => 'debug',
                 'file'  => \Yii::getAlias('@runtime/logs/wechat.log'),
             ],

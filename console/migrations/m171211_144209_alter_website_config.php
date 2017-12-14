@@ -2,9 +2,6 @@
 
 use yii\db\Migration;
 
-/**
- * Class m171211_144209_alter_website_config
- */
 class m171211_144209_alter_website_config extends Migration
 {
     private $_table = '{{%website_config}}';
