@@ -3,13 +3,14 @@
 namespace application\controllers;
 
 use application\base\BaseController;
+use common\utils\Mailer;
 
 class TestController extends BaseController
 {
     public function actionIndex()
     {
         $email  = "rogeecn@qq.com";
-        $mailer = \Yii::$app->mailer->compose("verifyEmailAddress", [
+        $mailer = Mailer::instance()->compose("verifyEmailAddress", [
             'code' => mt_rand(100000, 999999),
         ]);
         $mailer->setTo($email);
