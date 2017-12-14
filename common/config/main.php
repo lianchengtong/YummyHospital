@@ -24,7 +24,6 @@ return [
                 'password'   => ALIYUN_MAIL_SMTP_PASSWORD,
                 'port'       => '80',
                 'encryption' => 'tls',
-
             ],
             'messageConfig'    => [
                 'charset' => 'UTF-8',
