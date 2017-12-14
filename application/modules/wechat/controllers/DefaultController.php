@@ -2,31 +2,14 @@
 
 namespace application\modules\wechat\controllers;
 
-use application\base\BaseController;
-use application\base\WechatBaseController;
 use application\base\WeChatMessageBaseController;
-use common\models\search\WebsiteConfig;
-use EasyWeChat\Factory;
+use common\utils\WeChatInstance;
 
 class DefaultController extends WeChatMessageBaseController
 {
     public function actionIndex()
     {
-        $wechatAppID = WebsiteConfig::getValueByKey("wechat.app_id");
-        $wechatAppSecret = WebsiteConfig::getValueByKey("wechat.app_secret");
-        $wechatToken = WebsiteConfig::getValueByKey("wechat.token");
-
-        $config = [
-            'app_id' => $wechatAppID,
-            'secret' => $wechatAppSecret,
-            'token'  => $wechatToken,
-            'log'    => [
-                'level' => 'debug',
-                'file'  => \Yii::getAlias('@runtime/logs/wechat.log'),
-            ],
-        ];
-
-        $app = Factory::officialAccount($config);
+        $app = WeChatInstance::officialAccount();
         try {
             $app->server->push(function ($message) use ($app) {
                 switch ($message['MsgType']) {
