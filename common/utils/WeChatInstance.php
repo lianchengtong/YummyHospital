@@ -32,8 +32,10 @@ class WeChatInstance
 
         $refreshToken = "";
         if (!UserSession::isGuest()) {
-            $authUser     = UserSession::identity()->getAuthAccount(AuthWechat::AUTH_TYPE);
-            $refreshToken = $authUser->getRefreshToken();
+            $authUser = UserSession::identity()->getAuthAccount(AuthWechat::AUTH_TYPE);
+            if ($authUser) {
+                $refreshToken = $authUser->getRefreshToken();
+            }
         }
 
         $config = [
