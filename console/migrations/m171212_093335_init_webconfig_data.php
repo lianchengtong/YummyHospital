@@ -82,10 +82,8 @@ class m171212_093335_init_webconfig_data extends Migration
 
             [4, 'storage.mode', "文件存储模式", "file", 'single', 0, json_encode($storageMode), time()],
             [4, 'storage.file.path', "本地存储路径", "@application/web/upload", 'string', 0, "", time()],
-            [4, 'storage.aliyun_oss.domain', "阿里云OSS 访问域名", "", 'string', 0, "", time()],
             [4, 'storage.aliyun_oss.region', "阿里云OSS 区域", "", 'single', 0, json_encode($aliyunOSSRegions), time()],
-            [4, 'storage.aliyun_oss.network', "阿里云OSS 网络类型", "classic", 'single', 0, json_encode(['classic' => '经典网络', 'vpc' => 'VPC']), time()],
-            [4, 'storage.aliyun_oss.is_internal', "阿里云OSS 内网模式", "0", 'single', 0, json_encode(['是', '否']), time()],
+            [4, 'storage.aliyun_oss.is_internal', "阿里云OSS 内网模式", "1", 'single', 0, json_encode(['否', '是']), time()],
             [4, 'storage.aliyun_oss.bucket', "阿里云OSS Bucket", "", 'string', 0, "", time()],
 
             [5, 'wechat.app_id', "AppID", "", 'string', 0, "", time()],
