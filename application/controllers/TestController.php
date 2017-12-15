@@ -3,12 +3,21 @@
 namespace application\controllers;
 
 use application\base\BaseController;
+use common\utils\AliSMS;
 use common\utils\Mailer;
 
 class TestController extends BaseController
 {
     public function actionIndex()
     {
+        $to      = '18601013734';
+        $data    = [
+            'code' => mt_rand(100001, 999999),
+        ];
+        $tplCode = "SMS_117295732";
+        AliSMS::sendSms($to, $tplCode, $data);
+        return "ok";
+
         $email  = "rogeecn@qq.com";
         $mailer = Mailer::instance()->compose("verifyEmailAddress", [
             'code' => mt_rand(100000, 999999),

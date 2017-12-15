@@ -10,7 +10,7 @@ class m171212_093335_init_webconfig_data extends Migration
     public function safeUp()
     {
         $this->batchInsert($this->_table_group, ['name', 'order', 'created_at'], [
-            ["网站配置", 0, time()],
+            ["全局配置", 0, time()],
             ["邮件配置", 1, time()],
             ["缓存配置", 2, time()],
             ["文件存储", 3, time()],
@@ -63,8 +63,9 @@ class m171212_093335_init_webconfig_data extends Migration
             [1, 'site.regulator.icp', "ICP备案号", "", 'string', 0, "", time()],
             [1, 'site.regulator.police', "公安备案号", "", 'string', 0, "", time()],
             [1, 'site.statistic', "统计代码", "", 'text', 0, "", time()],
+            [1, 'site.aliyun.access_key_id', "阿里云ACCESS KEY ID", "", 'string', 0, "", time()],
+            [1, 'site.aliyun.access_key_secret', "阿里云ACCESS KEY TOKEN", "", 'string', 0, "", time()],
 
-            [2, 'email.mode', "邮件发送模式", "smtp", 'single', 0, json_encode($emailMode), time()],
             [2, 'email.smtp.host', "SMTP 主机", "smtpdm.aliyun.com", 'string', 0, "", time()],
             [2, 'email.smtp.port', "SMTP 端口", "80", 'string', 0, "", time()],
             [2, 'email.smtp.username', "SMTP 用户名", "service@mail-service.ipaoyun.com", 'string', 0, "", time()],
@@ -81,8 +82,7 @@ class m171212_093335_init_webconfig_data extends Migration
 
             [4, 'storage.mode', "文件存储模式", "file", 'single', 0, json_encode($storageMode), time()],
             [4, 'storage.file.path', "本地存储路径", "@application/web/upload", 'string', 0, "", time()],
-            [4, 'storage.aliyun_oss.access_key_id', "阿里云OSS Access Key ID", "", 'string', 0, "", time()],
-            [4, 'storage.aliyun_oss.access_key_token', "阿里云OSS Access Key Token", "", 'string', 0, "", time()],
+            [4, 'storage.aliyun_oss.domain', "阿里云OSS 访问域名", "", 'string', 0, "", time()],
             [4, 'storage.aliyun_oss.region', "阿里云OSS 区域", "", 'single', 0, json_encode($aliyunOSSRegions), time()],
             [4, 'storage.aliyun_oss.network', "阿里云OSS 网络类型", "classic", 'single', 0, json_encode(['classic' => '经典网络', 'vpc' => 'VPC']), time()],
             [4, 'storage.aliyun_oss.is_internal', "阿里云OSS 内网模式", "0", 'single', 0, json_encode(['是', '否']), time()],
