@@ -34,6 +34,26 @@ foreach ($configItems as $configItem) {
             break;
     }
 
+    $block = Html::tag("strong", $configItem->key, [
+        'class' => 'help-block',
+    ]);
     $label = Html::activeLabel($configItem, "name", ['label' => $configItem->name]);
-    echo Html::tag("div", $label . "\n" . $input, ['class' => 'form-group']);
+
+    echo Html::beginTag("div", ['class' => 'form-group']);
+    echo Html::beginTag("div", ['class' => 'row']);
+
+    echo Html::beginTag("div", ['class' => 'col-xs-3 text-right', 'style' => 'line-height: 34px']);
+    echo Html::tag("strong", $configItem->name);
+    echo Html::endTag("div");
+
+    echo Html::beginTag("div", ['class' => 'col-xs-5']);
+    echo $input;
+    echo Html::endTag("div");
+
+    echo Html::beginTag("div", ['class' => 'col-xs-4']);
+    echo $block;
+    echo Html::endTag("div");
+
+    echo Html::endTag("div");
+    echo Html::endTag("div");
 }

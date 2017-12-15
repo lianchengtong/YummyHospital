@@ -10,7 +10,7 @@ use Mrgoon\AliyunSmsSdk\Profile\DefaultProfile;
 use Mrgoon\Dysmsapi\Request\V20170525\SendSmsRequest;
 use yii\base\Component;
 
-class AliSMS extends Component
+class AliyunSMS extends Component
 {
     public static function sendSms($to, $template_code, $data, $outId = '')
     {

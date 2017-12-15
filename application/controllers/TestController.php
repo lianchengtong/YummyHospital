@@ -4,12 +4,15 @@ namespace application\controllers;
 
 use application\base\BaseController;
 use common\utils\AliSMS;
+use common\utils\AliyunOSS;
 use common\utils\Mailer;
 
 class TestController extends BaseController
 {
     public function actionIndex()
     {
+        AliyunOSS::instance()->write("abc/test.txt", "123");
+        return "123";
         $to      = '18601013734';
         $data    = [
             'code' => mt_rand(100001, 999999),
