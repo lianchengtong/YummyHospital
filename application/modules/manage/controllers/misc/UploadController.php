@@ -20,7 +20,8 @@ class UploadController extends AuthRestController
             "storage.aliyun_oss.domain",
         ]);
         try {
-            $uploadInstance = UploadedFile::getInstanceByName(Request::input("name"));
+            $instanceName   = Request::input("instance-name");
+            $uploadInstance = UploadedFile::getInstanceByName($instanceName);
             $fileID         = md5($uploadInstance->getBaseName());
             $path           = Yii::getAlias($config['storage.file.path']);
             $filePath       = sprintf("%s/%s.%s", date("Y/m/d"), $fileID, $uploadInstance->getExtension());

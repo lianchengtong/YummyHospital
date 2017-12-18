@@ -74,8 +74,9 @@ class FileUpload
 
     private function setErrorMsg($msg)
     {
-        if (empty($this->errorMsg))
+        if (empty($this->errorMsg)) {
             $this->errorMsg = $msg;
+        }
     }
 
     private function errorCodeToMsg($code)
@@ -103,6 +104,7 @@ class FileUpload
                 $message = 'Unknown upload error.';
                 break;
         }
+
         return $message;
     }
 
@@ -121,6 +123,7 @@ class FileUpload
     private function basename($filepath, $suffix = null)
     {
         $splited = preg_split('/\//', rtrim($filepath, '/ '));
+
         return substr(basename('X' . $splited[count($splited) - 1], $suffix), 1);
     }
 
@@ -159,8 +162,10 @@ class FileUpload
         if (isset($_REQUEST[$this->corsInputName])) {
             $targetOrigin = $this->escapeJS($_REQUEST[$this->corsInputName]);
             $targetOrigin = htmlspecialchars($targetOrigin, ENT_QUOTES, 'UTF-8');
+
             return "<script>window.parent.postMessage('$data','$targetOrigin');</script>";
         }
+
         return $data;
     }
 
@@ -179,6 +184,7 @@ class FileUpload
         $fileContents = file_get_contents($path);
         $mime         = $finfo->buffer($fileContents);
         $fileContents = null;
+
         return $mime;
     }
 
@@ -187,14 +193,16 @@ class FileUpload
         $pathinfo = pathinfo($path);
 
         if (isset($pathinfo['extension'])) {
-            if (!in_array(strtolower($pathinfo['extension']), ['gif', 'png', 'jpg', 'jpeg']))
+            if (!in_array(strtolower($pathinfo['extension']), ['gif', 'png', 'jpg', 'jpeg'])) {
                 return false;
+            }
         }
 
         $type = exif_imagetype($path);
 
-        if (!$type)
+        if (!$type) {
             return false;
+        }
 
         return ($type == IMAGETYPE_GIF || $type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG);
     }
@@ -203,39 +211,47 @@ class FileUpload
     {
         if (!$this->fileName) {
             $this->setErrorMsg('Incorrect upload name or no file uploaded');
+
             return false;
         }
 
         if ($this->fileSize == 0) {
             $this->setErrorMsg('File is empty');
+
             return false;
         }
 
         if ($this->fileSize > $this->sizeLimit) {
             $this->setErrorMsg('File size exceeds limit');
+
             return false;
         }
 
-        if (!empty($uploadDir))
+        if (!empty($uploadDir)) {
             $this->uploadDir = $uploadDir;
+        }
 
         $this->uploadDir = $this->fixDir($this->uploadDir);
 
         if (!file_exists($this->uploadDir)) {
             $this->setErrorMsg('Upload directory does not exist');
+
             return false;
 
         } elseif (!is_writable($this->uploadDir)) {
             $this->setErrorMsg('Upload directory exists, but is not writable');
+
             return false;
         }
 
-        if (is_array($allowedExtensions))
+        if (is_array($allowedExtensions)) {
             $this->allowedExtensions = $allowedExtensions;
+        }
 
         if (!empty($this->allowedExtensions)) {
             if (!$this->checkExtension($this->fileExtension, $this->allowedExtensions)) {
                 $this->setErrorMsg('Invalid file type');
+
                 return false;
             }
         }
@@ -251,15 +267,18 @@ class FileUpload
 
             $pathinfo = pathinfo($this->fileName);
 
-            if (isset($pathinfo['filename']))
+            if (isset($pathinfo['filename'])) {
                 $this->fileNameWithoutExt = $pathinfo['filename'];
+            }
 
-            if (isset($pathinfo['extension']))
+            if (isset($pathinfo['extension'])) {
                 $this->fileExtension = strtolower($pathinfo['extension']);
+            }
         }
 
         if (!$this->save($this->savedFile)) {
             $this->setErrorMsg('File could not be saved');
+
             return false;
         }
 
@@ -268,44 +287,54 @@ class FileUpload
 
     private function fixDir($dir)
     {
-        if (empty($dir))
+        if (empty($dir)) {
             return $dir;
+        }
 
         $slash = DIRECTORY_SEPARATOR;
         $dir   = str_replace('/', $slash, $dir);
         $dir   = str_replace('\\', $slash, $dir);
+
         return substr($dir, -1) == $slash ? $dir : $dir . $slash;
     }
 
     private function checkExtension($ext, $allowedExtensions)
     {
-        if (!is_array($allowedExtensions))
+        if (!is_array($allowedExtensions)) {
             return false;
+        }
 
-        if (!in_array(strtolower($ext), array_map('strtolower', $allowedExtensions)))
+        if (!in_array(strtolower($ext), array_map('strtolower', $allowedExtensions))) {
             return false;
+        }
 
         return true;
     }
 
     private function save($path)
     {
-        if (true === $this->isXhr)
+        if (true === $this->isXhr) {
             return $this->saveXhr($path);
+        }
+
         return $this->saveForm($path);
     }
 
     private function saveXhr($path)
     {
-        if (false !== file_put_contents($path, fopen('php://input', 'r')))
+        if (false !== file_put_contents($path, fopen('php://input', 'r'))) {
             return true;
+        }
+
         return false;
     }
 
     private function saveForm($path)
     {
-        if (move_uploaded_file($_FILES[$this->uploadName]['tmp_name'], $path))
+        if (move_uploaded_file($_FILES[$this->uploadName]['tmp_name'], $path)) {
             return true;
+        }
+
         return false;
     }
 
@@ -313,14 +342,15 @@ class FileUpload
     {
         $chr = $matches[0];
 
-        if (strlen($chr) == 1)
+        if (strlen($chr) == 1) {
             return sprintf('\\x%02X', ord($chr));
+        }
 
-        if (function_exists('iconv'))
+        if (function_exists('iconv')) {
             $chr = iconv('UTF-16BE', 'UTF-8', $chr);
-
-        elseif (function_exists('mb_convert_encoding'))
+        } elseif (function_exists('mb_convert_encoding')) {
             $chr = mb_convert_encoding($chr, 'UTF-8', 'UTF-16BE');
+        }
 
         return sprintf('\\u%04s', strtoupper(bin2hex($chr)));
     }

@@ -16,7 +16,7 @@ return [
     'defaultRoute'        => 'index',
     'controllerNamespace' => 'application\controllers',
     'aliases'             => [
-        'rogeecn/SimpleAjaxUploader' => '@console/plugin/yii2-simple-ajax-uploader/',
+        '@rogeecn/SimpleAjaxUploader' => '@console/plugin/yii2-simple-ajax-uploader/src',
     ],
     'modules'             => [
         'manage' => [
