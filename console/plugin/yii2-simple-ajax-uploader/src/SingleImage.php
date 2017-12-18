@@ -27,6 +27,7 @@ class SingleImage extends InputWidget
         if (!isset($this->dropZoneOptions['id'])) {
             $this->dropZoneOptions['id'] = $this->getId() . "-dropzone";
         }
+        $this->dropZoneOptions['style'] = "min-height: 150px;" . $this->dropZoneOptions['style'];
     }
 
     public function run()
