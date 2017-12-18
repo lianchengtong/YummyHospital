@@ -3,35 +3,15 @@
 namespace application\controllers;
 
 use application\base\BaseController;
-use common\utils\AliSMS;
-use common\utils\AliyunOSS;
-use common\utils\Mailer;
+use common\models\WebsiteConfig;
 
 class TestController extends BaseController
 {
     public function actionIndex()
     {
-        AliyunOSS::instance()->write("abc/test.txt", "123");
-        return "123";
-        $to      = '18601013734';
-        $data    = [
-            'code' => mt_rand(100001, 999999),
-        ];
-        $tplCode = "SMS_117295732";
-        AliSMS::sendSms($to, $tplCode, $data);
-        return "ok";
-
-        $email  = "rogeecn@qq.com";
-        $mailer = Mailer::instance()->compose("verifyEmailAddress", [
-            'code' => mt_rand(100000, 999999),
+        $model = new WebsiteConfig();
+        return $this->render("index", [
+            'model' => $model,
         ]);
-        $mailer->setTo($email);
-//        $mailer->setSubject($mailsubject);
-        $mailer->setSubject("你好，请验证您的邮箱地址！");
-
-        if ($mailer->send()) {
-            return "发送成功,请登录您的注册邮箱查收邮件!";
-        }
-        return "发送失败,请重新尝试发送!";
     }
 }
