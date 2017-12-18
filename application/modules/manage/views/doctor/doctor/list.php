@@ -18,7 +18,15 @@ $this->params['breadcrumbs'][] = $this->title;
         Html::a('创建', ['create'], ['class' => 'btn btn-success']),
     ],
     'columns'      => [
-        'head_image',
+        [
+            'attribute' => 'head_image',
+            'format'    => 'raw',
+            'value'     => function ($model) {
+                return Html::img($model->head_image, [
+                    'height' => '100',
+                ]);
+            },
+        ],
         'name',
         [
             'attribute' => 'level',
@@ -33,9 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'label'  => '详细信息',
             'format' => 'raw',
             'value'  => function ($model) {
-    $link = ["@admin/doctor/doctor/view", 'id' => $model->id];
-                return Html::a("查看详情", $link,[
-                    'class'=>'btn btn-info btn-xs'
+                $link = ["@admin/doctor/doctor/view", 'id' => $model->id];
+                return Html::a("查看详情", $link, [
+                    'class' => 'btn btn-info btn-xs',
                 ]);
             },
         ],
