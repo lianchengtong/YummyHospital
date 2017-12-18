@@ -1,7 +1,5 @@
 <?php
 
-use skeeks\widget\simpleajaxuploader\Widget;
-
 /* @var $this yii\web\View */
 /* @var $dataProvider \yii\data\ActiveDataProvider */
 /* @var $model \common\models\WebsiteConfig */
@@ -10,10 +8,8 @@ use skeeks\widget\simpleajaxuploader\Widget;
 
 <?php $form = \yii\bootstrap\ActiveForm::begin() ?>
 <?php
-echo Widget::widget([
-    "clientOptions" => [
-        "name" => "test",
-    ],
+echo $form->field($model, "key")->widget(\rogeecn\SimpleAjaxImageUploader\UploaderInput::className(), [
+
 ]);
 ?>
 <?php \yii\bootstrap\ActiveForm::end(); ?>
