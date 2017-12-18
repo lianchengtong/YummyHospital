@@ -3,44 +3,20 @@
 namespace rogeecn\SimpleAjaxUploader;
 
 
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\helpers\Json;
-use yii\helpers\Url;
-use yii\web\JsExpression;
-use yii\widgets\InputWidget;
 
-class SingleImage extends InputWidget
+class SingleImage extends ImageUploaderInput
 {
-    /** @var array $targets */
-    public $clientOptions   = [];
-    public $dropZoneOptions = ['class' => 'panel-body text-center uploader-drop-zone'];
-    public $wrapperOptions  = ['class' => 'panel panel-default uploader-wrapper'];
-    public $fileType        = "image";
+    public $dropZoneOptions = ['class' => 'text-center uploader-drop-zone'];
 
     public function init()
     {
         parent::init();
-
-        UploaderAssets::register($this->getView());
-
-        if (!isset($this->dropZoneOptions['id'])) {
-            $this->dropZoneOptions['id'] = $this->getId() . "-dropzone";
-        }
         $this->dropZoneOptions['style'] = "min-height: 150px;" . $this->dropZoneOptions['style'];
     }
 
-    public function run()
+    public function renderImageUploader()
     {
-        $view = $this->getView();
-
-        $options = Json::encode($this->mergeOptions($this->clientOptions));
-        $script  = "new ss.SimpleUpload($options);";
-        $view->registerJs($script);
-
-        echo Html::beginTag("div", $this->wrapperOptions);
-        echo $this->renderInputHtml('hidden');
-
         echo Html::beginTag("div", $this->dropZoneOptions);
 
         $value = $this->model->{$this->attribute};
@@ -53,91 +29,18 @@ class SingleImage extends InputWidget
             echo Html::img($value);
         }
         echo Html::endTag("div");
-
-        echo Html::endTag("div");
     }
 
-    private function mergeOptions($clientOptions)
-    {
-        $defaultOptions = $this->defaultOptions();
-        $mergeOptions   = ArrayHelper::merge($defaultOptions, $clientOptions);
-
-        //if (empty($mergeOptions['url'])) {
-        //    throw new InvalidParamException("SimpleAjaxUploader: param url required!");
-        //}
-
-        return $mergeOptions;
-    }
-
-    private function defaultOptions()
+    protected function callbackComplete()
     {
         $callbackOnComplete = <<<_CODE
 function (filename, response, uploadBtn, fileSize){
-    console.log(response);
     $("#{$this->dropZoneOptions['id']}").html('<img src="'+response.imageUrl+'"  style="max-width: 100%"/>');
+    $("#{$this->options['id']}").val(response.imageUrl);
 }
 _CODE;
 
-        $name = "upload-" . $this->attribute;
-
-        return [
-            "button"                => $this->dropZoneOptions['id'],
-            "url"                   => Url::to(['@admin/misc/upload']),
-            "name"                  => $name,
-            "dropzone"              => $this->dropZoneOptions['id'],
-            "dragClass"             => "drag-has-file",
-            "customHeaders"         => [],
-            "customProgressHeaders" => [],
-            "encodeHeaders"         => true,
-            "cors"                  => false,
-            "multiple"              => false,
-            "multipleSelect"        => false,
-            "maxUploads"            => 1,
-            "maxSize"               => false,
-            "noParams"              => true, // Set to false to append the file name to the url query string.
-            "allowedExtensions"     => $this->getFileExtensionsByMIME($this->fileType),
-            "data"                  => [
-                'instance-name' => $name,
-            ], // Additional data to be sent to the server.
-            "multipart"             => true,
-            "method"                => "POST",
-            "responseType"          => "json",
-            "debug"                 => YII_DEBUG,
-            "hoverClass"            => "",
-            "focusClass"            => "",
-            "disabledClass"         => "",
-            "form"                  => "",
-            "onChange"              => new JsExpression("function (filename, extension, uploadBtn, fileSize, file){}"),
-            "onSubmit"              => new JsExpression("function (filename, extension, uploadBtn, fileSize){}"),
-            "onAbort"               => new JsExpression("function (filename, uploadBtn, fileSize){}"),
-            "onComplete"            => new JsExpression($callbackOnComplete),
-            "onDone"                => new JsExpression("function (filename, status, statusText, response, uploadBtn, fileSize){}"),
-            "onAllDone"             => new JsExpression("function (){}"),
-            "onExtError"            => new JsExpression("function (filename, extension){}"),
-            "onSizeError"           => new JsExpression("function (filename, size){}"),
-            "onError"               => new JsExpression("function (filename, errorType, status, statusText, response, uploadBtn, fileSize){}"),
-            "startXHR"              => new JsExpression("function (filename, fileSize, uploadBtn){}"),
-            "endXHR"                => new JsExpression("function (filename, uploadBtn){}"),
-            "startNonXHR"           => new JsExpression("function (filename, uploadBtn){}"),
-            "endNonXHR"             => new JsExpression("function (filename, uploadBtn){}"),
-        ];
+        return $callbackOnComplete;
     }
 
-    private function getFileExtensionsByMIME($mime)
-    {
-        $mimeExtensions = [
-            "image"    => [
-                "jpg", "gif", "bmp", "jpeg", "png",
-            ],
-            "document" => [
-                'doc', "xsl", "ppt",
-            ],
-        ];
-
-        if (isset($mimeExtensions[$mime])) {
-            return $mimeExtensions[$mime];
-        }
-
-        return [];
-    }
 }
