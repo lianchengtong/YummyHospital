@@ -10,7 +10,7 @@
     "overtrue/wechat": "~4.0",
     "mrgoon/aliyun-sms": "^2.0",
     "xxtime/flysystem-aliyun-oss": "^1.1",
-    "kartik-v/yii2-widget-fileinput": "^1.0"
+    "skeeks/yii2-widget-simpleajaxuploader": "^1.1"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",

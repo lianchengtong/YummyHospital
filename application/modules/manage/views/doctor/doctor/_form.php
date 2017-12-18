@@ -24,7 +24,7 @@ $uploadInputName = sprintf("%s[%s]", $model->formName(), "head_image");
         // 需要预览的文件格式
         'previewFileType'      => 'image',
         // 预览的文件
-        'initialPreview'       => "",
+        'initialPreview'       => [$model->head_image],
         // 需要展示的图片设置，比如图片的宽度等
         'initialPreviewConfig' => "",
         // 是否展示预览图
