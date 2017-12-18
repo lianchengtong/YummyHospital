@@ -8,7 +8,7 @@
 
 <?php $form = \yii\bootstrap\ActiveForm::begin() ?>
 <?php
-echo $form->field($model, "key")->widget(\rogeecn\SimpleAjaxImageUploader\UploaderInput::className(), [
+echo $form->field($model, "key")->widget(\rogeecn\SimpleAjaxUploader\SingleImage::className(), [
 
 ]);
 ?>
