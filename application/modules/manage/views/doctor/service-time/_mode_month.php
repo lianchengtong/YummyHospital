@@ -8,6 +8,12 @@ use common\models\DoctorServiceTime;
 /* @var $form yii\widgets\ActiveForm */
 
 ?>
-<?= $form->field($model, 'month', ['inline' => true])->checkboxList(DoctorServiceTime::monthList()) ?>
-<?= $form->field($model, 'day', ['inline' => true])->checkboxList(DoctorServiceTime::dayList("month"), ['name' => 'day[month]']) ?>
+<?= $form->field($model, 'month', ['inline' => true])
+         ->checkboxList(DoctorServiceTime::monthList())
+?>
+<?= $form->field($model, 'day', ['inline' => true])
+         ->checkboxList(DoctorServiceTime::dayList("month"), [
+             'name' => sprintf("%s[day][month][]", $model->formName()),
+         ])
+?>
 

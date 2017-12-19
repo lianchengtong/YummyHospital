@@ -6,7 +6,9 @@ namespace common\models;
  * This is the model class for table "doctor_service_time".
  *
  * @property integer $id
+ * @property integer $mode
  * @property integer $doctor_id
+ * @property integer $max_time_long
  * @property string  $month
  * @property string  $week
  * @property string  $day
@@ -15,9 +17,17 @@ namespace common\models;
  */
 class DoctorServiceTime extends \common\base\ActiveRecord
 {
+    const MODE_WEEK  = 0;
+    const MODE_MONTH = 1;
+
+    protected $enableTimeBehavior = false;
+
     public static function modeList()
     {
-        return ["周", "月"];
+        return [
+            self::MODE_WEEK  => "周",
+            self::MODE_MONTH => "月",
+        ];
     }
 
     public static function monthList()
@@ -28,7 +38,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         foreach ($items as $item) {
             $newItems[] = $item . " 月";
         }
-        return $newItems;
+        return array_combine($items, $newItems);
     }
 
     public static function clockRange($begin, $end)
@@ -37,7 +47,8 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         if ($begin < $end) {
             $step = -1;
         }
-        return range($begin, $end, $step);
+        $items = range($begin, $end, $step);
+        return array_combine($items, $items);
     }
 
     public static function weekRange()
@@ -45,21 +56,50 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         return ["每周", "隔周"];
     }
 
-    public function dayList($type = "month")
+    public static function dayList($type = "month")
     {
         if ($type == "week") {
-            return range(1, 7);
+            $items = range(1, 7);
+        } else {
+            $items = range(1, 31);
         }
-        return range(1, 31);
+
+        return array_combine($items, $items);
+    }
+
+    public function beforeSave($insert)
+    {
+        if ($this->mode == self::MODE_WEEK) {
+            $this->day = json_encode($this->day['week']);
+        } elseif ($this->mode == self::MODE_MONTH) {
+            $this->day = json_encode($this->day['month']);
+        }
+
+        $this->month = json_encode($this->month);
+        $this->am    = json_encode($this->am);
+        $this->pm    = json_encode($this->pm);
+
+        return parent::beforeSave($insert);
+    }
+
+    public function afterFind()
+    {
+        $this->month = json_decode($this->month, true);
+        $this->day   = json_decode($this->day, true);
+        $this->am    = json_decode($this->am, true);
+        $this->pm    = json_decode($this->pm, true);
+
+        parent::afterFind();
     }
 
     public function rules()
     {
         return [
-            [['doctor_id', 'max_time_long', 'week', 'model', 'month', 'day', 'am', 'pm'], 'required'],
+            [['doctor_id', 'mode', 'max_time_long', 'am', 'pm'], 'required'],
             [['doctor_id', 'max_time_long'], 'integer'],
-            [['month', 'day', 'am', 'pm'], 'string', 'max' => 255],
+            [['week'], 'string', 'max' => 255],
             ['max_time_long', 'default', 'value' => 2],
+            [['month', 'day', 'am', 'pm'], 'safe'],
         ];
     }
 

@@ -5,6 +5,8 @@ namespace application\modules\manage\controllers\doctor;
 use application\base\AuthController;
 use common\models\DoctorServiceTime;
 use common\models\search\DoctorServiceTime as DoctorServiceTimeSearch;
+use common\utils\Json;
+use common\utils\Request;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
@@ -29,6 +31,14 @@ class ServiceTimeController extends AuthController
         if (!$model) {
             $model            = new DoctorServiceTime();
             $model->doctor_id = $id;
+        }
+
+        if (Request::isPost()) {
+            $model->load(Request::input());
+            if (!$model->save()) {
+                return Json::error($model->getErrors());
+            }
+            $model = DoctorServiceTime::find()->where(['doctor_id' => $id])->one();
         }
 
         return $this->render("manage", [
