@@ -2,9 +2,6 @@
 
 use yii\db\Migration;
 
-/**
- * Class m171209_091140_doctor_service_time
- */
 class m171209_091140_doctor_service_time extends Migration
 {
     private $_table = '{{%doctor_service_time}}';
@@ -13,7 +10,7 @@ class m171209_091140_doctor_service_time extends Migration
     {
         $this->createTable($this->_table, [
             'id'        => $this->primaryKey(),
-            'docker_id' => $this->integer()->notNull(),
+            'doctor_id' => $this->integer()->notNull(),
             'month'     => $this->string()->notNull(),
             'day'       => $this->string()->notNull(),
             'am'        => $this->string()->notNull(),

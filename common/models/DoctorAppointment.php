@@ -23,6 +23,22 @@ class DoctorAppointment extends \common\base\ActiveRecord
     const STATUS_PENDING  = 1;
     const STATUS_BREAK    = 2;
 
+    public static function getStatusDesc($id)
+    {
+        $list = self::getStatus();
+
+        return $list[$id];
+    }
+
+    public static function getStatus()
+    {
+        return [
+            self::STATUS_PENDING  => '预约中',
+            self::STATUS_BREAK    => '爽约',
+            self::STATUS_COMPLETE => '完成',
+        ];
+    }
+
     public function rules()
     {
         return [
@@ -68,22 +84,6 @@ class DoctorAppointment extends \common\base\ActiveRecord
         }
 
         return parent::beforeSave($insert);
-    }
-
-    public static function getStatus()
-    {
-        return [
-            self::STATUS_PENDING  => '预约中',
-            self::STATUS_BREAK    => '爽约',
-            self::STATUS_COMPLETE => '完成',
-        ];
-    }
-
-    public static function getStatusDesc($id)
-    {
-        $list = self::getStatus();
-
-        return $list[$id];
     }
 
 }

@@ -47,6 +47,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]);
             },
         ],
+        [
+            'label'  => '预约管理',
+            'format' => 'raw',
+            'value'  => function ($model) {
+                $link = ["@admin/doctor/service-time/manage", 'id' => $model->id];
+                return Html::a("预约管理", $link, [
+                    'class' => 'btn btn-info btn-xs',
+                ]);
+            },
+        ],
         ['class' => '\common\extend\ActionColumn'],
     ],
 ]); ?>
