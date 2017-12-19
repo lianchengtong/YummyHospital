@@ -9,8 +9,7 @@
     "yiisoft/yii2-swiftmailer": "dev-master",
     "overtrue/wechat": "~4.0",
     "mrgoon/aliyun-sms": "^2.0",
-    "xxtime/flysystem-aliyun-oss": "^1.1",
-    "skeeks/yii2-widget-simpleajaxuploader": "^1.1"
+    "xxtime/flysystem-aliyun-oss": "^1.1"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",
