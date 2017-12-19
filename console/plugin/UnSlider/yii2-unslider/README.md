@@ -1,6 +1,6 @@
-SimpleAjaxUploader For Yii2.x
+Yii2.x extension of UnSlider 
 =============================
-SimpleAjaxUploader wraper of yii2 input extension
+a wrapper of UnSlider for Yii2.x Frameword
 
 Installation
 ------------
@@ -10,13 +10,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist rogeecn/yii2-simple-ajax-uploader "*"
+php composer.phar require --prefer-dist rogeecn/yii2-unslider "*"
 ```
 
 or add
 
 ```
-"rogeecn/yii2-simple-ajax-uploader": "*"
+"rogeecn/yii2-unslider": "*"
 ```
 
 to the require section of your `composer.json` file.
@@ -28,4 +28,4 @@ Usage
 Once the extension is installed, simply use it in your code by  :
 
 ```php
-<?= \rogeecn\SimpleAjaxUploader\AutoloadExample::widget(); ?>```
+<?= \rogeecn\UnSlider\AutoloadExample::widget(); ?>```
