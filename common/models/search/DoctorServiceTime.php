@@ -12,7 +12,7 @@ class DoctorServiceTime extends DoctorServiceTimeModel
     {
         return [
             [['id', 'model', 'ticket_count', 'doctor_id'], 'integer'],
-            [['month', 'day', 'am', 'pm', 'week'], 'safe'],
+            [['month', 'day', 'am', 'pm', 'week', 'week_service_start_at'], 'safe'],
         ];
     }
 

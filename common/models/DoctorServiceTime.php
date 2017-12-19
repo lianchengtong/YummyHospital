@@ -12,11 +12,12 @@ use common\extend\Html;
  * @property integer $doctor_id
  * @property integer $ticket_count
  * @property integer $max_time_long
- * @property string  $month
- * @property string  $week
- * @property string  $day
- * @property string  $am
- * @property string  $pm
+ * @property array   $month
+ * @property array   $week
+ * @property array   $week_service_start_at
+ * @property array   $day
+ * @property array   $am
+ * @property array   $pm
  */
 class DoctorServiceTime extends \common\base\ActiveRecord
 {
@@ -45,7 +46,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         return array_combine($items, $newItems);
     }
 
-    public static function clockRange($begin, $end)
+    public static function numberRange($begin, $end)
     {
         $step = 1;
         if ($begin < $end) {
@@ -71,20 +72,19 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         return array_combine($items, $items);
     }
 
-    public static function calendar($doctorID, $year = 2017, $month = 12)
+    public static function calendar($doctorID, $year, $month)
     {
-        $html = [];
 
         $headRows  = Html::tag("tr", self::renderTableHead(self::WEEK_DAY));
         $tableHead = Html::tag("thead", $headRows);
 
-        $bodyRows    = Html::tag("tr", self::renderTableBody($year, $month));
-        $tableBody   = Html::tag("tbody", $bodyRows);
-        $table       = Html::tag("table", $tableHead . $tableBody, ['class' => 'table table-bordered']);
-        $panelHead   = Html::tag("div", "Head", ['class' => 'panel-heading']);
-        $panelFooter = Html::tag("div", "Footer", ['class' => 'panel-footer']);
-        $html        = Html::tag("div", $panelHead . $table . $panelFooter, ['class' => 'panel panel-default']);
-        return $html;
+        $doctorServiceDay = self::getDoctorMonthServiceDays($doctorID, $year, $month);
+
+        $bodyRows  = Html::tag("tr", self::renderTableBody($doctorServiceDay, $year, $month));
+        $tableBody = Html::tag("tbody", $bodyRows);
+
+        $table = Html::tag("table", $tableHead . $tableBody, ['class' => 'table table-bordered']);
+        return $table;
     }
 
     private static function renderTableHead($items)
@@ -96,23 +96,135 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         return implode("\n", $headItems);
     }
 
-    private static function renderTableBody($year, $month)
+    /**
+     * 获取医生指定年月可服务日期
+     *
+     * @param $doctorID
+     * @param $year
+     * @param $month
+     *
+     * @return array
+     */
+    public static function getDoctorMonthServiceDays($doctorID, $year, $month)
     {
-        $month        = 11;
+        $serviceDays      = [];
+        $serviceTimeModel = self::getByDoctorID($doctorID);
+        if (!$serviceTimeModel) {
+            return [];
+        }
+
+        if ($serviceTimeModel->mode == self::MODE_MONTH) {
+            if (!in_array($month, $serviceTimeModel->month)) {
+                return [];
+            }
+
+            $endDateYear  = date("Y", strtotime(sprintf("+%d month", $serviceTimeModel->max_time_long)));
+            $endDateMonth = date("n", strtotime(sprintf("+%d month", $serviceTimeModel->max_time_long)));
+            if ($endDateYear == $year && $month > $endDateMonth) {
+                return [];
+            }
+
+            $endDateDay = date("d", strtotime(sprintf("+%d month", $serviceTimeModel->max_time_long)));
+            foreach ($serviceTimeModel->day as $monthDay) {
+                if ($month == $endDateMonth && $monthDay > $endDateDay) {
+                    break;
+                }
+
+                if ($month == $endDateMonth && !in_array($monthDay, $serviceTimeModel->day)) {
+                    continue;
+                }
+
+                $serviceDays[] = $monthDay;
+            }
+
+            return $serviceDays;
+        }
+
         $calTimestamp = strtotime(sprintf("%s-%s-1", $year, $month));
         $monthDays    = range(1, date("t", $calTimestamp));
 
-        if (($firstDayWeekID = date("w", $calTimestamp)) != 1) {
-            $firstDayWeekID = self::convertWeekToMondayFirst($firstDayWeekID);
-            $padPrefix      = array_pad([], $firstDayWeekID - 1, 0);
-            $monthDays      = array_merge($padPrefix, $monthDays);
+        $endDateYear  = date("Y", strtotime(sprintf("+%d week", $serviceTimeModel->max_time_long)));
+        $endDateMonth = date("n", strtotime(sprintf("+%d week", $serviceTimeModel->max_time_long)));
+        if ($endDateYear == $year && $month > $endDateMonth) {
+            return [];
+        }
+        $endDateDay = date("d", strtotime(sprintf("+%d week", $serviceTimeModel->max_time_long)));
+
+        // 每周
+        if ($serviceTimeModel->week == 0) {
+            foreach ($monthDays as $monthDay) {
+                if ($month == $endDateMonth && $monthDay > $endDateDay) {
+                    break;
+                }
+
+                $dayWeekDay = date("N", strtotime(sprintf("%s-%s-%s", $year, $month, $monthDay)));
+                if (!in_array($dayWeekDay, $serviceTimeModel->day)) {
+                    continue;
+                }
+
+                $serviceDays[] = $monthDay;
+            }
+
+            return $serviceDays;
+        }
+
+        if ($serviceTimeModel->week == 1) {
+            $beginTime = strtotime(sprintf("Y-m-d",
+                $serviceTimeModel->week_service_start_at['year'],
+                $serviceTimeModel->week_service_start_at['month'],
+                $serviceTimeModel->week_service_start_at['day']
+            ));
+
+            $weekTimeLong = 7 * 24 * 60 * 60;
+            foreach ($monthDays as $monthDay) {
+                if ($month == $endDateMonth && $monthDay > $endDateDay) {
+                    break;
+                }
+
+                $monthDayTimestamp = strtotime(sprintf("%s-%s-%s", $year, $month, $monthDay));
+                if ((($monthDayTimestamp - $beginTime) / $weekTimeLong) % 2 != 0) {
+                    continue;
+                }
+
+                $dayWeekDay = date("N", strtotime(sprintf("%s-%s-%s", $year, $month, $monthDay)));
+                if (!in_array($dayWeekDay, $serviceTimeModel->day)) {
+                    continue;
+                }
+
+                $serviceDays[] = $monthDay;
+            }
+
+            return $serviceDays;
+        }
+    }
+
+    /**
+     * @param $doctor_id
+     *
+     * @return array|null|\yii\db\ActiveRecord|\common\models\DoctorServiceTime
+     */
+    public static function getByDoctorID($doctor_id)
+    {
+        $model = self::find()->where(['doctor_id' => $doctor_id])->one();
+        return $model;
+    }
+
+    private static function renderTableBody($doctorServiceDays, $year, $month)
+    {
+        $calTimestamp = strtotime(sprintf("%s-%s-1", $year, $month));
+        $monthDays    = range(1, date("t", $calTimestamp));
+
+        if (($firstDayWeekID = date("N", $calTimestamp)) != 1) {
+            $padPrefix = array_pad([], $firstDayWeekID - 1, 0);
+            $monthDays = array_merge($padPrefix, $monthDays);
         }
 
         if ((count($monthDays) % 7) != 0) {
-            $padSuffix = array_pad([], count($monthDays) % 7 - 1, 0);
+            $padSuffix = array_pad([], 7 - (count($monthDays) % 7), 0);
             $monthDays = array_merge($monthDays, $padSuffix);
         }
 
+        $activeClass        = ['class' => 'success'];
         $fullItems          = [];
         $chunkFullMonthDays = array_chunk($monthDays, 7);
         foreach ($chunkFullMonthDays as $chunkWeekDays) {
@@ -123,25 +235,15 @@ class DoctorServiceTime extends \common\base\ActiveRecord
                     continue;
                 }
 
+                if (in_array($monthDay, $doctorServiceDays)) {
+                    $rowItem[] = Html::tag("td", $monthDay, $activeClass);
+                    continue;
+                }
                 $rowItem[] = Html::tag("td", $monthDay);
             }
             $fullItems[] = Html::tag("tr", implode("\n", $rowItem));
         }
         return implode("\n", $fullItems);
-    }
-
-    private static function convertWeekToMondayFirst($weekday)
-    {
-        $map = [
-            0 => 6,
-            1 => 1,
-            2 => 2,
-            3 => 3,
-            4 => 4,
-            5 => 5,
-            6 => 7,
-        ];
-        return $map[$weekday];
     }
 
     public function description()
@@ -192,17 +294,6 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         return implode(" ", $description);
     }
 
-    /**
-     * @param $doctor_id
-     *
-     * @return array|null|\yii\db\ActiveRecord|\common\models\DoctorServiceTime
-     */
-    public static function getByDoctorID($doctor_id)
-    {
-        $model = self::find()->where(['doctor_id' => $doctor_id])->one();
-        return $model;
-    }
-
     public static function convertToWeekDay($days)
     {
         $descDays = [];
@@ -214,10 +305,11 @@ class DoctorServiceTime extends \common\base\ActiveRecord
 
     public function afterFind()
     {
-        $this->month = json_decode($this->month, true);
-        $this->day   = json_decode($this->day, true);
-        $this->am    = json_decode($this->am, true);
-        $this->pm    = json_decode($this->pm, true);
+        $this->week_service_start_at = json_decode($this->week_service_start_at, true);
+        $this->month                 = json_decode($this->month, true);
+        $this->day                   = json_decode($this->day, true);
+        $this->am                    = json_decode($this->am, true);
+        $this->pm                    = json_decode($this->pm, true);
 
         parent::afterFind();
     }
@@ -243,9 +335,10 @@ class DoctorServiceTime extends \common\base\ActiveRecord
             $this->day = json_encode($this->day['month']);
         }
 
-        $this->month = json_encode($this->month);
-        $this->am    = json_encode($this->am);
-        $this->pm    = json_encode($this->pm);
+        $this->week_service_start_at = json_encode($this->week_service_start_at);
+        $this->month                 = json_encode($this->month);
+        $this->am                    = json_encode($this->am);
+        $this->pm                    = json_encode($this->pm);
 
         return parent::beforeSave($insert);
     }
@@ -255,9 +348,9 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         return [
             [['doctor_id', 'ticket_count', 'mode', 'max_time_long', 'am', 'pm'], 'required'],
             [['doctor_id', 'max_time_long', 'ticket_count'], 'integer'],
-            [['week'], 'string', 'max' => 255],
+            [['week',], 'string', 'max' => 255],
             ['max_time_long', 'default', 'value' => 2],
-            [['month', 'day', 'am', 'pm'], 'safe'],
+            [['month', 'day', 'am', 'week_service_start_at', 'pm'], 'safe'],
         ];
     }
 }

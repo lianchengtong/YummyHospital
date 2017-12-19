@@ -11,7 +11,6 @@ class TestController extends BaseController
 {
     public function actionIndex()
     {
-        $id = Request::input("id");
 
         $model = new WebsiteConfig();
         return $this->render("index", [

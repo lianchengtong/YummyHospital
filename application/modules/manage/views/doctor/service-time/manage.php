@@ -55,7 +55,7 @@ if ($model->isNewRecord) {
             <div class="col-md-6">
                 <?= $form->field($model, 'am')
                          ->label("上午开始")
-                         ->dropDownList(DoctorServiceTime::clockRange(2, 12), [
+                         ->dropDownList(DoctorServiceTime::numberRange(2, 12), [
                              'name'  => sprintf("%s[am][begin]", $model->formName()),
                              'value' => $model->am['begin'],
                          ]) ?>
@@ -63,7 +63,7 @@ if ($model->isNewRecord) {
             <div class="col-md-6">
                 <?= $form->field($model, 'am')
                          ->label("上午结束")
-                         ->dropDownList(DoctorServiceTime::clockRange(2, 12), [
+                         ->dropDownList(DoctorServiceTime::numberRange(2, 12), [
                              'name'  => sprintf("%s[am][end]", $model->formName()),
                              'value' => $model->am['end'],
                          ]) ?>
@@ -74,7 +74,7 @@ if ($model->isNewRecord) {
             <div class="col-md-6">
                 <?= $form->field($model, 'pm')
                          ->label("下午开始")
-                         ->dropDownList(DoctorServiceTime::clockRange(12, 24), [
+                         ->dropDownList(DoctorServiceTime::numberRange(12, 24), [
                              'name'  => sprintf("%s[pm][begin]", $model->formName()),
                              'value' => $model->pm['begin'],
                          ]) ?>
@@ -82,7 +82,7 @@ if ($model->isNewRecord) {
             <div class="col-md-6">
                 <?= $form->field($model, 'pm')
                          ->label("下午结束")
-                         ->dropDownList(DoctorServiceTime::clockRange(12, 24), [
+                         ->dropDownList(DoctorServiceTime::numberRange(12, 24), [
                              'name'  => sprintf("%s[pm][end]", $model->formName()),
                              'value' => $model->pm['end'],
                          ]) ?>
