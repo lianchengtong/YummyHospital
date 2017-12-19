@@ -227,8 +227,8 @@ class DoctorServiceTime extends \common\base\ActiveRecord
             $monthDays = array_merge($monthDays, $padSuffix);
         }
 
-        $activeClass         = ['class' => 'success'];
-        $disableClass        = ['class' => 'active'];
+        $activeClass         = ['class' => 'success', 'style' => 'vertical-align:middle'];
+        $disableClass        = ['class' => 'active', 'style' => 'vertical-align:middle'];
         $fullItems           = [];
         $chunkFullMonthDays  = array_chunk($monthDays, 7);
         $doctorServiceDayKey = array_keys($doctorServiceDays);
