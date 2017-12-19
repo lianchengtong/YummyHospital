@@ -212,6 +212,29 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         return array_filter($descDays);
     }
 
+    public function afterFind()
+    {
+        $this->month = json_decode($this->month, true);
+        $this->day   = json_decode($this->day, true);
+        $this->am    = json_decode($this->am, true);
+        $this->pm    = json_decode($this->pm, true);
+
+        parent::afterFind();
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id'        => 'ID',
+            'doctor_id' => 'Doctor ID',
+            'month'     => 'Month',
+            'week'      => 'Week',
+            'day'       => 'Day',
+            'am'        => 'Am',
+            'pm'        => 'Pm',
+        ];
+    }
+
     public function beforeSave($insert)
     {
         if ($this->mode == self::MODE_WEEK) {
@@ -227,16 +250,6 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         return parent::beforeSave($insert);
     }
 
-    public function afterFind()
-    {
-        $this->month = json_decode($this->month, true);
-        $this->day   = json_decode($this->day, true);
-        $this->am    = json_decode($this->am, true);
-        $this->pm    = json_decode($this->pm, true);
-
-        parent::afterFind();
-    }
-
     public function rules()
     {
         return [
@@ -245,19 +258,6 @@ class DoctorServiceTime extends \common\base\ActiveRecord
             [['week'], 'string', 'max' => 255],
             ['max_time_long', 'default', 'value' => 2],
             [['month', 'day', 'am', 'pm'], 'safe'],
-        ];
-    }
-
-    public function attributeLabels()
-    {
-        return [
-            'id'        => 'ID',
-            'doctor_id' => 'Doctor ID',
-            'month'     => 'Month',
-            'week'      => 'Week',
-            'day'       => 'Day',
-            'am'        => 'Am',
-            'pm'        => 'Pm',
         ];
     }
 }
