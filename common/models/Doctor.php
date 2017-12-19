@@ -18,7 +18,14 @@ use yii\helpers\ArrayHelper;
  */
 class Doctor extends \common\base\ActiveRecord
 {
-    protected $enableTimeBehavior = FALSE;
+    protected $enableTimeBehavior = false;
+
+    public static function getList()
+    {
+        $model = self::find()->all();
+
+        return ArrayHelper::map($model, 'id', 'name');
+    }
 
     public function rules()
     {
@@ -44,10 +51,10 @@ class Doctor extends \common\base\ActiveRecord
         ];
     }
 
-    public static function getList()
+    public function getDoctorServiceTime()
     {
-        $model = self::find()->all();
-
-        return ArrayHelper::map($model, 'id', 'name');
+        return $this->hasOne(DoctorServiceTime::className(), [
+            'doctor_id' => 'id',
+        ]);
     }
 }

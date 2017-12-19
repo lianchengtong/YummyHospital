@@ -4,6 +4,9 @@
 /* @var $dataProvider \yii\data\ActiveDataProvider */
 /* @var $model \common\models\WebsiteConfig */
 ?>
+<?=$html?>
+
+
 <?php $form = \yii\bootstrap\ActiveForm::begin() ?>
 <?php
 $model->key = "/upload/2017/12/19/c020598be240e3b671dd02d076253f92.jpg,/upload/2017/12/19/c020598be240e3b671dd02d076253f92.jpg";

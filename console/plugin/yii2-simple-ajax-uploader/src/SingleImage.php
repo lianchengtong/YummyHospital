@@ -12,7 +12,7 @@ class SingleImage extends ImageUploaderInput
     public function init()
     {
         parent::init();
-        $this->dropZoneOptions['style'] = "min-height: 150px;" . $this->dropZoneOptions['style'];
+        $this->dropZoneOptions['style'] = "min-height: 100px;" . $this->dropZoneOptions['style'];
     }
 
     public function renderImageUploader()

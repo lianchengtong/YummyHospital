@@ -27,7 +27,11 @@ if ($model->isNewRecord) {
                      'class' => 'mode',
                  ]) ?>
 
-        <?= $form->field($model, 'max_time_long', ['inline' => true])
+        <?= $form->field($model, 'max_time_long')
+                 ->textInput()
+        ?>
+
+        <?= $form->field($model, 'ticket_count')
                  ->textInput()
         ?>
 

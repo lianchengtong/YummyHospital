@@ -2,10 +2,9 @@
 
 namespace common\models\search;
 
-use Yii;
+use common\models\Doctor as DoctorModel;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Doctor as DoctorModel;
 
 class Doctor extends DoctorModel
 {
@@ -25,7 +24,7 @@ class Doctor extends DoctorModel
 
     public function search($params)
     {
-        $query = DoctorModel::find();
+        $query = DoctorModel::find()->with("doctorServiceTime");
 
         // add conditions that should always apply here
 
@@ -43,16 +42,16 @@ class Doctor extends DoctorModel
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'level' => $this->level,
-            'name' => $this->name,
+            'id'        => $this->id,
+            'level'     => $this->level,
+            'name'      => $this->name,
             'work_time' => $this->work_time,
         ]);
 
         $query->andFilterWhere(['like', 'head_image', $this->head_image])
-            ->andFilterWhere(['like', 'summary', $this->summary])
-            ->andFilterWhere(['like', 'introduce', $this->introduce])
-            ->andFilterWhere(['like', 'rank', $this->rank]);
+              ->andFilterWhere(['like', 'summary', $this->summary])
+              ->andFilterWhere(['like', 'introduce', $this->introduce])
+              ->andFilterWhere(['like', 'rank', $this->rank]);
 
         return $dataProvider;
     }

@@ -2,6 +2,7 @@
 
 use common\extend\PanelGridView;
 use common\models\DoctorLevel;
+use common\models\DoctorServiceTime;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -28,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             },
         ],
         'name',
+        'doctorServiceTime.ticket_count',
         [
             'attribute' => 'level',
             'filter'    => DoctorLevel::levelList(),
@@ -38,21 +40,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'work_time',
         'rank',
         [
+            'label'  => '会诊信息',
+            'format' => 'raw',
+            'value'  => function ($model) {
+                $desc    = DoctorServiceTime::getDescription($model->id);
+                $link    = ["@admin/doctor/service-time/manage", 'id' => $model->id];
+                $editBtn = Html::a("编辑", $link, [
+                    'class' => 'btn btn-info btn-xs',
+                ]);
+                return $desc . $editBtn;
+            },
+        ],
+        [
             'label'  => '详细信息',
             'format' => 'raw',
             'value'  => function ($model) {
                 $link = ["@admin/doctor/doctor/view", 'id' => $model->id];
                 return Html::a("查看详情", $link, [
-                    'class' => 'btn btn-info btn-xs',
-                ]);
-            },
-        ],
-        [
-            'label'  => '预约管理',
-            'format' => 'raw',
-            'value'  => function ($model) {
-                $link = ["@admin/doctor/service-time/manage", 'id' => $model->id];
-                return Html::a("预约管理", $link, [
                     'class' => 'btn btn-info btn-xs',
                 ]);
             },

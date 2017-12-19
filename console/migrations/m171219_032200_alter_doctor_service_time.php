@@ -11,6 +11,7 @@ class m171219_032200_alter_doctor_service_time extends Migration
         $this->addColumn($this->_table, "week", $this->string()->notNull()->defaultValue(0)->after("month"));
         $this->addColumn($this->_table, "mode", $this->string()->notNull()->defaultValue(0)->after("doctor_id"));
         $this->addColumn($this->_table, "max_time_long", $this->string()->notNull()->defaultValue(0));
+        $this->addColumn($this->_table, "ticket_count", $this->integer()->notNull()->defaultValue(0)->after("doctor_id"));
     }
 
     public function safeDown()
@@ -18,5 +19,6 @@ class m171219_032200_alter_doctor_service_time extends Migration
         $this->dropColumn($this->_table, "week");
         $this->dropColumn($this->_table, "mode");
         $this->dropColumn($this->_table, "max_time_long");
+        $this->dropColumn($this->_table, "ticket_count");
     }
 }

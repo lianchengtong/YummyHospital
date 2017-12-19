@@ -11,7 +11,7 @@ class DoctorServiceTime extends DoctorServiceTimeModel
     public function rules()
     {
         return [
-            [['id', 'model', 'doctor_id'], 'integer'],
+            [['id', 'model', 'ticket_count', 'doctor_id'], 'integer'],
             [['month', 'day', 'am', 'pm', 'week'], 'safe'],
         ];
     }
