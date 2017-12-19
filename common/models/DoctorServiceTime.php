@@ -83,7 +83,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         $bodyRows  = Html::tag("tr", self::renderTableBody($doctorServiceDay, $year, $month));
         $tableBody = Html::tag("tbody", $bodyRows);
 
-        $table = Html::tag("table", $tableHead . $tableBody, ['class' => 'table table-bordered']);
+        $table = Html::tag("table", $tableHead . $tableBody, ['class' => 'table table-bordered text-center']);
         return $table;
     }
 
@@ -91,7 +91,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
     {
         $headItems = [];
         foreach ($items as $item) {
-            $headItems[] = Html::tag("th", $item);
+            $headItems[] = Html::tag("td", $item);
         }
         return implode("\n", $headItems);
     }
@@ -225,6 +225,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         }
 
         $activeClass        = ['class' => 'success'];
+        $disableClass       = ['class' => 'active'];
         $fullItems          = [];
         $chunkFullMonthDays = array_chunk($monthDays, 7);
         foreach ($chunkFullMonthDays as $chunkWeekDays) {
@@ -239,7 +240,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
                     $rowItem[] = Html::tag("td", $monthDay, $activeClass);
                     continue;
                 }
-                $rowItem[] = Html::tag("td", $monthDay);
+                $rowItem[] = Html::tag("td", $monthDay, $disableClass);
             }
             $fullItems[] = Html::tag("tr", implode("\n", $rowItem));
         }

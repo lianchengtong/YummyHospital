@@ -21,7 +21,8 @@ class DoctorAppointment extends \common\base\ActiveRecord
 {
     const STATUS_COMPLETE = 0;
     const STATUS_PENDING  = 1;
-    const STATUS_BREAK    = 2;
+    const STATUS_CANCEL   = 2;
+    const STATUS_BREAK    = 3;
 
     public static function getStatusDesc($id)
     {
@@ -33,18 +34,26 @@ class DoctorAppointment extends \common\base\ActiveRecord
     public static function getStatus()
     {
         return [
-            self::STATUS_PENDING  => '预约中',
-            self::STATUS_BREAK    => '爽约',
-            self::STATUS_COMPLETE => '完成',
+            self::STATUS_PENDING  => '进行中',
+            self::STATUS_BREAK    => '已爽约',
+            self::STATUS_CANCEL   => '已取消',
+            self::STATUS_COMPLETE => '已完成',
         ];
     }
 
-    public function rules()
+    public static function getDayAppointmentCount($doctorID, $year, $month, $day)
     {
-        return [
-            [['doctor_id', 'order_number', 'status'], 'required'],
-            [['user_id', 'doctor_id', 'time_begin', 'time_end', 'order_number', 'status', 'created_at', 'updated_at'], 'integer'],
+        $timeBegin = strtotime(date(sprintf("%s-%s-%s", $year, $month, $day)));
+        $timeEnd   = strtotime(date(sprintf("%s-%s-%s 23:59:59", $year, $month, $day)));
+
+        $condition = [
+            'and',
+            [">", "time_begin", $timeBegin],
+            ["<", "time_begin", $timeEnd],
+            ["doctor_id" => $doctorID],
+
         ];
+        return self::find()->where($condition)->count();
     }
 
     public function attributeLabels()
@@ -62,6 +71,23 @@ class DoctorAppointment extends \common\base\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if ($this->isNewRecord) {
+            $this->user_id = UserSession::getId();
+        }
+
+        return parent::beforeSave($insert);
+    }
+
+    public function rules()
+    {
+        return [
+            [['doctor_id', 'order_number', 'status'], 'required'],
+            [['user_id', 'doctor_id', 'time_begin', 'time_end', 'order_number', 'status', 'created_at', 'updated_at'], 'integer'],
+        ];
+    }
+
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
@@ -75,15 +101,6 @@ class DoctorAppointment extends \common\base\ActiveRecord
     public function getPatientInfo()
     {
         return $this->hasOne(DoctorAppointmentPatientInfo::className(), ['appointment_id' => 'id']);
-    }
-
-    public function beforeSave($insert)
-    {
-        if ($this->isNewRecord) {
-            $this->user_id = UserSession::getId();
-        }
-
-        return parent::beforeSave($insert);
     }
 
 }
