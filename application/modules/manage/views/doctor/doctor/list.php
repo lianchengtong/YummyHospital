@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             },
         ],
         'name',
+        'doctorServiceTime.price',
         'doctorServiceTime.ticket_count',
         [
             'attribute' => 'level',
@@ -48,6 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 $editBtn = Html::a("编辑", $link, [
                     'class' => 'btn btn-info btn-xs',
                 ]);
+
                 return $desc . $editBtn;
             },
         ],
@@ -56,6 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'format' => 'raw',
             'value'  => function ($model) {
                 $link = ["@admin/doctor/doctor/view", 'id' => $model->id];
+
                 return Html::a("查看详情", $link, [
                     'class' => 'btn btn-info btn-xs',
                 ]);

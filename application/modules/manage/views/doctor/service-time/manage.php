@@ -26,6 +26,9 @@ if ($model->isNewRecord) {
                  ->radioList(DoctorServiceTime::modeList(), [
                      'class' => 'mode',
                  ]) ?>
+        <?= $form->field($model, 'price')
+                 ->textInput()
+        ?>
 
         <?= $form->field($model, 'max_time_long')
                  ->textInput()

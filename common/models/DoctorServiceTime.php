@@ -10,6 +10,7 @@ use common\extend\Html;
  * @property integer $id
  * @property integer $mode
  * @property integer $doctor_id
+ * @property integer $price
  * @property integer $ticket_count
  * @property integer $max_time_long
  * @property array   $month
@@ -23,9 +24,13 @@ class DoctorServiceTime extends \common\base\ActiveRecord
 {
     const   MODE_WEEK  = 0;
     const   MODE_MONTH = 1;
-    const   WEEK_DAY   = [1 => '一', '二', '三', '四', '五', '六', '日'];
 
     protected $enableTimeBehavior = false;
+
+    public static function weekDays()
+    {
+        return [1 => '一', '二', '三', '四', '五', '六', '日'];
+    }
 
     public static function modeList()
     {
@@ -43,6 +48,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         foreach ($items as $item) {
             $newItems[] = $item . " 月";
         }
+
         return array_combine($items, $newItems);
     }
 
@@ -54,6 +60,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         }
 
         $items = range($begin, $end, $step);
+
         return array_combine($items, $items);
     }
 
@@ -66,16 +73,18 @@ class DoctorServiceTime extends \common\base\ActiveRecord
     {
         if ($type == "week") {
             $items = range(1, 7);
-            return array_combine($items, self::WEEK_DAY);
+
+            return array_combine($items, self::weekDays());
         }
         $items = range(1, 31);
+
         return array_combine($items, $items);
     }
 
     public static function calendar($doctorID, $year, $month)
     {
 
-        $headRows  = Html::tag("tr", self::renderTableHead(self::WEEK_DAY));
+        $headRows  = Html::tag("tr", self::renderTableHead(self::weekDays()));
         $tableHead = Html::tag("thead", $headRows);
 
         $doctorServiceDay = self::getDoctorMonthServiceDays($doctorID, $year, $month);
@@ -84,6 +93,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         $tableBody = Html::tag("tbody", $bodyRows);
 
         $table = Html::tag("table", $tableHead . $tableBody, ['class' => 'table table-bordered text-center']);
+
         return $table;
     }
 
@@ -93,6 +103,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         foreach ($items as $item) {
             $headItems[] = Html::tag("td", $item);
         }
+
         return implode("\n", $headItems);
     }
 
@@ -209,6 +220,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
     public static function getByDoctorID($doctor_id)
     {
         $model = self::find()->where(['doctor_id' => $doctor_id])->one();
+
         return $model;
     }
 
@@ -265,6 +277,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
             }
             $fullItems[] = Html::tag("tr", implode("\n", $rowItem));
         }
+
         return implode("\n", $fullItems);
     }
 
@@ -318,10 +331,12 @@ class DoctorServiceTime extends \common\base\ActiveRecord
 
     public static function convertToWeekDay($days)
     {
-        $descDays = [];
+        $weekDayList = self::weekDays();
+        $descDays    = [];
         foreach ($days as $day) {
-            $descDays[] = self::WEEK_DAY[$day];
+            $descDays[] = $weekDayList[$day];
         }
+
         return array_filter($descDays);
     }
 
@@ -368,8 +383,8 @@ class DoctorServiceTime extends \common\base\ActiveRecord
     public function rules()
     {
         return [
-            [['doctor_id', 'ticket_count', 'mode', 'max_time_long', 'am', 'pm'], 'required'],
-            [['doctor_id', 'max_time_long', 'ticket_count'], 'integer'],
+            [['doctor_id', 'price', 'ticket_count', 'mode', 'max_time_long', 'am', 'pm'], 'required'],
+            [['doctor_id', 'price', 'max_time_long', 'ticket_count'], 'integer'],
             [['week',], 'string', 'max' => 255],
             ['max_time_long', 'default', 'value' => 2],
             [['month', 'day', 'am', 'week_service_start_at', 'pm'], 'safe'],
