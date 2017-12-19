@@ -35,8 +35,6 @@ abstract class ImageUploaderInput extends InputWidget
         $this->containerID = sprintf("%s-image-container", $this->getId());
     }
 
-    abstract protected function renderImageUploader();
-
     public function run()
     {
         $view = $this->getView();
@@ -49,7 +47,7 @@ abstract class ImageUploaderInput extends InputWidget
         echo $this->renderInputHtml('hidden');
 
 
-        echo Html::beginTag("div", ['class' => 'panel-body', 'id' => $this->containerID]);
+        echo Html::beginTag("div", ['class' => 'panel-body uploader-image-container', 'id' => $this->containerID]);
         $this->renderImageUploader();
         echo Html::endTag("div");
 
@@ -63,8 +61,6 @@ abstract class ImageUploaderInput extends InputWidget
 
         return $mergeOptions;
     }
-
-    abstract protected function callbackComplete();
 
     private function defaultOptions()
     {
@@ -130,4 +126,8 @@ abstract class ImageUploaderInput extends InputWidget
 
         return [];
     }
+
+    abstract protected function callbackComplete();
+
+    abstract protected function renderImageUploader();
 }

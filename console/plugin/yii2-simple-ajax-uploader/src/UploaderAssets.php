@@ -7,9 +7,8 @@ use yii\web\AssetBundle;
 
 class UploaderAssets extends AssetBundle
 {
-    public $baseUrl = '@web';
     public $css     = [
-        'css/style.css',
+        'style.css',
     ];
     public $js      = [
         "SimpleAjaxUploader.js",
