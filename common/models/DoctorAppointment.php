@@ -53,6 +53,7 @@ class DoctorAppointment extends \common\base\ActiveRecord
             ["doctor_id" => $doctorID],
 
         ];
+
         return self::find()->where($condition)->count();
     }
 
@@ -77,6 +78,9 @@ class DoctorAppointment extends \common\base\ActiveRecord
             $this->user_id = UserSession::getId();
         }
 
+        $this->time_begin = strtotime($this->time_begin);
+        $this->time_end   = strtotime($this->time_end);
+
         return parent::beforeSave($insert);
     }
 
@@ -84,7 +88,8 @@ class DoctorAppointment extends \common\base\ActiveRecord
     {
         return [
             [['doctor_id', 'order_number', 'status'], 'required'],
-            [['user_id', 'doctor_id', 'time_begin', 'time_end', 'order_number', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'doctor_id', 'order_number', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['time_begin', 'time_end'], 'string'],
         ];
     }
 

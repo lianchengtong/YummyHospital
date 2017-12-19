@@ -15,9 +15,9 @@ return [
     'bootstrap'           => ['log'],
     'defaultRoute'        => 'index',
     'controllerNamespace' => 'application\controllers',
-    'aliases'             => [
-        '@rogeecn/SimpleAjaxUploader' => '@console/plugin/yii2-simple-ajax-uploader/src',
-    ],
+    //'aliases'             => [
+    //    '@rogeecn/SimpleAjaxUploader' => '@console/plugin/yii2-simple-ajax-uploader/src',
+    //],
     'modules'             => [
         'manage' => [
             'class' => 'application\modules\manage\Module',
