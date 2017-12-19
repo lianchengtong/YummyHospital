@@ -80,7 +80,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
 
         $doctorServiceDay = self::getDoctorMonthServiceDays($doctorID, $year, $month);
 
-        $bodyRows  = Html::tag("tr", self::renderTableBody($doctorServiceDay, $year, $month));
+        $bodyRows  = Html::tag("tr", self::renderTableBody($doctorID, $doctorServiceDay, $year, $month));
         $tableBody = Html::tag("tbody", $bodyRows);
 
         $table = Html::tag("table", $tableHead . $tableBody, ['class' => 'table table-bordered text-center']);
@@ -134,7 +134,8 @@ class DoctorServiceTime extends \common\base\ActiveRecord
                     continue;
                 }
 
-                $serviceDays[] = $monthDay;
+                $appointmentCount       = DoctorAppointment::getDayAppointmentCount($doctorID, $year, $month, $monthDay);
+                $serviceDays[$monthDay] = $serviceTimeModel->ticket_count - $appointmentCount;
             }
 
             return $serviceDays;
@@ -162,7 +163,8 @@ class DoctorServiceTime extends \common\base\ActiveRecord
                     continue;
                 }
 
-                $serviceDays[] = $monthDay;
+                $appointmentCount       = DoctorAppointment::getDayAppointmentCount($doctorID, $year, $month, $monthDay);
+                $serviceDays[$monthDay] = $serviceTimeModel->ticket_count - $appointmentCount;
             }
 
             return $serviceDays;
@@ -191,7 +193,8 @@ class DoctorServiceTime extends \common\base\ActiveRecord
                     continue;
                 }
 
-                $serviceDays[] = $monthDay;
+                $appointmentCount       = DoctorAppointment::getDayAppointmentCount($doctorID, $year, $month, $monthDay);
+                $serviceDays[$monthDay] = $serviceTimeModel->ticket_count - $appointmentCount;
             }
 
             return $serviceDays;
@@ -209,7 +212,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         return $model;
     }
 
-    private static function renderTableBody($doctorServiceDays, $year, $month)
+    private static function renderTableBody($doctorID, $doctorServiceDays, $year, $month)
     {
         $calTimestamp = strtotime(sprintf("%s-%s-1", $year, $month));
         $monthDays    = range(1, date("t", $calTimestamp));
@@ -224,10 +227,11 @@ class DoctorServiceTime extends \common\base\ActiveRecord
             $monthDays = array_merge($monthDays, $padSuffix);
         }
 
-        $activeClass        = ['class' => 'success'];
-        $disableClass       = ['class' => 'active'];
-        $fullItems          = [];
-        $chunkFullMonthDays = array_chunk($monthDays, 7);
+        $activeClass         = ['class' => 'success'];
+        $disableClass        = ['class' => 'active'];
+        $fullItems           = [];
+        $chunkFullMonthDays  = array_chunk($monthDays, 7);
+        $doctorServiceDayKey = array_keys($doctorServiceDays);
         foreach ($chunkFullMonthDays as $chunkWeekDays) {
             $rowItem = [];
             foreach ($chunkWeekDays as $monthDay) {
@@ -236,8 +240,25 @@ class DoctorServiceTime extends \common\base\ActiveRecord
                     continue;
                 }
 
-                if (in_array($monthDay, $doctorServiceDays)) {
-                    $rowItem[] = Html::tag("td", $monthDay, $activeClass);
+                if (in_array($monthDay, $doctorServiceDayKey)) {
+                    $remainTicket = $doctorServiceDays[$monthDay];
+                    $text         = sprintf("%d<br>(剩余：%d)", $monthDay, $remainTicket);
+                    if ($remainTicket == 0) {
+                        $rowItem[] = Html::tag("td", $text, $activeClass);
+                        continue;
+                    }
+
+                    $linkUrl   = [
+                        "/order",
+                        'year'   => $year,
+                        'month'  => $month,
+                        'day'    => $monthDay,
+                        'doctor' => $doctorID,
+                    ];
+                    $orderLink = Html::a($text, $linkUrl, [
+                        'style' => 'display:block;width:100%;height: 100%;text-decoration:none;color:#333;font-weight:bold;',
+                    ]);
+                    $rowItem[] = Html::tag("td", $orderLink, $activeClass);
                     continue;
                 }
                 $rowItem[] = Html::tag("td", $monthDay, $disableClass);
