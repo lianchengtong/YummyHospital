@@ -41,7 +41,7 @@ class Slider extends Widget
         $this->registerScripts();
 
         $slides = [];
-        foreach ($this->slides as $slide) {
+        foreach ($this->slides as $index => $slide) {
             if (!isset($slide['options'])) {
                 $slide['options'] = [];
             }
@@ -56,8 +56,10 @@ class Slider extends Widget
                 $slideContent = Html::a($slideContent, $slide['url'], ['encode' => false]);
             }
 
-            $slide['options']['data-nav'] = mt_rand(123, 123123);
-            $slides[]                     = Html::tag("li", $slideContent, $slide['options']);
+            if (!isset($slide['options']['data-nav'])) {
+                $slide['options']['data-nav'] = $index;
+            }
+            $slides[] = Html::tag("li", $slideContent, $slide['options']);
         }
 
         $slideHtml = Html::tag("ul", implode("\n", $slides), $this->slidesOptions);
