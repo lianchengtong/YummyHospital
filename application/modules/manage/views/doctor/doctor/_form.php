@@ -18,8 +18,6 @@ use rogeecn\SimpleAjaxUploader\SingleImage;
     </div>
     <div class="col-md-9">
         <?= $form->field($model, 'summary')->textarea(['rows' => 6]) ?>
-        <?= $form->field($model, 'introduce')->widget(UEditor::className(), [
-
-        ]) ?>
+        <?= $form->field($model, 'introduce')->widget(UEditor::className()) ?>
     </div>
 </div>

@@ -59,7 +59,7 @@ class ArticleForm extends Model
         return [
             [['title', 'category'], 'required'],
             [['category'], 'integer'],
-            [['title', 'content', 'slug', 'head_image', 'description', 'keyword'], 'string', 'max' => 255],
+            [['title', 'slug', 'head_image', 'description', 'keyword'], 'string', 'max' => 255],
         ];
     }
 

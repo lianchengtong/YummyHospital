@@ -18,13 +18,13 @@ $this->params['breadcrumbs'][] = $this->title;
         Html::submitButton('保存排序', ['class' => 'btn btn-primary']),
         Html::a('创建', ['create', 'type' => $typeModel->id], ['class' => 'btn btn-success']),
     ],
-    'filterModel'  => $searchModel,
     'columns'      => [
         ['class' => 'yii\grid\SerialColumn'],
         'name',
         'description',
         'class',
         'configure',
+        'side_show:boolean',
         [
             'attribute' => 'order',
             'format'    => 'raw',

@@ -6,6 +6,7 @@ use application\base\AuthController;
 use common\models\ArticleType;
 use common\models\ArticleTypeField;
 use common\models\search\ArticleTypeField as ArticleTypeFieldSearch;
+use common\utils\Request;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
@@ -29,6 +30,14 @@ class FieldController extends AuthController
         $typeModel = ArticleType::findOne($id);
         if (!$typeModel) {
             throw new NotFoundHttpException();
+        }
+
+        if (Request::isPost()) {
+            $orders = Request::input("order");
+
+            foreach ($orders as $primaryKey => $orderNum) {
+                ArticleTypeField::setOrder($primaryKey, $orderNum);
+            }
         }
 
         $searchModel                                 = new ArticleTypeFieldSearch();
