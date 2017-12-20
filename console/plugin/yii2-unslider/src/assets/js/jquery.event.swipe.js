@@ -16,7 +16,7 @@
 (function (thisModule) {
 	if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', undefined, 'jquery.event.move'], thisModule);
+        define(['jquery', undefined, 'console/plugin/yii2-unslider/src/assets/js/jquery.event.move'], thisModule);
     } else if ((typeof module !== "undefined" && module !== null) && module.exports) {
         module.exports = thisModule;
 	} else {

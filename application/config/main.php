@@ -17,7 +17,7 @@ return [
     'controllerNamespace' => 'application\controllers',
     'aliases'             => [
         //'@rogeecn/SimpleAjaxUploader' => '@console/plugin/yii2-simple-ajax-uploader/src',
-        '@rogeecn/UnSlider' => '@console/plugin/UnSlider/yii2-unslider/src',
+        '@rogeecn/UnSlider' => '@console/plugin/yii2-unslider/src',
     ],
     'modules'             => [
         'manage' => [
