@@ -18,16 +18,6 @@ namespace common\models;
  */
 class Article extends \common\base\ActiveRecord
 {
-    public function rules()
-    {
-        return [
-            [['slug', 'category', 'author_id'], 'required'],
-            [['category', 'author_id', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'slug', 'head_image', 'description', 'keyword'], 'string', 'max' => 255],
-            [['slug'], 'unique'],
-        ];
-    }
-
     public function attributeLabels()
     {
         return [
@@ -44,8 +34,23 @@ class Article extends \common\base\ActiveRecord
         ];
     }
 
+    public function rules()
+    {
+        return [
+            [['slug', 'type', 'category', 'author_id'], 'required'],
+            [['category', 'type', 'author_id', 'created_at', 'updated_at'], 'integer'],
+            [['title', 'slug', 'head_image', 'description', 'keyword'], 'string', 'max' => 255],
+            [['slug'], 'unique'],
+        ];
+    }
+
     public function getContent()
     {
         return $this->hasOne(ArticleContent::className(), ['article_id' => 'id']);
+    }
+
+    public function getType()
+    {
+        return $this->hasOne(ArticleType::className(), ['id' => 'type']);
     }
 }

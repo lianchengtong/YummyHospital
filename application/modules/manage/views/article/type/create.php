@@ -1,15 +1,15 @@
 <?php
 
-use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
 
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Article */
+/* @var $model common\models\ArticleType */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title                   = '创建 Article';
-$this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
+$this->title = '创建 Article Type';
+$this->params['breadcrumbs'][] = ['label' => 'Article Types', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -20,11 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-body">
         <?= $this->render('_form', [
             'model' => $model,
-            'form'  => $form,
+            'form' => $form,
         ]) ?>
     </div>
     <div class="panel-footer text-right">
-        <?= Html::submitButton("提交", ['class' => 'btn btn-primary']) ?>
+        <?=  Html::submitButton("提交", ['class' => 'btn btn-primary']) ?>
     </div>
 </div>
 <?php ActiveForm::end(); ?>

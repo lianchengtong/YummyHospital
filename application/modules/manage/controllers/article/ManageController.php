@@ -1,17 +1,19 @@
 <?php
 
-namespace application\modules\manage\controllers;
+namespace application\modules\manage\controllers\article;
 
 use application\base\AuthController;
 use application\modules\manage\forms\ArticleForm;
 use common\models\Article;
+use common\models\ArticleType;
 use common\models\search\Article as ArticleSearch;
 use common\utils\Request;
 use Yii;
+use yii\base\InvalidParamException;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 
-class ArticleController extends AuthController
+class ManageController extends AuthController
 {
     public function behaviors()
     {
@@ -23,6 +25,14 @@ class ArticleController extends AuthController
                 ],
             ],
         ];
+    }
+
+    public function actionSelect()
+    {
+        $models = ArticleType::find()->orderBy(['order' => SORT_ASC])->all();
+        return $this->render("select", [
+            'models' => $models,
+        ]);
     }
 
     public function actionList()
@@ -44,16 +54,36 @@ class ArticleController extends AuthController
         ]);
     }
 
+    protected function findModel($id)
+    {
+        if (($model = Article::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
     public function actionCreate()
     {
-        $model = new ArticleForm();
+        $type = Request::input("type");
+        if (empty($type)) {
+            throw new InvalidParamException("missing param type");
+        }
+
+        $typeModel = ArticleType::getBySlug($type);
+        if (!$typeModel) {
+            throw new InvalidParamException("type is invalid!");
+        }
+
+        $model       = new ArticleForm();
+        $model->type = $typeModel->id;
 
         if (Request::isPost() && $model->load(Request::post()) && $model->validate() && $model->save()) {
             return $this->redirect(['list']);
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'model'      => $model,
+            'typeFields' => $typeModel->inputFields,
         ]);
     }
 
@@ -75,13 +105,5 @@ class ArticleController extends AuthController
         $this->findModel($id)->delete();
 
         return $this->redirect(['list']);
-    }
-
-    protected function findModel($id)
-    {
-        if (($model = Article::findOne($id)) !== NULL) {
-            return $model;
-        }
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

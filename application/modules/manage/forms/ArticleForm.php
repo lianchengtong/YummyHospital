@@ -1,4 +1,5 @@
 <?php
+
 namespace application\modules\manage\forms;
 
 use common\models\Article;
@@ -9,6 +10,7 @@ use yii\web\NotFoundHttpException;
 class ArticleForm extends Model
 {
     public $id;
+    public $type;
     public $title;
     public $slug;
     public $head_image;
@@ -21,7 +23,7 @@ class ArticleForm extends Model
     private $articleModel;
     private $_id;
 
-    public function __construct($id = NULL)
+    public function __construct($id = null)
     {
         $this->_id = $id;
         if ($this->isNewRecord()) {
@@ -41,15 +43,6 @@ class ArticleForm extends Model
         return is_null($this->_id);
     }
 
-    public function rules()
-    {
-        return [
-            [['title', 'content', 'slug', 'category'], 'required'],
-            [['category'], 'integer'],
-            [['title', 'slug', 'head_image', 'description', 'keyword'], 'string', 'max' => 255],
-        ];
-    }
-
     public function attributeLabels()
     {
         return [
@@ -61,6 +54,15 @@ class ArticleForm extends Model
 
     }
 
+    public function rules()
+    {
+        return [
+            [['title', 'category'], 'required'],
+            [['category'], 'integer'],
+            [['title', 'content', 'slug', 'head_image', 'description', 'keyword'], 'string', 'max' => 255],
+        ];
+    }
+
     public function getId()
     {
         return $this->articleModel->primaryKey;
@@ -70,8 +72,13 @@ class ArticleForm extends Model
     {
         $trans = \Yii::$app->getDb()->beginTransaction();
         try {
+            if (empty($this->slug)) {
+                $this->slug = \Yii::$app->getSecurity()->generateRandomString();
+            }
+
             $this->articleModel->setAttributes([
                 'title'       => $this->title,
+                'type'        => $this->type,
                 'slug'        => $this->slug,
                 'head_image'  => $this->head_image,
                 'category'    => $this->category,
@@ -112,9 +119,9 @@ class ArticleForm extends Model
         } catch (\Exception $e) {
             $trans->rollBack();
 
-            return FALSE;
+            return false;
         }
 
-        return TRUE;
+        return true;
     }
 }

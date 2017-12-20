@@ -5,10 +5,10 @@ use rogeecn\SimpleAjaxUploader\SingleImage;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Article */
-
-$uploadInputName = sprintf("%s[%s]", $model->formName(), "head_image");
+/* @var  $inputFields \common\models\ArticleTypeField[] */
 ?>
 
+<?= $form->field($model, 'type')->hiddenInput(['maxlength' => true]) ?>
 <div class="row">
     <div class="col-md-8">
         <div class="row">
@@ -35,4 +35,3 @@ $uploadInputName = sprintf("%s[%s]", $model->formName(), "head_image");
         <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
     </div>
 </div>
-

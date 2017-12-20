@@ -20,8 +20,9 @@ $this->params['breadcrumbs'][] = '编辑';
     </div>
     <div class="panel-body">
         <?= $this->render('_form', [
-            'model' => $model,
-            'form'  => $form,
+            'model'      => $model,
+            'form'       => $form,
+            'typeFields' => $typeFields,
         ]) ?>
     </div>
     <div class="panel-footer text-right">

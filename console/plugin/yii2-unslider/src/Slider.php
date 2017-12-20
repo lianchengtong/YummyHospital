@@ -47,7 +47,7 @@ class Slider extends Widget
             }
 
             if (isset($slide['image'])) {
-                $slideContent = Html::img($slide['img']);
+                $slideContent = Html::img($slide['image']);
             } else {
                 $slideContent = Html::tag("div", $slide['body']);
             }
