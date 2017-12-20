@@ -6,21 +6,27 @@
 
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    </div>
+    <div class="col-md-4">
         <?= $form->field($model, 'class')->textInput(['maxlength' => true]) ?>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
+        <?= $form->field($model, 'field')->textInput(['maxlength' => true]) ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
         <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
-        <div class="row">
-            <div class="col-md-6">
-                <?= $form->field($model, 'order')->textInput() ?>
-            </div>
-            <div class="col-md-6">
-                <div style="margin-top: 25px">
-                    <?= $form->field($model, 'side_show')->checkbox() ?>
-                </div>
-            </div>
+    </div>
+    <div class="col-md-4">
+        <?= $form->field($model, 'order')->textInput() ?>
+    </div>
+    <div class="col-md-4">
+        <div style="margin-top: 25px">
+            <?= $form->field($model, 'side_show')->checkbox() ?>
         </div>
     </div>
 </div>

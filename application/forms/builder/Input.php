@@ -35,8 +35,8 @@ class Input extends InputWidget
     public function defaultCustomOptions()
     {
         return [
-            'rich'  => false,
-            'hint'  => "",
+            'rich' => false,
+            'hint' => "",
             'label' => "",
         ];
     }

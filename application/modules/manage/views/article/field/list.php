@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ['class' => 'yii\grid\SerialColumn'],
         'name',
         'description',
+        'field',
         'class',
         'configure',
         'side_show:boolean',

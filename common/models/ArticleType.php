@@ -26,6 +26,11 @@ class ArticleType extends \common\base\ActiveRecord
         return self::find()->where(['slug' => $slug])->one();
     }
 
+    public static function getByID($id)
+    {
+        return self::findOne($id);
+    }
+
     public function attributeLabels()
     {
         return [

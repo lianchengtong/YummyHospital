@@ -7,6 +7,7 @@ namespace common\models;
  *
  * @property integer $id
  * @property string  $title
+ * @property string  $type
  * @property string  $slug
  * @property string  $head_image
  * @property integer $category
@@ -22,7 +23,8 @@ class Article extends \common\base\ActiveRecord
     {
         return [
             'id'          => 'ID',
-            'title'       => 'Name',
+            'title'       => 'Title',
+            'type'        => 'Type',
             'slug'        => 'Slug',
             'head_image'  => 'Head Image',
             'category'    => 'Category',

@@ -4,7 +4,7 @@ use common\models\Category;
 use rogeecn\SimpleAjaxUploader\SingleImage;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Article */
+/* @var $model \application\modules\manage\forms\ArticleForm */
 /* @var  $typeFields \common\models\ArticleTypeField[] */
 
 ?>
@@ -33,6 +33,7 @@ use rogeecn\SimpleAjaxUploader\SingleImage;
         ]); ?>
         <?= $form->field($model, 'keyword')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
+
         <?php foreach ($typeFields as $typeField): ?>
             <?= $typeField->showInput($model, true) ?>
         <?php endforeach; ?>

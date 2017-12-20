@@ -4,6 +4,8 @@ namespace application\modules\manage\forms;
 
 use common\models\Article;
 use common\models\ArticleContent;
+use common\models\ArticleMountData;
+use common\models\ArticleTypeField;
 use yii\base\Model;
 use yii\web\NotFoundHttpException;
 
@@ -17,17 +19,21 @@ class ArticleForm extends Model
     public $category;
     public $description;
     public $keyword;
-    public $content;
+    public $field;
+
+    /** @var \common\models\interfaces\InterfaceArticleMontData[] */
+    public $fieldModels;
 
     /** @var  Article */
     private $articleModel;
     private $_id;
 
-    public function __construct($id = null)
+    public function __construct($typeID = null, $id = null)
     {
         $this->_id = $id;
         if ($this->isNewRecord()) {
-            $this->articleModel = new Article();
+            $this->articleModel       = new Article();
+            $this->articleModel->type = $typeID;
         } else {
             $this->articleModel = Article::findOne($id);
             if (!$this->articleModel) {
@@ -35,12 +41,73 @@ class ArticleForm extends Model
             }
         }
 
+        $this->setAttributes($this->articleModel->getAttributes());
+
+        $this->initFieldData($this->articleModel);
         parent::__construct([]);
     }
 
     public function isNewRecord()
     {
         return is_null($this->_id);
+    }
+
+    public function initFieldData($articleModel)
+    {
+        $typeFields = ArticleTypeField::getFieldsByTypeID($articleModel->type);
+        foreach ($typeFields as $typeField) {
+            $fieldMapClass = $this->getFieldMapClass($typeField);
+            if (is_null($articleModel)) {
+                $this->fieldModels[$typeField] = new $fieldMapClass();
+                continue;
+            }
+
+            $this->fieldModels[$typeField] = $fieldMapClass::getModel($typeField, $articleModel->id);
+        }
+
+        foreach ($this->fieldModels as $fieldModel) {
+            $this->field[$fieldModel->getFieldName()] = $fieldModel->getData();
+        }
+    }
+
+    /**
+     * @param $name
+     *
+     * @return mixed|string
+     */
+    public function getFieldMapClass($name)
+    {
+        $mapList = [
+            'content' => ArticleContent::className(),
+        ];
+        if (!isset($mapList)) {
+            return ArticleMountData::className();
+        }
+        return $mapList[$name];
+    }
+
+    public function getTypeID()
+    {
+        return $this->articleModel->type;
+    }
+
+    public function getFieldModelData($fieldName)
+    {
+        $model = $this->getFieldModel($fieldName);
+        if (!is_null($model)) {
+            return $model->getData();
+        }
+        return "";
+    }
+
+    /**
+     * @param $fieldName
+     *
+     * @return \common\models\interfaces\InterfaceArticleMontData
+     */
+    public function getFieldModel($fieldName)
+    {
+        return $this->fieldModels[$fieldName];
     }
 
     public function attributeLabels()
@@ -51,15 +118,15 @@ class ArticleForm extends Model
             'rememberMe' => '记住我',
             'verifyCode' => '验证码',
         ];
-
     }
 
     public function rules()
     {
         return [
             [['title', 'category'], 'required'],
-            [['category'], 'integer'],
+            [['category', 'id', 'type'], 'integer'],
             [['title', 'slug', 'head_image', 'description', 'keyword'], 'string', 'max' => 255],
+            [['field'], 'safe'],
         ];
     }
 
@@ -98,30 +165,25 @@ class ArticleForm extends Model
                 throw new \Exception("save article fail");
             }
 
-            /** @var ArticleContent $contentModel */
-            if ($this->isNewRecord()) {
-                $contentModel             = new ArticleContent();
-                $contentModel->article_id = $this->articleModel->primaryKey;
-            } else {
-                $contentModel = $this->articleModel->content;
-            }
-            $contentModel->content = $this->content;
+            // save fields
+            foreach ($this->field as $fieldName => $fieldData) {
+                $model = $this->getFieldModel($fieldName);
+                $model->setData($this->articleModel->primaryKey, $fieldName, $fieldData);
+                $this->fieldModels[$fieldName] = $model;
 
-            if (!$contentModel->save()) {
-                foreach ($contentModel->getErrors() as $attribute => $errorString) {
-                    $this->addError("content." . $attribute, implode("\n", $errorString));
+                if (!$model->save()) {
+                    foreach ($model->getErrors() as $attribute => $errorString) {
+                        $this->addError("field." . $fieldName, implode("\n", $errorString));
+                    }
+                    throw new \Exception("save content fail");
                 }
-                throw new \Exception("save content fail");
             }
-
 
             $trans->commit();
         } catch (\Exception $e) {
             $trans->rollBack();
-
             return false;
         }
-
         return true;
     }
 }

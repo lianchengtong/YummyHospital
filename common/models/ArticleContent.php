@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use common\models\interfaces\InterfaceArticleMontData;
+
 /**
  * This is the model class for table "article_content".
  *
@@ -9,9 +11,18 @@ namespace common\models;
  * @property integer $article_id
  * @property string  $content
  */
-class ArticleContent extends \common\base\ActiveRecord
+class ArticleContent extends \common\base\ActiveRecord implements InterfaceArticleMontData
 {
-    protected $enableTimeBehavior = FALSE;
+    protected $enableTimeBehavior = false;
+
+    public function attributeLabels()
+    {
+        return [
+            'id'         => 'ID',
+            'article_id' => 'Article ID',
+            'content'    => 'Content',
+        ];
+    }
 
     public function rules()
     {
@@ -22,12 +33,28 @@ class ArticleContent extends \common\base\ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    public function getFieldName()
     {
-        return [
-            'id'         => 'ID',
-            'article_id' => 'Article ID',
-            'content'    => 'Content',
-        ];
+        return "content";
+    }
+
+    public function getData()
+    {
+        return $this->content;
+    }
+
+    public static function getModel($tagName, $articleID)
+    {
+        $model = self::find()->where(['article_id' => $articleID])->one();
+        if (!$model) {
+            return new self();
+        }
+        return $model;
+    }
+
+    public function setData($articleID, $tag, $data)
+    {
+        $this->article_id = $articleID;
+        $this->content    = $data;
     }
 }

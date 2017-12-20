@@ -3,7 +3,7 @@
 namespace common\models;
 
 use application\forms\builder\Input;
-use yii\base\Model;
+use application\modules\manage\forms\ArticleForm;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $id
  * @property integer $type_id
  * @property string  $name
+ * @property string  $field
  * @property string  $description
  * @property string  $class
  * @property string  $configure
@@ -27,12 +28,19 @@ class ArticleTypeField extends \common\base\ActiveRecord
         return self::updateAll(['order' => $orderNum], ['id' => $id]);
     }
 
+    public static function getFieldsByTypeID($typeID)
+    {
+        $models = self::find()->where(['type_id' => $typeID])->select("field")->all();
+        return ArrayHelper::getColumn($models, "field");
+    }
+
     public function attributeLabels()
     {
         return [
             'id'          => 'ID',
             'type_id'     => 'Type ID',
             'name'        => 'Name',
+            'field'       => 'Field',
             'description' => 'Description',
             'class'       => 'Class',
             'configure'   => 'Configure',
@@ -44,28 +52,30 @@ class ArticleTypeField extends \common\base\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'side_show', 'type_id', 'class', 'configure'], 'required'],
+            [['name', 'side_show', 'field', 'type_id', 'class', 'configure'], 'required'],
             [['type_id', 'order'], 'integer'],
             [['name', 'description', 'class', 'configure'], 'string', 'max' => 255],
             ['order', 'default', 'value' => 0],
         ];
     }
 
-
-    public function showInput(Model $model, $isSideShow = false)
+    public function showInput(ArticleForm $model, $isSideShow = false)
     {
         if ($isSideShow && !$this->side_show) {
             return "";
         }
 
         $configure = $this->getConfigureData();
-        if (isset($configure['name'])) {
-            $configure['name'] = sprintf("%s[%s]", $model->formName(), $configure['name']);
-        }
+        $fieldName = sprintf("%s[field][%s]", $model->formName(), $this->field);
 
+        ArrayHelper::setValue($configure, "name", $fieldName);
+        ArrayHelper::setValue($configure, "value", $model->getFieldModelData($this->field));
+
+        ArrayHelper::setValue($configure['customOptions'], "class", $this->class);
         ArrayHelper::setValue($configure['customOptions'], "class", $this->class);
         ArrayHelper::setValue($configure['customOptions'], "label", $this->name);
         ArrayHelper::setValue($configure['customOptions'], "hint", $this->description);
+
 
         return Input::widget($configure);
     }

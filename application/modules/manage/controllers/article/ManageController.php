@@ -74,7 +74,7 @@ class ManageController extends AuthController
             throw new InvalidParamException("type is invalid!");
         }
 
-        $model       = new ArticleForm();
+        $model       = new ArticleForm($typeModel->id, null);
         $model->type = $typeModel->id;
 
         if (Request::isPost() && $model->load(Request::post()) && $model->validate() && $model->save()) {
@@ -89,14 +89,20 @@ class ManageController extends AuthController
 
     public function actionUpdate($id)
     {
-        $model = new ArticleForm($id);
+        $model = new ArticleForm(null, $id);
 
         if (Request::isPost() && $model->load(Request::post()) && $model->validate() && $model->save()) {
             return $this->redirect(['list']);
         }
 
+        $typeModel = ArticleType::getByID($model->getTypeID());
+        if (!$typeModel) {
+            throw new InvalidParamException("type is invalid!");
+        }
+
         return $this->render('update', [
-            'model' => $model,
+            'model'      => $model,
+            'typeFields' => $typeModel->inputFields,
         ]);
     }
 

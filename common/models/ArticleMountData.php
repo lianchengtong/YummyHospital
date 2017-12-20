@@ -2,29 +2,31 @@
 
 namespace common\models;
 
-use Yii;
+use common\models\interfaces\InterfaceArticleMontData;
 
 /**
  * This is the model class for table "article_mount_data".
  *
  * @property integer $id
  * @property integer $article_id
- * @property string $tag
- * @property string $data
+ * @property string  $tag
+ * @property string  $data
  */
-class ArticleMountData extends \common\base\ActiveRecord
+class ArticleMountData extends \common\base\ActiveRecord implements InterfaceArticleMontData
 {
     /**
      * @inheritdoc
      */
-    public static function tableName()
+    public function attributeLabels()
     {
-        return 'article_mount_data';
+        return [
+            'id'         => 'ID',
+            'article_id' => 'Article ID',
+            'tag'        => 'Tag',
+            'data'       => 'Data',
+        ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -35,16 +37,29 @@ class ArticleMountData extends \common\base\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
+    public function getData()
     {
-        return [
-            'id' => 'ID',
-            'article_id' => 'Article ID',
-            'tag' => 'Tag',
-            'data' => 'Data',
-        ];
+        return $this->data;
+    }
+
+    public function getFieldName()
+    {
+        return $this->tag;
+    }
+
+    public static function getModel($tagName, $articleID)
+    {
+        $model = self::find()->where(['tag' => $tagName, 'article_id' => $articleID])->one();
+        if (!$model) {
+            return new self();
+        }
+        return $model;
+    }
+
+    public function setData($articleID, $tag, $data)
+    {
+        $this->article_id = $articleID;
+        $this->data       = $data;
+        $this->tag        = $tag;
     }
 }
