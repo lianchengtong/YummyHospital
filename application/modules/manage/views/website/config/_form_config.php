@@ -15,7 +15,16 @@ foreach ($configItems as $configItem) {
         'name'  => $configItem->getFormKey(),
     ];
     if ($configItem->type == WebsiteConfig::TYPE_SPLIT) {
-        echo Html::tag("h3", $configItem->name, ['class' => 'text-center text-primary', 'style' => 'margin: 30px 0  20px 0;padding-bottom: 10px;border-bottom:1px solid #dddddd']);
+        $span = Html::tag("span", $configItem->name, [
+            'style' => 'display:inline-block; background: white; padding: 0 20px;',
+        ]);
+        echo Html::tag("h3", $span, [
+            'class' => 'text-center text-muted',
+            'style' => 'margin-top: 40px;margin-bottom: 40px',
+        ]);
+        echo Html::tag("hr", "", [
+            'style' => 'margin-top: -50px',
+        ]);
         continue;
     }
 
