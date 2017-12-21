@@ -18,10 +18,12 @@ use yii\helpers\ArrayHelper;
  * @property string  $const_data
  * @property integer $group_id
  * @property integer $order
+ * @property integer $hint
  * @property integer $created_at
  */
 class WebsiteConfig extends \common\base\ActiveRecord
 {
+    const TYPE_SPLIT              = "split";
     const TYPE_STRING             = "string";
     const TYPE_TEXT               = "text";
     const TYPE_SINGLE_SELECTION   = "single";
@@ -37,6 +39,7 @@ class WebsiteConfig extends \common\base\ActiveRecord
     public static function getTypeList()
     {
         return [
+            self::TYPE_SPLIT              => '分割行',
             self::TYPE_STRING             => '字符串',
             self::TYPE_TEXT               => '文本',
             self::TYPE_SINGLE_SELECTION   => '单选',
@@ -84,6 +87,22 @@ class WebsiteConfig extends \common\base\ActiveRecord
         return ArrayHelper::map($models, "key", "value");
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'id'         => 'ID',
+            'key'        => 'Key',
+            'name'       => 'Name',
+            'value'      => 'Value',
+            'type'       => 'Type',
+            'hint'       => 'Hint',
+            'const_data' => 'Const Data',
+            'group_id'   => 'Group ID',
+            'order'      => 'Order',
+            'created_at' => 'Created At',
+        ];
+    }
+
     public function behaviors()
     {
         $behaviors = [];
@@ -104,25 +123,12 @@ class WebsiteConfig extends \common\base\ActiveRecord
         return [
             [['key'], 'unique'],
             [['key', 'name'], 'required'],
-            [['value', 'const_data'], 'string'],
+            [['value', 'const_data', 'hint'], 'string'],
             [['group_id', 'order', 'created_at'], 'integer'],
             [['key', 'type'], 'string', 'max' => 255],
             [['order'], 'default', 'value' => 0],
-        ];
-    }
-
-    public function attributeLabels()
-    {
-        return [
-            'id'         => 'ID',
-            'key'        => 'Key',
-            'name'       => 'Name',
-            'value'      => 'Value',
-            'type'       => 'Type',
-            'const_data' => 'Const Data',
-            'group_id'   => 'Group ID',
-            'order'      => 'Order',
-            'created_at' => 'Created At',
+            [['value', 'hint'], 'default', 'value' => ""],
+            [['type'], 'default', 'value' => self::TYPE_STRING],
         ];
     }
 
