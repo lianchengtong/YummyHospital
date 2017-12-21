@@ -28,14 +28,16 @@ echo PanelGridView::widget([
             'filter'    => false,
             'format'    => 'raw',
             'value'     => function ($model) {
-                $url = ['@admin/code-block/view', 'id' => $model->id];
+                $showUrl   = ['@admin/code-block/view', 'id' => $model->id];
+                $updateUrl = ['@admin/code-block/update', 'id' => $model->id];
                 return Html::button('查看代码', [
                     'data'  => [
-                        'target'   => '#modal',
-                        'url'      => \yii\helpers\Url::to($url),
-                        'toggle'   => 'modal',
-                        'keyboard' => 'false',
-                        'backdrop' => 'static',
+                        'target'     => '#modal',
+                        'toggle'     => 'modal',
+                        'keyboard'   => 'false',
+                        'backdrop'   => 'static',
+                        'show-url'   => \yii\helpers\Url::to($showUrl),
+                        'update-url' => \yii\helpers\Url::to($updateUrl),
                     ],
                     'class' => 'btn btn-success btn-xs show-modal',
                 ]);
@@ -70,6 +72,7 @@ Modal::begin([
     'id'          => 'modal',
     'header'      => 'Code',
     'size'        => Modal::SIZE_LARGE,
+    'footer'      => Html::a("编辑代码", "#", ['class' => 'btn btn-primary', 'id' => 'update-code']),
     'bodyOptions' => [
         'class' => 'modal-body',
         'style' => 'padding: 0;',
@@ -86,7 +89,8 @@ Modal::end();
         $('#modal').on('show.bs.modal', function (e) {
             $("#modal .modal-body").html("<div class='text-center'><strong>LOADING...</strong></div>");
             var invoker = $(e.relatedTarget);
-            $("#modal .modal-body").load($(e.relatedTarget).attr("data-url"));
+            $("#modal .modal-body").load($(e.relatedTarget).attr("data-show-url"));
+            $("#modal #update-code").attr("href", $(e.relatedTarget).attr("data-update-url"));
         });
     })
 </script>
