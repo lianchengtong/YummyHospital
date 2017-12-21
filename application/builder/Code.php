@@ -12,11 +12,13 @@ class Code extends Widget
     // {% block_slug %}
     const INCLUDE_BLOCK_PATTERN = "/{%(.*?)%}/";
     public $blockSlug = "";
+    public $params    = [];
 
-    public static function get($blockSlug)
+    public static function output($blockSlug, $params = [])
     {
         return self::widget([
             'blockSlug' => $blockSlug,
+            'params'    => $params,
         ]);
     }
 
@@ -32,7 +34,7 @@ class Code extends Widget
             file_put_contents($file, $content);
         }
 
-        return $this->renderFile($file);
+        return $this->renderFile($file, $this->params);
     }
 
     protected static function renderWithInclude($blockSlug)

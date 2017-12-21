@@ -1,6 +1,7 @@
 <?php
 
 use common\extend\PanelGridView;
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -28,9 +29,15 @@ echo PanelGridView::widget([
             'format'    => 'raw',
             'value'     => function ($model) {
                 $url = ['@admin/code-block/view', 'id' => $model->id];
-                return Html::a('查看代码', $url, [
-                    'target' => 'blank',
-                    'class'  => 'btn btn-success btn-xs',
+                return Html::button('查看代码', [
+                    'data'  => [
+                        'target'   => '#modal',
+                        'url'      => \yii\helpers\Url::to($url),
+                        'toggle'   => 'modal',
+                        'keyboard' => 'false',
+                        'backdrop' => 'static',
+                    ],
+                    'class' => 'btn btn-success btn-xs show-modal',
                 ]);
             },
         ],
@@ -58,3 +65,28 @@ echo PanelGridView::widget([
     ],
 ]);
 \yii\bootstrap\ActiveForm::end();
+
+Modal::begin([
+    'id'          => 'modal',
+    'header'      => 'Code',
+    'size'        => Modal::SIZE_LARGE,
+    'bodyOptions' => [
+        'class' => 'modal-body',
+        'style' => 'padding: 0;',
+    ],
+]);
+
+echo 'Say hello...';
+
+Modal::end();
+?>
+
+<script>
+    $(function () {
+        $('#modal').on('show.bs.modal', function (e) {
+            $("#modal .modal-body").html("<div class='text-center'><strong>LOADING...</strong></div>");
+            var invoker = $(e.relatedTarget);
+            $("#modal .modal-body").load($(e.relatedTarget).attr("data-url"));
+        });
+    })
+</script>

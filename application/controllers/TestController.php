@@ -10,7 +10,7 @@ class TestController extends BaseController
 {
     public function actionIndex()
     {
-        $content = Code::get("bottom.col-1");
+        $content = Code::output("bottom.col-1");
         return $this->renderContent($content);
 
         $model = new WebsiteConfig();

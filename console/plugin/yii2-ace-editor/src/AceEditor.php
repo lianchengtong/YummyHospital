@@ -40,7 +40,7 @@ class AceEditor extends InputWidget
     {
         parent::init();
         AceEditorAsset::register($this->getView());
-        $editor_id  = $this->getId();
+        $editor_id  = 'aceeditor_' . $this->getId();
         $editor_var = 'aceeditor_' . $editor_id;
         $this->getView()->registerJs("var {$editor_var} = ace.edit(\"{$editor_id}\")");
         $this->getView()->registerJs("{$editor_var}.setTheme(\"ace/theme/{$this->theme}\")");
