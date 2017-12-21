@@ -14,6 +14,6 @@
 </div>
 
 <?= $form->field($model, 'code')->widget(\rogeecn\AceEditor\AceEditor::className(), [
-    'mode'  => 'html',
+    'mode'  => 'php',
     'theme' => 'github',
 ]) ?>

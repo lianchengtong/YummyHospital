@@ -2,7 +2,7 @@
 
 namespace common\models;
 
-use application\forms\builder\Input;
+use application\builder\Input;
 use application\modules\manage\forms\ArticleForm;
 use yii\helpers\ArrayHelper;
 

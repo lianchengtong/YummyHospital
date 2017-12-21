@@ -20,6 +20,16 @@ class CodeBlock extends \common\base\ActiveRecord
         return self::updateAll(['order' => $orderNum], ['id' => $id]);
     }
 
+    public static function getCodeBySlug($slug)
+    {
+        $slug  = trim($slug);
+        $model = self::find()->where(['slug' => $slug])->one();
+        if (!$model) {
+            return "";
+        }
+        return $model->code;
+    }
+
     public function attributeHints()
     {
         return [
@@ -42,6 +52,7 @@ class CodeBlock extends \common\base\ActiveRecord
     {
         return [
             [['name', 'slug', 'code'], 'required'],
+            [['name', 'slug'], 'trim'],
             [['code'], 'string'],
             [['order'], 'integer'],
             [['name', 'slug'], 'string', 'max' => 255],

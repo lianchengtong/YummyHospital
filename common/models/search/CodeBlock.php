@@ -2,10 +2,9 @@
 
 namespace common\models\search;
 
-use Yii;
+use common\models\CodeBlock as CodeBlockModel;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\CodeBlock as CodeBlockModel;
 
 class CodeBlock extends CodeBlockModel
 {
@@ -25,7 +24,7 @@ class CodeBlock extends CodeBlockModel
 
     public function search($params)
     {
-        $query = CodeBlockModel::find();
+        $query = CodeBlockModel::find()->orderBy(['order' => SORT_ASC]);
 
         // add conditions that should always apply here
 
@@ -43,13 +42,13 @@ class CodeBlock extends CodeBlockModel
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'id'    => $this->id,
             'order' => $this->order,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'code', $this->code]);
+              ->andFilterWhere(['like', 'slug', $this->slug])
+              ->andFilterWhere(['like', 'code', $this->code]);
 
         return $dataProvider;
     }

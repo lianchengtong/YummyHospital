@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <?= \rogeecn\AceEditor\AceEditor::widget([
-        'mode'      => 'html',
+        'mode'      => 'php',
         'theme'     => 'github',
         'model'     => $model,
         'attribute' => 'code',

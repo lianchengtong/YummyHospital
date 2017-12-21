@@ -1,6 +1,6 @@
 <?php
 
-namespace application\forms\builder;
+namespace application\builder;
 
 
 use crazydb\ueditor\UEditor;
@@ -35,8 +35,8 @@ class Input extends InputWidget
     public function defaultCustomOptions()
     {
         return [
-            'rich' => false,
-            'hint' => "",
+            'rich'  => false,
+            'hint'  => "",
             'label' => "",
         ];
     }
