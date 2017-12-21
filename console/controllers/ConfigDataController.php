@@ -47,78 +47,80 @@ class ConfigDataController extends BaseController
     {
         $data = [
             [
-                'name'  => '网站配置',
+                'name'  => '网站',
                 'items' => [
                     [
                         'key'   => 'site.logo',
                         'name'  => '网站名称',
                         'value' => '@web/images/logo.png',
-                        'type'  => WebsiteConfig::TYPE_STRING,
                     ],
                     [
                         'key'   => 'site.domain',
                         'name'  => '网站访问地址',
                         'value' => 'http://',
-                        'type'  => WebsiteConfig::TYPE_STRING,
                     ],
                     [
-                        'key'   => 'site.name',
-                        'name'  => '网站名称',
-                        'value' => '',
-                        'type'  => WebsiteConfig::TYPE_STRING,
+                        'key'  => 'site.name',
+                        'name' => '网站名称',
                     ],
                     [
                         'key'   => 'site.slogan',
                         'name'  => '网站副标题',
                         'value' => 'Beautiful & Easy!',
-                        'type'  => WebsiteConfig::TYPE_STRING,
                     ],
                     [
                         'key'   => 'site.keyword',
                         'name'  => '网站关键字',
                         'value' => 'YummyHospital,医院CMS',
-                        'type'  => WebsiteConfig::TYPE_STRING,
                     ],
                     [
                         'key'   => 'site.description',
                         'name'  => '网站描述',
                         'value' => '一个好用的医院CMS管理系统',
-                        'type'  => WebsiteConfig::TYPE_STRING,
                     ],
                     [
                         'key'  => 'site.regulator.icp',
                         'name' => 'ICP备案号',
-                        'type' => WebsiteConfig::TYPE_STRING,
                     ],
                     [
                         'key'  => 'site.regulator.police',
                         'name' => '公安备案号',
-                        'type' => WebsiteConfig::TYPE_STRING,
                     ],
                     [
-                        'key'  => 'site.statistic',
-                        'name' => '统计代码',
+                        'key'  => 'site.statistic.baidu',
+                        'name' => '百度统计ID',
+                        'hint' => '只写ID即可',
+                    ],
+                    [
+                        'key'  => 'site.statistic.other',
+                        'name' => '其它统计代码',
                         'type' => WebsiteConfig::TYPE_TEXT,
+                        'hint' => 'JS代码，带Script标签',
                     ],
                 ],
             ],
             [
-                'name'  => '全局配置',
+                'name'  => '全局',
                 'items' => [
                     [
+                        'key'  => $this->splitKey(),
+                        'type' => WebsiteConfig::TYPE_SPLIT,
+                        'name' => "阿里云配置",
+                    ],
+                    [
                         'key'   => 'site.aliyun.access_key_id',
-                        'name'  => '阿里云Access Key ID',
+                        'name'  => 'Access Key ID',
                         'value' => defined('OSS_KEY_ID') ? OSS_KEY_ID : "",
                     ],
                     [
                         'key'   => 'site.aliyun.access_key_secret',
-                        'name'  => '阿里云Access Key Secret',
+                        'name'  => 'Access Key Secret',
                         'value' => defined('OSS_KEY_SECRET') ? OSS_KEY_SECRET : "",
                     ],
                 ],
             ],
             [
-                'name'  => '邮件配置',
+                'name'  => '邮件',
                 'items' => [
                     [
                         'key'   => 'email.smtp.host',
@@ -148,7 +150,7 @@ class ConfigDataController extends BaseController
                 ],
             ],
             [
-                'name'  => '缓存配置',
+                'name'  => '缓存',
                 'items' => [
                     [
                         'key'        => 'cache.model',
@@ -162,34 +164,51 @@ class ConfigDataController extends BaseController
                         ]),
                     ],
                     [
+                        'key'  => $this->splitKey(),
+                        'type' => WebsiteConfig::TYPE_SPLIT,
+                        'name' => "文件缓存配置",
+                    ],
+                    [
                         'key'   => 'cache.file.path',
-                        'name'  => "文件缓存路径",
+                        'name'  => "缓存路径",
                         'value' => "@application/runtime/cache",
+                    ],
+
+                    [
+                        'key'  => $this->splitKey(),
+                        'type' => WebsiteConfig::TYPE_SPLIT,
+                        'name' => "Redis配置",
                     ],
                     [
                         'key'  => 'cache.redis.host',
-                        'name' => "Redis 主机地址",
+                        'name' => "主机地址",
                     ],
                     [
                         'key'  => 'cache.redis.port',
-                        'name' => "Redis 端口",
+                        'name' => "端口",
                     ],
                     [
                         'key'  => 'cache.redis.auth',
-                        'name' => "Redis 密码",
+                        'name' => "密码",
+                    ],
+
+                    [
+                        'key'  => $this->splitKey(),
+                        'type' => WebsiteConfig::TYPE_SPLIT,
+                        'name' => "Memcache设置",
                     ],
                     [
                         'key'  => 'cache.memcache.host',
-                        'name' => "Memcache 主机地址",
+                        'name' => "主机地址",
                     ],
                     [
                         'key'  => 'cache.memcache.port',
-                        'name' => "Memcache 端口",
+                        'name' => "端口",
                     ],
                 ],
             ],
             [
-                'name'  => '文件存储',
+                'name'  => '存储',
                 'items' => [
                     [
                         'key'        => 'storage.mode',
@@ -202,18 +221,30 @@ class ConfigDataController extends BaseController
                         ]),
                     ],
                     [
+                        'key'  => $this->splitKey(),
+                        'type' => WebsiteConfig::TYPE_SPLIT,
+                        'name' => "本地存储配置",
+                    ],
+                    [
                         'key'   => 'storage.file.path',
                         'name'  => "本地存储路径",
                         'value' => "@web/upload",
                     ],
+
+                    [
+                        'key'  => $this->splitKey(),
+                        'type' => WebsiteConfig::TYPE_SPLIT,
+                        'name' => "阿里云OSS配置",
+                    ],
                     [
                         'key'   => 'storage.aliyun_oss.domain',
-                        'name'  => "阿里云OSS 访问域名",
+                        'name'  => "访问域名",
+                        'hint'  => "访问域名",
                         'value' => defined("OSS_DOMAIN") ? OSS_DOMAIN : "",
                     ],
                     [
                         'key'        => 'storage.aliyun_oss.region',
-                        'name'       => "阿里云OSS 区域",
+                        'name'       => "区域",
                         'value'      => 'oss-cn-hangzhou',
                         'type'       => WebsiteConfig::TYPE_SINGLE_SELECTION,
                         'const_data' => json_encode([
@@ -235,36 +266,19 @@ class ConfigDataController extends BaseController
                     ],
                     [
                         'key'        => 'storage.aliyun_oss.is_internal',
-                        'name'       => "阿里云OSS 内网模式",
+                        'name'       => "内网模式",
                         'value'      => '1',
                         'type'       => WebsiteConfig::TYPE_SINGLE_SELECTION,
                         'const_data' => json_encode(['否', '是']),
                     ],
                     [
                         'key'  => 'storage.aliyun_oss.bucket',
-                        'name' => "阿里云OSS Bucket",
+                        'name' => "Bucket",
                     ],
                 ],
             ],
             [
-                'name'  => '微信公众号',
-                'items' => [
-                    [
-                        'key'  => 'wechat.app_id',
-                        'name' => 'AppID',
-                    ],
-                    [
-                        'key'  => 'wechat.app_secret',
-                        'name' => 'AppSecret',
-                    ],
-                    [
-                        'key'  => 'wechat.token',
-                        'name' => 'Token',
-                    ],
-                ],
-            ],
-            [
-                'name'  => '支付管理',
+                'name'  => '支付',
                 'items' => [
                     [
                         'key'        => 'payment.channel',
@@ -279,6 +293,7 @@ class ConfigDataController extends BaseController
 
                     [
                         'key'  => $this->splitKey(),
+                        'type' => WebsiteConfig::TYPE_SPLIT,
                         'name' => "支付宝",
                     ],
                     [
@@ -297,15 +312,6 @@ class ConfigDataController extends BaseController
                         'value' => "",
                     ],
                     [
-                        'key'        => 'payment.alipay.app_id',
-                        'name'       => "AppID",
-                        'type'       => WebsiteConfig::TYPE_SINGLE_SELECTION,
-                        'const_data' => json_encode([
-                            'RSA'  => 'RSA',
-                            'RSA2' => 'RSA2',
-                        ]),
-                    ],
-                    [
                         'key'   => 'payment.alipay.cert_private',
                         'name'  => "私钥",
                         'value' => "@application/certs/alipay/rsa_private_key_pkcs8.pem",
@@ -319,10 +325,12 @@ class ConfigDataController extends BaseController
                         'key'   => 'payment.alipay.callback',
                         'name'  => "回调地址",
                         'value' => "http://xxx.com/callback",
+                        'hint'  => "http://xxx.com/callback",
                     ],
 
                     [
                         'key'  => $this->splitKey(),
+                        'type' => WebsiteConfig::TYPE_SPLIT,
                         'name' => "微信支付",
                     ],
                     [
@@ -355,6 +363,29 @@ class ConfigDataController extends BaseController
                         'name' => '证书密钥',
                         'hint' => '仅退款、撤销订单时需要，可登录商户平台下载',
                     ],
+                    [
+                        'key'   => 'payment.wechatpay.callback',
+                        'name'  => "回调地址",
+                        'value' => "http://xxx.com/callback",
+                        'hint'  => "异步回调通知 http://xxx.com/callback",
+                    ],
+                ],
+            ],
+            [
+                'name'  => '公众号',
+                'items' => [
+                    [
+                        'key'  => 'wechat.app_id',
+                        'name' => 'AppID',
+                    ],
+                    [
+                        'key'  => 'wechat.app_secret',
+                        'name' => 'AppSecret',
+                    ],
+                    [
+                        'key'  => 'wechat.token',
+                        'name' => 'Token',
+                    ],
                 ],
             ],
         ];
@@ -364,7 +395,7 @@ class ConfigDataController extends BaseController
 
     private function splitKey()
     {
-        return \Yii::$app->getSecurity()->generateRandomString();
+        return "split." . \Yii::$app->getSecurity()->generateRandomString();
     }
 
     public function actionDown()

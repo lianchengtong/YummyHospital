@@ -14,7 +14,13 @@ foreach ($configItems as $configItem) {
         'class' => 'form-control',
         'name'  => $configItem->getFormKey(),
     ];
-    $input   = "";
+    if ($configItem->type == WebsiteConfig::TYPE_SPLIT) {
+        echo Html::tag("h3", $configItem->name, ['class' => 'text-center text-primary', 'style' => 'margin: 30px 0  20px 0;padding-bottom: 10px;border-bottom:1px solid #dddddd']);
+        continue;
+    }
+
+
+    $input = "";
     switch ($configItem->type) {
         case WebsiteConfig::TYPE_STRING:
             $input = Html::activeTextInput($configItem, 'value', $options);
@@ -34,6 +40,9 @@ foreach ($configItems as $configItem) {
             break;
     }
 
+    $hint  = Html::tag("p", $configItem->hint, [
+        'class' => 'help-block',
+    ]);
     $block = Html::tag("strong", $configItem->key, [
         'class' => 'help-block',
     ]);
@@ -48,6 +57,7 @@ foreach ($configItems as $configItem) {
 
     echo Html::beginTag("div", ['class' => 'col-xs-5']);
     echo $input;
+    echo $hint;
     echo Html::endTag("div");
 
     echo Html::beginTag("div", ['class' => 'col-xs-4']);
