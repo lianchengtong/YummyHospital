@@ -1,0 +1,28 @@
+.list-group {
+
+  .list-item {
+    padding: 15px;
+    background: white;
+    border-bottom: 1px solid #EFEFEF;
+
+    $head-size: 60px;
+    .list-head {
+      display: block;
+      width: $head-size;
+      height: $head-size;
+      border-radius: $head-size;
+      background: #dddddd;
+      border: 1px solid #dddddd;
+      overflow: hidden;
+      margin-right: 15px;
+
+      img {
+        width: $head-size;
+        height: $head-size;
+      }
+    }
+
+    .list-buttons{
+    }
+  }
+}
