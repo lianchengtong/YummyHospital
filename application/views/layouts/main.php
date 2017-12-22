@@ -21,9 +21,9 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<?= "";//$this->render("_nav")   ?>
+<?= "";//$this->render("_nav")    ?>
 <?php require sprintf("%s/%s.php", __DIR__, $snip); ?>
-<?= "";//$this->render("_footer")   ?>
+<?= "";//$this->render("_footer")    ?>
 <?php $this->endBody() ?>
 </body>
 </html>

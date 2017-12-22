@@ -20,13 +20,18 @@ abstract class ImageUploaderInput extends InputWidget
     ];
     public  $wrapperOptions  = ['class' => 'panel panel-default uploader-wrapper'];
     public  $fileType        = "image";
+    public  $style           = true;
     private $containerID;
 
     public function init()
     {
         parent::init();
 
-        UploaderAssets::register($this->getView());
+        if ($this->style) {
+            UploaderStyleAssets::register($this->getView());
+        } else {
+            UploaderAssets::register($this->getView());
+        }
 
         if (!isset($this->dropZoneOptions['id'])) {
             $this->dropZoneOptions['id'] = $this->getId() . "-dropzone";
