@@ -16,7 +16,7 @@ use yii\web\JsExpression;
  */
 class Slider extends Widget
 {
-    public $containerOptions = ['class' => "banner"];
+    public $containerOptions = ['class' => "banner", 'style'=>'height: 150px'];
     public $slides           = [];
     public $slidesOptions    = [];
 

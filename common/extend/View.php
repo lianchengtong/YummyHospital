@@ -1,4 +1,5 @@
 <?php
+
 namespace common\extend;
 
 
@@ -6,6 +7,8 @@ use common\utils\Param;
 
 class View extends \yii\web\View
 {
+    public  $showGoBack = true;
+    public  $showNav    = false;
     private $keywords;
     private $description;
 
@@ -27,6 +30,28 @@ class View extends \yii\web\View
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+
+    public function endBody()
+    {
+        parent::endBody();
+        echo "\n";
+        echo Param::Get("site.code_bottom");
+    }
+
+    protected function findViewFile($view, $context = null)
+    {
+        $path          = parent::findViewFile($view, $context);
+        $currentModule = \Yii::$app->controller->module->id;
+        if (in_array($currentModule, ['gii'])) {
+            return $path;
+        }
+
+        if (substr($path, -9) == "index.php") {
+            return substr($path, 0, -10) . ".php";
+        }
+
+        return $path;
     }
 
     public function head()
@@ -57,13 +82,6 @@ class View extends \yii\web\View
 
         echo "\n";
         echo Param::Get("site.code_top");
-    }
-
-    public function endBody()
-    {
-        parent::endBody();
-        echo "\n";
-        echo Param::Get("site.code_bottom");
     }
 
     public function ICPNumber()
@@ -135,21 +153,5 @@ class View extends \yii\web\View
             $tagOptions = array_merge($defaultOptions, $tagOptions);
             $this->registerMetaTag($tagOptions);
         }
-    }
-
-
-    protected function findViewFile($view, $context = NULL)
-    {
-        $path          = parent::findViewFile($view, $context);
-        $currentModule = \Yii::$app->controller->module->id;
-        if (in_array($currentModule, ['gii'])) {
-            return $path;
-        }
-
-        if (substr($path, -9) == "index.php") {
-            return substr($path, 0, -10) . ".php";
-        }
-
-        return $path;
     }
 }

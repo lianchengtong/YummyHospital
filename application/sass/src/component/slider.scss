@@ -1,0 +1,31 @@
+$nav_dot_size: 10px;
+$nav_dot_active_color: white;
+$nav_dot_color: white;
+
+.unslider {
+  position: relative;
+
+  .unslider-nav {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .unslider-nav li {
+    display: inline-block;
+    text-indent: -10em;
+    margin: 0 5px;
+    overflow: hidden;
+    border: 1px solid $nav_dot_color;
+    width: $nav_dot_size;
+    height: $nav_dot_size;
+    border-radius: $nav_dot_size;
+  }
+
+  .unslider-nav li.unslider-active {
+    background: $nav_dot_active_color;
+    border: 1px solid $nav-dot_active_color;
+  }
+
+}
+

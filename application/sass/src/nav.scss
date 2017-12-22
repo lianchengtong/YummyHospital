@@ -1,22 +1,7 @@
-.theme-nav {
-  background: #fff;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-
-  a, a:visited {
-    white-space: nowrap;
-    -webkit-transition: 0.2s ease;
-    -moz-transition: 0.2s ease;
-    -ms-transition: 0.2s ease;
-    transition: 0.2s ease;
-    color: #24292e;
-  }
-  a:hover {
-    color: #38b7ea;
-    background: none;
-  }
+.weui-navbar__item_no_border:after {
+  border: none;
 }
 
-.nav > li > a:hover, .nav > li > a:focus {
-  background: transparent;
+.weui-navbar__item:active {
+  background-color: transparent;
 }

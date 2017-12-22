@@ -2,29 +2,25 @@
 
 namespace application\base;
 
-use common\extend\Pagination;
 use common\extend\View;
-use common\models\Post;
 use common\utils\Request;
-use common\utils\UserSession;
-use yii\data\ActiveDataProvider;
-use yii\db\Query;
 use yii\web\Controller;
 
 class BaseController extends Controller
 {
-    public $layoutSnip = "main";
+    public $layoutSnip    = "tab_nav";
     public $pageItemCount = 10;
-
-    public function goBack($defaultUrl = NULL)
-    {
-        return parent::goBack(Request::input("__returnUrl"));
-    }
 
     public function beforeAction($action)
     {
         return parent::beforeAction($action);
     }
+
+    public function goBack($defaultUrl = null)
+    {
+        return parent::goBack(Request::input("__returnUrl"));
+    }
+
 
     /**
      * @return \yii\base\View|\yii\web\View|View
@@ -47,12 +43,12 @@ class BaseController extends Controller
     public function renderContent($content)
     {
         $layoutFile = $this->findLayoutFile($this->getView());
-        if ($layoutFile !== FALSE) {
+        if ($layoutFile !== false) {
             $snipFile = "__" . $this->layoutSnip;
 
             return $this->getView()->renderFile($layoutFile, [
                 'content' => $content,
-                'snip' => $snipFile,
+                'snip'    => $snipFile,
             ], $this);
         }
 
@@ -61,7 +57,7 @@ class BaseController extends Controller
 
     /**
      * @param string|array $view
-     * @param array $params
+     * @param array        $params
      *
      * @return string
      */
