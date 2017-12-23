@@ -20,8 +20,9 @@
 
 .weui-media-box__bd .action-buttons {
   width: 90px;
+  line-height: 1.0;
 
-  .weui-btn + .weui-btn {
-    margin-top: 5px;
+  .weui-btn {
+    margin-top: 0;
   }
 }

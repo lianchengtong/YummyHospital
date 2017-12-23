@@ -16,7 +16,7 @@ use yii\web\JsExpression;
  */
 class Slider extends Widget
 {
-    public $containerOptions = ['class' => "banner", 'style'=>'height: 150px'];
+    public $containerOptions = ['class' => "banner"];
     public $slides           = [];
     public $slidesOptions    = [];
 
@@ -80,6 +80,7 @@ _CODE;
     private function mergeOptions()
     {
         $defaultOptions = $this->defaultOptions();
+
         return ArrayHelper::merge($defaultOptions, $this->options);
     }
 

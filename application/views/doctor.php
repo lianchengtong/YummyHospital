@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 /* @var $this \common\extend\View */
 /* @var $dataProvider \yii\data\ActiveDataProvider */
@@ -9,7 +8,7 @@ use yii\helpers\Url;
 
 $this->title = "门诊预约";
 
-$doctorItem = [
+$doctorInfo = [
     'title'       => '许润三',
     'subTitle'    => '国家医生',
     'url'         => '#',
@@ -20,30 +19,43 @@ $doctorItem = [
 $items      = array_pad([], 10, $doctorItem);
 ?>
 
-<div class="row weui-panel weui-panel_access weui-flex">
-    <div class="weui-panel__bd weui-flex__item">
-        <?php foreach ($items as $item): ?>
-            <div class="weui-media-box weui-media-box_appmsg">
-                <a href="<?= Url::to($url) ?>" class="weui-media-box__hd round">
-                    <?= Html::img($item['image'], ['class' => 'weui-media-box__thumb']) ?>
-                </a>
-                <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">
-                        <?= $item['title'] ?>
-                        <span class="subtitle"><?= $item['subTitle'] ?></span>
-                    </h4>
-                    <div class="weui-flex">
-                        <div class="weui-flex__item">
-                            <p class="weui-media-box__desc">擅长：<?= $item['favor'] ?></p>
-                            <p class="weui-media-box__desc"><?= $item['description'] ?></p>
-                        </div>
-                        <div class="action-buttons">
-                            <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">页面主操</a>
-                            <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">页面主操</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
+<div class="doctor-banner">
+    <div class="nav">
+        <div class="action_nav_goback">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <span>医生主页</span>
     </div>
+
+    <div class="show">
+        <div class="head-img">
+            <?= Html::img("/images/avatar.png") ?>
+        </div>
+        <p class="info">
+            徐润三&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;国医大师
+        </p>
+    </div>
+
+    <div class="information">
+        <div class="info-block">
+            <span class="title">接诊量</span>
+            <p class="count">15</p>
+        </div>
+        <div class="info-block">
+            <span class="title">接诊量</span>
+            <p class="count">15</p>
+        </div>
+        <div class="info-block">
+            <span class="title">接诊量</span>
+            <p class="count">15</p>
+        </div>
+        <div class="info-block">
+            <span class="title">接诊量</span>
+            <p class="count">15</p>
+        </div>
+    </div>
+</div>
+
+<div class="grid">
+    asdfasdf
 </div>

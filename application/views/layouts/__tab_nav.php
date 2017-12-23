@@ -1,10 +1,34 @@
 <?php
 
+use yii\helpers\Html;
+use yii\helpers\Url;
+
 /** @var string $content */
 /** @var \common\extend\View $this */
+
+$tabs = [
+    [
+        'url'   => "javascript:;",
+        'label' => '首页',
+        'icon'  => '/images/icon_tabbar.png',
+    ],
+    [
+        'url'   => "javascript:;",
+        'label' => '在线咨询',
+        'icon'  => '/images/icon_tabbar.png',
+    ],
+    [
+        'url'   => "javascript:;",
+        'label' => '我的预约',
+        'icon'  => '/images/icon_tabbar.png',
+    ],
+    [
+        'url'   => "javascript:;",
+        'label' => '个人中心',
+        'icon'  => '/images/icon_tabbar.png',
+    ],
+];
 ?>
-<style>
-</style>
 <div class="weui-tab">
     <div class="weui-tab__panel">
         <div class="weui-navbar">
@@ -33,28 +57,13 @@
         </div>
     </div>
     <div class="weui-tabbar">
-        <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
+        <?php foreach ($tabs as $tabItem): ?>
+            <a href="<?= Url::to($tabItem['url']) ?>" class="weui-tabbar__item">
                 <span style="display: inline-block;position: relative;">
-                    <img src="/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
+                    <?= Html::img($tabItem['image'], ['class' => 'weui-tabbar__icon']) ?>
                 </span>
-            <p class="weui-tabbar__label">微信</p>
-        </a>
-
-        <a href="javascript:;" class="weui-tabbar__item">
-            <img src="/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
-            <p class="weui-tabbar__label">通讯录</p>
-        </a>
-
-        <a href="javascript:;" class="weui-tabbar__item">
-                <span style="display: inline-block;position: relative;">
-                    <img src="/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
-                </span>
-            <p class="weui-tabbar__label">发现</p>
-        </a>
-
-        <a href="javascript:;" class="weui-tabbar__item">
-            <img src="/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
-            <p class="weui-tabbar__label">我</p>
-        </a>
+                <p class="weui-tabbar__label"><?= $tabItem['label'] ?></p>
+            </a>
+        <?php endforeach; ?>
     </div>
 </div>

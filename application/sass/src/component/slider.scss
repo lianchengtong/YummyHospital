@@ -1,9 +1,25 @@
 $nav_dot_size: 10px;
 $nav_dot_active_color: white;
 $nav_dot_color: white;
+$nav_height: 200px;
+
+.banner {
+  height: $nav_height;
+  overflow: hidden;
+}
 
 .unslider {
   position: relative;
+
+  .unslider-wrap > li {
+    height: $nav_height;
+    overflow: hidden;
+
+    img {
+      height: $nav_height;
+      width: 100%;
+    }
+  }
 
   .unslider-nav {
     position: absolute;
