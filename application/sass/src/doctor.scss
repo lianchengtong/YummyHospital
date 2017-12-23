@@ -53,3 +53,84 @@
   }
 }
 
+.doctor-row {
+  margin-top: 15px;
+  background: white;
+  padding: 15px;
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+
+    .open {
+      text-align: right;
+    }
+  }
+
+  .body {
+    margin-top: 15px;
+
+    .content {
+      color: #999999;
+    }
+
+    .labels {
+      .label {
+        border-radius: 3px;
+        display: inline-block;
+        background: gray;
+        padding: 5px 10px;
+        margin: 0 5px 5px 0;
+      }
+    }
+
+    .scroll-list {
+      display: flex;
+      overflow: auto;
+
+      .scroll-list-item {
+        margin-right: 15px;
+        padding: 10px;
+        border: 1px solid #EFEFEF;
+      }
+    }
+  }
+}
+
+$tab_height: 50px;
+.doctor-info {
+  box-sizing: border-box;
+  padding-bottom: $tab_height + 15;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  height: 100%
+}
+
+.doctor-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: $tab_height;
+  display: flex;
+
+  div, a {
+    color: white;
+  }
+
+  div {
+    text-align: center;
+    height: $tab_height;
+    line-height: $tab_height;
+    font-size: 18px;
+  }
+
+  .appointment {
+    flex: 1;
+    background: black;
+  }
+  .ask {
+    flex: 1;
+    background: orange;
+  }
+}
