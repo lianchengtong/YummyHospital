@@ -19,12 +19,13 @@ class SingleImage extends ImageUploaderInput
     {
         echo Html::beginTag("div", $this->dropZoneOptions);
 
-        $value = $this->model->{$this->attribute};
+        $value = $this->value;
+        if ($this->hasModel()) {
+            $value = $this->model->{$this->attribute};
+        }
+
         if (empty($value)) {
-            echo Html::tag("span", "", [
-                'class' => 'glyphicon glyphicon-cloud-upload',
-                'style' => 'font-size:82px; margin: 25px 0;',
-            ]);
+            echo Html::tag("span", "", $this->uploadIconOptions);
         } else {
             echo Html::img($value);
         }

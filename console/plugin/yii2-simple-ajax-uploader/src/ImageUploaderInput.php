@@ -13,14 +13,18 @@ use yii\widgets\InputWidget;
 abstract class ImageUploaderInput extends InputWidget
 {
     /** @var array $targets */
-    public  $clientOptions   = [];
-    public  $dropZoneOptions = [
+    public  $clientOptions     = [];
+    public  $dropZoneOptions   = [
         'class' => 'thumbnail text-center uploader-drop-zone',
         'style' => 'line-height: 120px;',
     ];
-    public  $wrapperOptions  = ['class' => 'panel panel-default uploader-wrapper'];
-    public  $fileType        = "image";
-    public  $style           = true;
+    public  $wrapperOptions    = ['class' => 'panel panel-default uploader-wrapper'];
+    public  $fileType          = "image";
+    public  $style             = true;
+    public  $uploadIconOptions = [
+        'class' => 'glyphicon glyphicon-cloud-upload',
+        'style' => 'font-size:82px; margin: 25px 0;',
+    ];
     private $containerID;
 
     public function init()
