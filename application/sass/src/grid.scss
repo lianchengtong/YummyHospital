@@ -1,0 +1,24 @@
+.ui-9-grids {
+  @extend .ui-border-b;
+
+  .ui-3-grid {
+    display: flex;
+    @extend .ui-border-t;
+
+    .ui-col {
+      @extend .ui-border-r;
+      display: block;
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+
+      &:last-child {
+        border-right: none;
+      }
+
+      .ui-grid-label {
+        font-size: 12px;
+      }
+    }
+  }
+}

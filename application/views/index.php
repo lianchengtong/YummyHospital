@@ -12,7 +12,7 @@ $this->title      = "你好中国";
 $this->showGoBack = false;
 
 
-$gridItems = [
+$gridItems      = [
     [
         'label' => "门诊预约",
         'url'   => "javascript:void(0);",
@@ -44,20 +44,18 @@ $gridItems = [
         'image' => "/images/icon_tabbar.png",
     ],
 ];
+$gridGroupItems = array_chunk($gridItems, 3);
 ?>
-<div class="weui-search-bar" id="searchBar">
-    <form class="weui-search-bar__form">
-        <div class="weui-search-bar__box">
-            <i class="weui-icon-search"></i>
-            <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索医生/症状/疾病" required/>
-            <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+<div class="ui-searchbar-wrap ui-border-b">
+    <div class="ui-searchbar ui-border-radius">
+        <i class="ui-icon-search"></i>
+        <div class="ui-searchbar-text">请输入病情</div>
+        <div class="ui-searchbar-input">
+            <input value="" type="tel" placeholder="请输入病情" autocapitalize="off">
         </div>
-        <label class="weui-search-bar__label" id="searchText">
-            <i class="weui-icon-search"></i>
-            <span>搜索医生/症状/疾病</span>
-        </label>
-    </form>
-    <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+        <i class="ui-icon-close"></i>
+    </div>
+    <button class="ui-searchbar-cancel">取消</button>
 </div>
 
 <div class="row">
@@ -76,15 +74,68 @@ $gridItems = [
     ]) ?>
 </div>
 
-<div class="row">
-    <div class="weui-grids">
-        <?php foreach ($gridItems as $item): ?>
-            <a href="<?= Url::to($item['url']) ?>" class="weui-grid">
-                <div class="weui-grid__icon">
-                    <?= Html::img($item['image']) ?>
-                </div>
-                <p class="weui-grid__label"><?= $item['label'] ?></p>
-            </a>
-        <?php endforeach; ?>
-    </div>
+<div class="row ui-9-grids">
+    <?php foreach ($gridGroupItems as $gridItems): ?>
+        <div class="ui-3-grid">
+            <?php foreach ($gridItems as $item): ?>
+                <a href="<?= Url::to($item['url']) ?>" class="ui-col">
+                    <div class="ui-grid-icon">
+                        <?= Html::img($item['image']) ?>
+                    </div>
+                    <p class="ui-grid-label"><?= $item['label'] ?></p>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    <?php endforeach; ?>
 </div>
+
+<script>
+    $(function () {
+        $('.ui-searchbar').click(function () {
+            $('.ui-searchbar-wrap').addClass('focus');
+            $('.ui-searchbar-input input').focus();
+        });
+        $('.ui-searchbar-cancel').click(function () {
+            $('.ui-searchbar-wrap').removeClass('focus');
+        });
+        $('.ui-icon-close').click(function () {
+            $('.ui-searchbar-input input').val("");
+        });
+    })
+</script>
+
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>
+<p>123123</p>

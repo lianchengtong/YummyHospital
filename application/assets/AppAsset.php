@@ -3,6 +3,7 @@
 namespace application\assets;
 
 use yii\web\AssetBundle;
+use yii\web\View;
 
 /**
  * Main frontend application asset bundle.
@@ -18,7 +19,8 @@ class AppAsset extends AssetBundle
     ];
     public $js       = [
 //        "js/common.js",
-"js/zepto.min.js",
+//"js/zepto.min.js",
+//"js/frozen.js",
     ];
     public $depends  = [
 //        'yii\web\JqueryAsset',

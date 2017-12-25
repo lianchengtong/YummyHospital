@@ -1,10 +1,7 @@
 @import "src/mixin";
 @import "src/_global";
 @import "src/util";
-@import "src/nav";
-@import "src/panel";
-@import "src/doctor";
-@import "src/patient";
-@import "src/register-login";
-@import "src/list-group";
+@import "frozenui/frozen";
 @import "src/component/slider";
+// page settingo
+@import "src/grid";
