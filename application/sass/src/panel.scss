@@ -1,0 +1,51 @@
+$pad-size: 10px;
+.ui-panel {
+  background: white;
+
+  .ui-panel-heading {
+    padding: $pad-size;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .ui-panel-body {
+    padding: $pad-size;
+
+    .ui-label-list {
+      margin: 0;
+    }
+  }
+
+  .list-group {
+    margin-top: $pad-size;
+    margin-bottom: $pad-size;
+    display: flex;
+    overflow: auto;
+
+    li {
+      width: 120px;
+      border: 1px solid $border-color;
+      padding: $pad-size;
+      margin-right: $pad-size;
+    }
+  }
+}
+
+.ui-doctor-footer {
+
+  color: white;
+
+  .tab-item a {
+    height: 56px;
+    line-height: 56px;
+    font-size: 22px;
+    color: white;
+  }
+
+  .appointment {
+    background: black;
+  }
+  .ask {
+    background: darkorange;
+  }
+}

@@ -1,0 +1,34 @@
+$border-color: #EFEFEF;
+.ui-doctor-profile {
+  background: $border-color;
+  padding-bottom: 1px;
+  @extend .mb-20;
+  @extend .ui-border-b;
+}
+
+.ui-doctor-description {
+  padding-top: 50px;
+  text-align: center;
+
+  $head-size: 80px;
+  .doctor-head-img {
+    margin: 0 auto 20px;
+    border: 1px solid $border-color;
+    border-radius: $head-size;
+    overflow: hidden;
+
+    &, img {
+      width: $head-size;
+      height: $head-size;
+    }
+  }
+
+  .doctor-name {
+    margin-top: 1em;
+  }
+}
+
+.ui-doctor-information {
+  margin: 20px 0;
+}
+
