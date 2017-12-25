@@ -46,8 +46,8 @@ $tabs = [
 <footer class="ui-footer ui-footer-stable  ui-border-t">
     <ul class="ui-tiled">
         <?php foreach ($tabs as $tabItem): ?>
-            <li>
-                <a class="tab-item" href="<?= Url::to($tabItem['url']) ?>">
+            <li class="tab-item">
+                <a href="<?= Url::to($tabItem['url']) ?>">
                     <div class="icon">
                         <?= Html::img($tabItem['icon']) ?>
                     </div>

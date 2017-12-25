@@ -21,23 +21,31 @@ $items      = array_pad([], 10, $doctorItem);
 ?>
 
 <div class="row">
-
     <ul class="ui-list ui-border-tb">
         <?php foreach ($items as $item): ?>
-            <li>
+            <li class="doctor-list">
                 <a href="<?= Url::to($url) ?>" class="ui-avatar">
                     <?= Html::img($item['image'], ['class' => 'weui-media-box__thumb']) ?>
                 </a>
                 <div class="ui-list-info ui-border-t">
-                    <div class="ui-flex">
-
-                        div.
-                    <h4 class="ui-nowrap">
-                        <?= $item['title'] ?>
-                        <span class="subtitle"><?= $item['subTitle'] ?></span>
-                    </h4>
-                    <p class="ui-nowrap">擅长：<?= $item['favor'] ?></p>
-                    <p><?= $item['description'] ?></p>
+                    <div class="ui-row-flex">
+                        <div class="ui-col doctor-info">
+                            <h4 class="ui-nowrap">
+                                <?= $item['title'] ?>
+                                <span class="subtitle"><?= $item['subTitle'] ?></span>
+                            </h4>
+                            <div class="ui-label-list ui-no-margin">
+                                <span class="ui-label-head">擅长:</span>
+                                <label class="ui-label-s">金庸</label>
+                                <label class="ui-label-s">功夫</label>
+                                <label class="ui-label-s">欢乐谷</label>
+                            </div>
+                            <p><?= $item['description'] ?></p>
+                        </div>
+                        <div class="ui-flex ui-flex-ver ui-flex-pack-center ui-flex-align-start ui-btn-group-wrapper">
+                            <a href="#" class="ui-btn-s">在线咨询</a>
+                            <a href="#" class="ui-btn-s">病情诊断</a>
+                        </div>
                     </div>
                 </div>
             </li>
