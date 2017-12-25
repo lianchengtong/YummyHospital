@@ -4,7 +4,7 @@ namespace application\controllers;
 
 use application\base\BaseController;
 
-class TestController extends BaseController
+class PatientController extends BaseController
 {
     public function actionIndex()
     {

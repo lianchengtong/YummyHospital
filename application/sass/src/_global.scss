@@ -18,3 +18,11 @@ body {
   margin: 15px 0;
 }
 
+ul, ol, li {
+  list-style: none;
+}
+
+a, a:active, a:focus, a:visited {
+  text-decoration: none;
+  color: #333333;
+}

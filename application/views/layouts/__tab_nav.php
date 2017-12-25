@@ -44,7 +44,7 @@ $tabs = [
             </div>
 
             <div class="action_nav_save" style="width: 50px;">
-                <?php if ($this->showNav): ?>
+                <?php if ($this->showSave): ?>
                     <div class="weui-navbar__item" style="border:none">
                         Save
                     </div>

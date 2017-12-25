@@ -1,0 +1,64 @@
+.register-login {
+  height: 100%;
+  position: relative;
+
+  .img-container {
+    height: 100%;
+    text-align: center;
+    overflow: hidden;
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+  .title {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+
+  .form {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    right: 20%;
+    color: white;
+
+    .form-item {
+      margin-bottom: 15px;
+
+      .input {
+        display: flex;
+      }
+    }
+
+    .input input {
+      flex: 1;
+      border: none;
+      display: block;
+      padding: 10px;
+      border-bottom: 1px solid white;
+    }
+
+    .input .item {
+      flex: 1;
+      justify-content: space-between;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+
+    input.submit {
+      background: whitesmoke;
+    }
+
+  }
+
+  #get-code {
+    background: white;
+    border: none;
+    padding: 10px;
+    color: #999999;
+  }
+}
