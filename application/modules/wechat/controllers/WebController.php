@@ -43,8 +43,9 @@ class WebController extends WeChatWebBaseController
         $redirectTo = Request::input("__redirect");
         $redirectTo = Url::full(["@wechat/web", 'redirect' => $redirectTo]);
 
+        //scope: snsapi_base, snsapi_userinfo
         $app = WeChatInstance::officialAccount();
-        $app->oauth->scopes(['snsapi_userinfo'])
+        $app->oauth->scopes(['snsapi_base'])
                    ->setRedirectUrl($redirectTo)
                    ->redirect()
                    ->send();
@@ -69,7 +70,6 @@ class WebController extends WeChatWebBaseController
 
             $authUserModel = AuthWechat::getByOpenID($accessToken->openid);
             if (!$authUserModel) {
-
                 $authUserModel = new AuthWechat();
             }
 
