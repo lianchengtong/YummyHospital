@@ -1,18 +1,28 @@
+$bg-img: "/images/bg-doctor.jpg";
 $border-color: #EFEFEF;
 .ui-doctor-profile {
-  background: $border-color;
+  background: url($bg-img) center center no-repeat;
   padding-bottom: 1px;
   @extend .mb-20;
   @extend .ui-border-b;
+
+  .ui-header {
+    position: relative;
+  }
+
+  color: white;
+  i, a {
+    color: white;
+  }
 }
 
 .ui-doctor-description {
-  padding-top: 50px;
+  padding-top: 10px;
   text-align: center;
 
   $head-size: 80px;
   .doctor-head-img {
-    margin: 0 auto 20px;
+    margin: 0 auto 10px;
     border: 1px solid $border-color;
     border-radius: $head-size;
     overflow: hidden;
@@ -24,11 +34,124 @@ $border-color: #EFEFEF;
   }
 
   .doctor-name {
-    margin-top: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    font-size: 20px;
+    font-weight: bold;
   }
 }
 
 .ui-doctor-information {
   margin: 20px 0;
+  font-size: 14px;
 }
 
+.ui-doctor-label {
+  .ui-label-s {
+    font-size: 14px;
+    padding: 5px 10px;
+    background: #f8f3f3;
+    color: #333333;
+
+    &:before {
+      border: none;
+    }
+  }
+}
+
+.ui-patient-feedback {
+  .ui-patient-info {
+    margin-bottom: 0.5em;
+
+    .ui-avatar-s {
+      margin-right: 1em;
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .ui-patient-name {
+      line-height: 40px;
+      margin-right: 1em;
+    }
+
+    .ui-patient-status {
+      background: #e27b01;
+      color: white;
+      font-size: 12px;
+      padding: 2px 5px;
+      border-radius: 5px;
+    }
+  }
+
+  .ui-patient-evaluate {
+    margin-bottom: 1em;
+    padding-left: 0.5em;
+    i {
+      color: #e27b01;
+      font-size: 40px;
+      line-height: 20px;
+      width: 20px;
+      height: 20px;
+      text-indent: -0.5em;
+    }
+  }
+
+  .ui-patient-btn-view-all {
+    padding: 2em;
+    a {
+      &:before {
+        border-radius: 44px;
+        border-color: red;
+      }
+      border-radius: 44px;
+      border-color: red;
+      color: red;
+    }
+  }
+}
+
+.ui-doctor-footer {
+  color: white;
+
+  .tab-item a {
+    height: 56px;
+    line-height: 46px;
+    font-size: 18px;
+    color: white;
+  }
+
+  .appointment {
+    background: black;
+  }
+  .ask {
+    background: darkorange;
+  }
+}
+
+.ui-doctor-service-time-wrapper {
+  position: relative;
+  padding: 15px;
+
+  .ui-form-item-title {
+    width: 95px;
+    font-size: 16px;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+  }
+
+  .ui-doctor-service-time {
+    margin-left: 95px;
+
+    .ui-label-s {
+      &:before, & {
+        border-color: #efefef;
+        color: #333333;
+        padding: 10px;
+        margin: 0 5px 5px 0;
+      }
+    }
+  }
+}

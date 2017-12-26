@@ -65,8 +65,15 @@
 
   .ui-block-textarea {
     resize: none;
-    width:100%;
-    border:none;
+    width: 100%;
+    border: none;
     min-height: 100px;
+  }
+}
+
+.extend.ui-arrowlink {
+  padding-right: 20px;
+  &:before {
+    right: 0;
   }
 }

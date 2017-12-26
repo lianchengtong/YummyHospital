@@ -18,6 +18,14 @@ $doctorInfo = [
     'description' => '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
 ];
 $items      = array_pad([], 10, $doctorItem);
+
+
+$patients = [
+    '杨豪，男，27岁',
+    '杨豪，男，28岁',
+    '杨豪，男，29岁',
+    '杨豪，男，29岁',
+];
 ?>
 
 
@@ -61,13 +69,45 @@ $items      = array_pad([], 10, $doctorItem);
         </div>
     </section>
 
-    <section class="ui-panel ui-border-t ui-border-b mb-15">
-        <div class="ui-panel-heading ui-border-b">
+    <section class="mb-20 ui-panel">
+        <div class="ui-panel-body">
+            <div class="row ui-form">
+                <div class="ui-form-item ui-border-b">
+                    <label>就诊日期</label>
+                    <div class="ui-select">
+                        <?= Html::dropDownList("patient", 0, $patients) ?>
+                    </div>
+                </div>
+
+                <div class="ui-doctor-service-time-wrapper ui-border-b">
+                    <div class="">
+                        <div class="ui-form-item-title">就诊时间</div>
+                        <div class="ui-doctor-service-time">
+                            <?php for ($i = 0; $i < 20; $i++): ?>
+                                <a class="ui-label-s">14:20</a>
+                            <?php endfor; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-form-item">
+                    <label>就诊人</label>
+                    <div class="ui-select">
+                        <?= Html::dropDownList("patient", 0, $patients) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="mb-20 ui-panel">
+        <div class="ui-panel-heading">
             <div class="title">专业擅长</div>
-            <div class="extend">展开</div>
+            <div class="extend ui-arrowlink">展开</div>
         </div>
         <div class="ui-panel-body">
-            <div class="ui-label-list">
+            <div class="ui-label-list ui-doctor-label">
                 <label class="ui-label-s">金庸</label>
                 <label class="ui-label-s">功夫</label>
                 <label class="ui-label-s">悬疑</label>
@@ -77,30 +117,66 @@ $items      = array_pad([], 10, $doctorItem);
         </div>
     </section>
 
-    <section class="ui-panel ui-border-t ui-border-b mb-15">
-        <div class="ui-panel-heading ui-border-b">
+    <section class="ui-panel mb-20">
+        <div class="ui-panel-heading">
             <div class="title">职业医师</div>
-            <div class="extend">展开</div>
+            <div class="extend ui-arrowlink">展开</div>
         </div>
-        <div class="ui-panel-body">
+        <div class="ui-panel-body ui-txt-info ui-txt-size-14">
             我是一个职业医师，我是一个职业医师，我是一个职业医师，我是一个职业医师，我是一个职业医师，我是一个职业医师，我是一个职业医师，我是一个职业医师，我是一个职业医师，我是一个职业医师，我是一个职业医师
         </div>
     </section>
 
-    <section class="ui-panel ui-border-t ui-border-b mb-15">
-        <div class="ui-panel-heading ui-border-b">
+    <section class="ui-panel mb-20">
+        <div class="ui-panel-heading">
+            <div class="title">患者评价</div>
+            <div class="extend ui-arrowlink">展开</div>
+        </div>
+        <div class="ui-panel-body ui-patient-feedback">
+            <div class="ui-patient-info ui-flex ui-justify-flex ui-flex-align-center">
+                <div class="ui-head-info">
+                    <div class=" ui-flex ui-flex-align-center">
+                        <div class="ui-avatar-s">
+                            <img src="/images/avatar.png" alt="">
+                        </div>
+                        <div class="ui-patient-name">
+                            小**
+                        </div>
+                        <div class="ui-patient-status">已就诊</div>
+                    </div>
+                </div>
+
+                <div class="ui-patient-datetime ui-txt-info">2017-01-02</div>
+            </div>
+            <div class="ui-patient-evaluate  ui-flex ui-flex-align-center">
+                <?php for ($i = 0; $i < 5; $i++): ?>
+                    <i class="ui-icon-star"></i>
+                <?php endfor; ?>
+            </div>
+
+            <div class="ui-feedback ui-txt-info ui-txt-size-14">
+                张主任一书高超，对病人认真负责，态度和蔼，张主任一书高超，对病人认真负责，态度和蔼，张主任一书高超，对病人认真负责，态度和蔼，张主任一书高超，对病人认真负责，态度和蔼，张主任一书高超，对病人认真负责，态度和蔼，张主任一书高超，对病。
+            </div>
+            <div class="ui-patient-btn-view-all">
+                <a class="ui-btn-lg">查看全部评价</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="ui-panel mb-20">
+        <div class="ui-panel-heading">
             <div class="title">同科室医生推荐</div>
-            <div class="extend">展开</div>
+            <div class="extend ui-arrowlink">展开</div>
         </div>
         <div class="ui-panel-body">
             <ul class="list-group">
                 <?php for ($i = 0; $i < 10; $i++): ?>
                     <li>
                         <div class="head"><img src="/images/avatar.png" alt="" width="80" height="80"></div>
-                        <div class="information">
-                            <div class="name">李时珍</div>
-                            <div class="content">国医大师</div>
-                            <div class="content">妇科</div>
+                        <div class="information ui-txt-size-14">
+                            <div>李时珍</div>
+                            <div class="ui-txt-info">国医大师</div>
+                            <div class="ui-txt-info">妇科</div>
                         </div>
                     </li>
                 <?php endfor; ?>
