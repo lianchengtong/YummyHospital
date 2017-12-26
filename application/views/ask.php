@@ -35,7 +35,6 @@ $items = [
         <?= \rogeecn\SimpleAjaxUploader\MultipleImage::widget([
             'style'             => false,
             'name'              => 'images',
-            'value'             => "/upload/2017/12/25/62c75d38ad75151fb2863a1ca7d857fd.jpg,/upload/2017/12/25/62c75d38ad75151fb2863a1ca7d857fd.jpg",
             'uploadIconOptions' => [
                 'class' => 'ui-icon-add',
             ],
