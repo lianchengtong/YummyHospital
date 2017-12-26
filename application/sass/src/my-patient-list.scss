@@ -1,0 +1,33 @@
+.ui-my-patient-list {
+  .alert {
+    margin: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background: white;
+
+    a {
+      display: inline-block;
+      color: orange;
+    }
+  }
+
+  .list-wrapper {
+    background: white;
+    .ui-form-item a {
+      display: block;
+    }
+  }
+
+  .ui-btn-wrapper {
+    margin: 10px 20px;
+    .ui-btn-add-new-patient {
+      background: orange;
+      color: white;
+      border: none;
+
+      &:before {
+        border: none;
+      }
+    }
+  }
+}

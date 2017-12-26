@@ -9,6 +9,7 @@ class View extends \yii\web\View
 {
     public  $showGoBack = true;
     public  $showSave   = false;
+    public  $data       = [];
     private $keywords;
     private $description;
 

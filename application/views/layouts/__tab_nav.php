@@ -34,9 +34,7 @@ $tabs = [
     <?php if ($this->showGoBack): ?>
         <i class="ui-icon-return" onclick="history.back()"></i>
     <?php endif; ?>
-    <h1>
-        我是标题
-    </h1>
+    <h1><?= $this->title ?></h1>
     <?php if ($this->showSave): ?>
         <button class="ui-btn">Save</button>
     <?php endif; ?>

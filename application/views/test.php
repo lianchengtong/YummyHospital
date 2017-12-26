@@ -17,8 +17,20 @@ $items = [
         'url'   => ['/appointment'],
     ],
     [
-        'label' => '医生列表',
+        'label' => '医生详情',
         'url'   => ['/doctor'],
+    ],
+    [
+        'label' => '就诊人',
+        'url'   => ['/patient'],
+    ],
+    [
+        'label' => '确认订单',
+        'url'   => ['/order'],
+    ],
+    [
+        'label' => '添加、编辑就诊人',
+        'url'   => ['/patient-form'],
     ],
     [
         'label' => '我的预约',

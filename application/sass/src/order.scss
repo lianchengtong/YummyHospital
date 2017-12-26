@@ -1,0 +1,32 @@
+.ui-order-footer {
+  display: flex;
+  font-size: 18px;
+
+  .tab-item {
+    text-align: center;
+    font-size: 18px;
+    line-height: 56px;
+    padding: 0;
+  }
+
+  .ui-price-wrapper {
+    flex: 1;
+
+    .ui-price-flex-wrapper {
+      padding-left: 15px;
+      text-align: left;
+      color: black;
+
+      .ui-price-show {
+        color: #d20f01;
+        letter-spacing: 0.1em;
+      }
+    }
+  }
+
+  .ui-order-ensure {
+    width: 150px;
+    background: #d20f01;
+    color: white;
+  }
+}
