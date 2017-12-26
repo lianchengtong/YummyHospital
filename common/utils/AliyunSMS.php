@@ -12,6 +12,8 @@ use yii\base\Component;
 
 class AliyunSMS extends Component
 {
+    private static $_lastResponse;
+
     public static function sendSms($to, $template_code, $data, $outId = '')
     {
         $configData      = WebsiteConfig::getMultiValue([
@@ -54,6 +56,18 @@ class AliyunSMS extends Component
         }
 
         //发起访问请求
-        return $acsClient->getAcsResponse($request);
+        $response            = $acsClient->getAcsResponse($request);
+        self::$_lastResponse = $response;
+
+        if ($response['Code'] == "OK") {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function getLastResponse()
+    {
+        return self::$_lastResponse;
     }
 }

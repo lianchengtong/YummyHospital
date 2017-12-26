@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Department;
 use common\models\DoctorLevel;
 use crazydb\ueditor\UEditor;
 use rogeecn\SimpleAjaxUploader\SingleImage;
@@ -17,6 +18,11 @@ use rogeecn\SimpleAjaxUploader\SingleImage;
         <?= $form->field($model, 'rank')->textInput(['maxlength' => true]) ?>
     </div>
     <div class="col-md-9">
+        <?= $form->field($model, 'department', ['inline' => true])
+                 ->checkboxList(Department::getList())
+        ?>
+        <?= $form->field($model, 'tag')->textarea(['rows' => 6]) ?>
+
         <?= $form->field($model, 'summary')->textarea(['rows' => 6]) ?>
         <?= $form->field($model, 'introduce')->widget(UEditor::className()) ?>
     </div>

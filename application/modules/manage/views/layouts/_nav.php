@@ -30,6 +30,7 @@ if (\common\utils\UserSession::isGuest()) {
             ['label' => '所有', 'url' => ['@admin/appointment/all']],
         ]],
         ['label' => '医生管理', 'items' => [
+            ['label' => '科室', 'url' => ['@admin/department/list']],
             ['label' => '医生', 'url' => ['@admin/doctor/doctor/list']],
             ['label' => '职称', 'url' => ['@admin/doctor/level/list']],
         ]],

@@ -29,6 +29,20 @@ $this->params['breadcrumbs'][] = $this->title;
             },
         ],
         'name',
+        [
+            'attribute' => 'department',
+            'format'    => 'raw',
+            'value'     => function ($model) {
+                return implode(",", \common\models\DoctorDepartment::getDepartmentList($model->id));
+            },
+        ],
+        [
+            'attribute' => 'tag',
+            'format'    => 'raw',
+            'value'     => function ($model) {
+                return implode(",", \common\models\DoctorTag::getList($model->id));
+            },
+        ],
         'doctorServiceTime.price',
         'doctorServiceTime.ticket_count',
         [

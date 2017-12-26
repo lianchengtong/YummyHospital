@@ -19,6 +19,16 @@ use yii\helpers\ArrayHelper;
 class Doctor extends \common\base\ActiveRecord
 {
     protected $enableTimeBehavior = false;
+    public    $department;
+    public    $tag;
+
+    public function attributeHints()
+    {
+        return [
+            'tag'        => '多个标签用逗号分割',
+            'department' => '支持选择多个科室',
+        ];
+    }
 
     public static function getList()
     {
@@ -34,6 +44,7 @@ class Doctor extends \common\base\ActiveRecord
             [['name'], 'required'],
             [['summary', 'name', 'introduce'], 'string'],
             [['head_image', 'rank', 'name'], 'string', 'max' => 255],
+            [['department', 'tag'], 'safe'],
         ];
     }
 
@@ -51,10 +62,34 @@ class Doctor extends \common\base\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if (!DoctorDepartment::setDepartment($this->id, $this->department)) {
+            $this->addError('department', "科室添加错误");
+
+            return false;
+        }
+
+        if (!DoctorTag::setTag($this->id, $this->tag)) {
+            $this->addError('department', "标签添加错误");
+
+            return false;
+        }
+
+        return parent::beforeSave($insert);
+    }
+
     public function getDoctorServiceTime()
     {
         return $this->hasOne(DoctorServiceTime::className(), [
             'doctor_id' => 'id',
         ]);
+    }
+
+    public function afterFind()
+    {
+        $this->department = DoctorDepartment::getDepartmentID($this->id);
+        $this->tag        = implode(",", DoctorTag::getList($this->id));
+        parent::afterFind();
     }
 }
