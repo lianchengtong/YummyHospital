@@ -7,20 +7,20 @@
 $this->title = "用户登录";
 ?>
 
-<div class="register-login">
-    <div class="img-container">
-        <img src="/images/cat1.jpg">
-    </div>
+<div class="ui-register-login">
+    <div class="ui-backdrop-filter"></div>
 
     <div class="form">
-        <h1 class="title">用户登录</h1>
         <form action="">
+            <h1 class="title">用户登录</h1>
+
             <div class="form-item">
                 <label for="">手机号</label>
                 <div class="input">
-                    <input type="number" autocomplete="off"/>
+                    <input type="tel" pattern="\d" autocomplete="off"/>
                 </div>
             </div>
+
             <div class="form-item">
                 <label for="">密码</label>
                 <div class="input">
@@ -29,18 +29,32 @@ $this->title = "用户登录";
             </div>
 
             <div class="form-item">
+                <label for="">验证码</label>
+                <div class="input ui-flex-input">
+                    <input type="tel" pattern="\d*">
+                    <div class="get-code">获取验证码</div>
+                </div>
+            </div>
+
+            <div class="form-submit">
                 <div class="input">
-                    <input type="submit" value="登陆" class="submit">
+                    <input type="submit" value="注册" class="ui-btn-lg ui-btn-primary">
                 </div>
-                <div class="input mt-20">
-                    <div class="item">
-                        <a href="#" class="">快速注册</a>
-                    </div>
-                    <div class="item">
-                        <a href="/login-by-code" class="">验证码登陆</a>
-                    </div>
-                </div>
+
+                <ul class="ui-tiled  mt-20">
+                    <li>
+                        <div class="ui-full-width ui-align-left">
+                            <a href="/register" class="ui-txt-white">还没有账号？快速注册</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ui-full-width ui-align-right">
+                            <a href="#" class="ui-txt-white">使用短信验证码登录</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </form>
     </div>
 </div>
+

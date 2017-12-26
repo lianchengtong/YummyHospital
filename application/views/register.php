@@ -7,20 +7,28 @@
 $this->title = "用户注册";
 ?>
 
-<div class="register-login">
-    <div class="img-container">
-        <img src="/images/cat1.jpg">
-    </div>
+<div class="ui-register-login">
+    <div class="ui-backdrop-filter"></div>
 
     <div class="form">
-        <h1 class="title">用户注册</h1>
         <form action="">
+            <h1 class="title">用户注册</h1>
+
             <div class="form-item">
                 <label for="">手机号</label>
                 <div class="input">
-                    <input type="number" autocomplete="off"/>
+                    <input type="tel" pattern="\d*" autocomplete="off"/>
                 </div>
             </div>
+
+            <div class="form-item">
+                <label for="">验证码</label>
+                <div class="input ui-flex-input">
+                    <input type="tel" pattern="\d*">
+                    <div class="get-code">获取验证码</div>
+                </div>
+            </div>
+
             <div class="form-item">
                 <label for="">密码</label>
                 <div class="input">
@@ -28,12 +36,12 @@ $this->title = "用户注册";
                 </div>
             </div>
 
-            <div class="form-item">
+            <div class="form-submit">
                 <div class="input">
-                    <input type="submit" value="登陆" class="submit">
+                    <input type="submit" value="注册" class="ui-btn-lg ui-btn-primary">
                 </div>
-                <div class="input mt-20">
-                    <a href="#" class="">已有账号</a>
+                <div class="ui-align-right mt-20">
+                    <a href="/login" class="ui-txt-white">已有账号？前往登录页面</a>
                 </div>
             </div>
         </form>

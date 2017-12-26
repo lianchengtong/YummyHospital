@@ -28,7 +28,7 @@ $this->showSave = "true";
 
         <div class="ui-form-item ui-border-b">
             <label>手机号</label>
-            <input type="text" placeholder="联系手机号">
+            <input type="numer" pattern="\d*" placeholder="联系手机号">
         </div>
 
         <div class="ui-form-item ui-border-b">

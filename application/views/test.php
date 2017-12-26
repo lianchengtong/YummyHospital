@@ -51,7 +51,13 @@ $items = [
 ];
 ?>
 <ul>
-    <?php foreach ($items as $item): ?>
-        <li><?= Html::a($item['label'], $item['url']); ?></li>
-    <?php endforeach; ?>
 </ul>
+<div class="ui-my-patient-list">
+    <div class="list-wrapper mb-20">
+        <?php foreach ($items as $item): ?>
+            <div class="ui-form-item ui-form-item-link ui-border-b">
+                <?= Html::a($item['label'], $item['url']); ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+$background-img: "/images/cat1.jpg";
+.ui-register-login {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: url($background-img);
+  -webkit-background-size: cover;
+  background-size: cover;
+
+  $blur-size: 15px;
+  .ui-backdrop-filter {
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    -webkit-backdrop-filter: blur($blur-size);
+  }
+
+  .form {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    color: white;
+    flex-direction: column;
+
+    h1 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .form-item {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+
+      label {
+        display: block;
+        padding: 5px 0;
+      }
+
+      .input {
+        padding: 10px;
+        background: white;
+        border-radius: 3px;
+        overflow: hidden;
+        flex: 1;
+
+        input {
+          border: none;
+          width: 100%;
+        }
+      }
+
+      .ui-flex-input {
+        display: flex;
+
+        input {
+          flex: 1;
+        }
+
+        .get-code {
+          width: 70px;
+          padding-left: 10px;
+          border-left: 1px solid #efefef;
+          color: black;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

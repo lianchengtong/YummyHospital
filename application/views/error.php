@@ -7,9 +7,11 @@
 
 $this->title = "出错了";
 ?>
-<div class="panel panel-default">
-    <div class="panel-body">
-        <h2>Error:</h2>
-        <h3>Page Not Found!</h3>
+
+<section class="ui-notice">
+    <i></i>
+    <p>出错了</p>
+    <div class="ui-notice-btn">
+        <a href="/" class="ui-btn-primary ui-btn-lg">返回首页</a>
     </div>
-</div>
+</section>
