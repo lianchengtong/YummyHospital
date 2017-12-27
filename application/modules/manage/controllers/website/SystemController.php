@@ -3,7 +3,14 @@
 namespace application\modules\manage\controllers\website;
 
 use application\base\AuthController;
+use common\models\ArticleType;
+use common\models\ArticleTypeField;
+use common\models\Category;
 use common\models\CodeBlock;
+use common\models\Department;
+use common\models\DoctorLevel;
+use common\models\LinkGroup;
+use common\models\LinkGroupItem;
 use common\models\WebsiteConfig;
 use common\models\WebsiteConfigGroup;
 use common\utils\Request;
@@ -64,6 +71,13 @@ class SystemController extends AuthController
             CodeBlock::className(),
             WebsiteConfigGroup::className(),
             WebsiteConfig::className(),
+            ArticleType::className(),
+            ArticleTypeField::className(),
+            LinkGroup::className(),
+            LinkGroupItem::className(),
+            Category::className(),
+            Department::className(),
+            DoctorLevel::className(),
         ];
 
         $backupData = [];
