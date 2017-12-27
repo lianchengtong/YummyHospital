@@ -15,6 +15,8 @@ class m171227_032441_sms_history extends Migration
     {
         $this->createTable($this->_table, [
             'id'         => $this->primaryKey(),
+            'channel'    => $this->string()->notNull(),
+            'type'       => $this->string()->notNull(),
             'phone'      => $this->string()->notNull(),
             'success'    => $this->boolean()->notNull()->defaultValue(true),
             'data'       => $this->string()->notNull(),
