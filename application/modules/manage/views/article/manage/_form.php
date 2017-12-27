@@ -10,6 +10,7 @@ use rogeecn\SimpleAjaxUploader\SingleImage;
 ?>
 
 <?= \yii\helpers\Html::activeHiddenInput($model, "type") ?>
+<?= $form->errorSummary($model) ?>
 <div class="row">
     <div class="col-md-8">
         <div class="row">

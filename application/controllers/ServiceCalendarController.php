@@ -3,11 +3,11 @@
 namespace application\controllers;
 
 
-use application\base\BaseController;
+use application\base\WebController;
 use common\models\DoctorServiceTime;
 use common\utils\Request;
 
-class ServiceCalendarController extends BaseController
+class ServiceCalendarController extends WebController
 {
     public function actionIndex()
     {

@@ -19,7 +19,7 @@ $rightMenus = [
 if (\common\utils\UserSession::isGuest()) {
     $rightMenus[] = ['label' => '登录', 'url' => ['/manage/login']];
 } else {
-    $leftMenus    = [
+    $leftMenus = [
         ['label' => '发布', 'url' => ['@admin/article/manage/select']],
         ['label' => '文章', 'items' => [
             ['label' => '所有文章', 'url' => ['@admin/article/manage/list']],
@@ -45,7 +45,12 @@ if (\common\utils\UserSession::isGuest()) {
             ['label' => '备份/恢复', 'url' => ['@admin/website/system']],
         ]],
     ];
-    $rightMenus[] = ['label' => '退出', 'url' => ['/manage/logout']];
+
+    $rightMenus[] = ['label' => '清理缓存', 'url' => [
+        '@admin/cache/clear',
+        '__return' => $_SERVER['REQUEST_URI'],
+    ]];
+    $rightMenus[] = ['label' => '退出', 'url' => ['@admin/logout']];
 }
 
 echo \yii\bootstrap\Nav::widget([

@@ -2,7 +2,7 @@
 
 namespace application\controllers;
 
-use application\base\BaseController;
+use application\base\WebController;
 use common\models\SmsHistory;
 use common\models\WebsiteConfig;
 use common\utils\AliyunSMS;
@@ -10,7 +10,7 @@ use common\utils\Cache;
 use common\utils\Json;
 use common\utils\Request;
 
-class SmsController extends BaseController
+class SmsController extends WebController
 {
     public function actionSend()
     {

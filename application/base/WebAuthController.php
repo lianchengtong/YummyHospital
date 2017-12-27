@@ -2,7 +2,7 @@
 
 namespace application\base;
 
-class AuthWebController extends BaseController
+class WebAuthController extends BaseController
 {
     use TraitNeedLogin;
 }

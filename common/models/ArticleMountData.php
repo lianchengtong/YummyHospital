@@ -14,9 +14,8 @@ use common\models\interfaces\InterfaceArticleMontData;
  */
 class ArticleMountData extends \common\base\ActiveRecord implements InterfaceArticleMontData
 {
-    /**
-     * @inheritdoc
-     */
+    protected $enableTimeBehavior = false;
+
     public function attributeLabels()
     {
         return [
@@ -53,6 +52,7 @@ class ArticleMountData extends \common\base\ActiveRecord implements InterfaceArt
         if (!$model) {
             return new self();
         }
+
         return $model;
     }
 

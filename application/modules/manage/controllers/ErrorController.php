@@ -1,10 +1,12 @@
 <?php
-namespace application\controllers;
 
-use application\base\WebController;
+namespace application\modules\manage\controllers;
 
-class ErrorController extends WebController
+use application\base\BaseController;
+
+class ErrorController extends BaseController
 {
+
     public function actions()
     {
         return [

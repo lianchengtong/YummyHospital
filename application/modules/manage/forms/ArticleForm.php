@@ -3,9 +3,6 @@
 namespace application\modules\manage\forms;
 
 use common\models\Article;
-use common\models\ArticleContent;
-use common\models\ArticleMountData;
-use common\models\ArticleTypeField;
 use yii\base\Model;
 use yii\web\NotFoundHttpException;
 
@@ -21,8 +18,6 @@ class ArticleForm extends Model
     public $keyword;
     public $field;
 
-    /** @var \common\models\interfaces\InterfaceArticleMontData[] */
-    public $fieldModels;
 
     /** @var  Article */
     private $articleModel;
@@ -32,8 +27,7 @@ class ArticleForm extends Model
     {
         $this->_id = $id;
         if ($this->isNewRecord()) {
-            $this->articleModel       = new Article();
-            $this->articleModel->type = $typeID;
+            $this->articleModel = new Article(['type' => $typeID]);
         } else {
             $this->articleModel = Article::findOne($id);
             if (!$this->articleModel) {
@@ -42,9 +36,14 @@ class ArticleForm extends Model
         }
 
         $this->setAttributes($this->articleModel->getAttributes());
+        //$this->articleModel->initFieldData();
 
-        $this->initFieldData($this->articleModel);
         parent::__construct([]);
+    }
+
+    public function getArticleModel()
+    {
+        return $this->articleModel;
     }
 
     public function isNewRecord()
@@ -52,62 +51,9 @@ class ArticleForm extends Model
         return is_null($this->_id);
     }
 
-    public function initFieldData($articleModel)
-    {
-        $typeFields = ArticleTypeField::getFieldsByTypeID($articleModel->type);
-        foreach ($typeFields as $typeField) {
-            $fieldMapClass = $this->getFieldMapClass($typeField);
-            if (is_null($articleModel)) {
-                $this->fieldModels[$typeField] = new $fieldMapClass();
-                continue;
-            }
-
-            $this->fieldModels[$typeField] = $fieldMapClass::getModel($typeField, $articleModel->id);
-        }
-
-        foreach ($this->fieldModels as $fieldModel) {
-            $this->field[$fieldModel->getFieldName()] = $fieldModel->getData();
-        }
-    }
-
-    /**
-     * @param $name
-     *
-     * @return mixed|string
-     */
-    public function getFieldMapClass($name)
-    {
-        $mapList = [
-            'content' => ArticleContent::className(),
-        ];
-        if (!isset($mapList)) {
-            return ArticleMountData::className();
-        }
-        return $mapList[$name];
-    }
-
     public function getTypeID()
     {
         return $this->articleModel->type;
-    }
-
-    public function getFieldModelData($fieldName)
-    {
-        $model = $this->getFieldModel($fieldName);
-        if (!is_null($model)) {
-            return $model->getData();
-        }
-        return "";
-    }
-
-    /**
-     * @param $fieldName
-     *
-     * @return \common\models\interfaces\InterfaceArticleMontData
-     */
-    public function getFieldModel($fieldName)
-    {
-        return $this->fieldModels[$fieldName];
     }
 
     public function attributeLabels()
@@ -167,9 +113,9 @@ class ArticleForm extends Model
 
             // save fields
             foreach ($this->field as $fieldName => $fieldData) {
-                $model = $this->getFieldModel($fieldName);
+                $model = $this->articleModel->getFieldModel($fieldName);
                 $model->setData($this->articleModel->primaryKey, $fieldName, $fieldData);
-                $this->fieldModels[$fieldName] = $model;
+                $this->articleModel->fieldModels[$fieldName] = $model;
 
                 if (!$model->save()) {
                     foreach ($model->getErrors() as $attribute => $errorString) {
@@ -182,8 +128,11 @@ class ArticleForm extends Model
             $trans->commit();
         } catch (\Exception $e) {
             $trans->rollBack();
+            $this->addError(null, $e->getMessage());
+
             return false;
         }
+
         return true;
     }
 }

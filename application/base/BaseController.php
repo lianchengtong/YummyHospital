@@ -4,12 +4,21 @@ namespace application\base;
 
 use common\extend\View;
 use common\utils\Request;
+use yii\helpers\Url;
 use yii\web\Controller;
 
 class BaseController extends Controller
 {
-    public $layoutSnip    = "tab_nav";
+    public $layoutSnip    = "main";
     public $pageItemCount = 10;
+
+    public function init()
+    {
+        parent::init();
+        if ($this->module->uniqueId == "manage") {
+            \Yii::$app->getErrorHandler()->errorAction = Url::to("@admin/error");
+        }
+    }
 
     public function beforeAction($action)
     {
@@ -61,8 +70,12 @@ class BaseController extends Controller
      *
      * @return string
      */
-    public function render($view, $params = [])
+    public function render($view = [], $params = [])
     {
+        if (empty($view)) {
+            return parent::render("index");
+        }
+
         if (is_array($view)) {
             return parent::render("index", $view);
         }

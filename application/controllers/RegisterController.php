@@ -3,9 +3,9 @@
 namespace application\controllers;
 
 
-use application\base\BaseController;
+use application\base\WebController;
 
-class RegisterController extends BaseController
+class RegisterController extends WebController
 {
     public $layoutSnip = "main";
 

@@ -24,7 +24,8 @@ class Code extends Widget
 
     public function run()
     {
-        $file = \Yii::getAlias("@runtime/cache/code_block-" . $this->blockSlug);
+        $file = \Yii::getAlias("@runtime/cache/code_block/" . $this->blockSlug);
+
         if (!is_file($file)) {
             $content = self::renderWithInclude($this->blockSlug);
             if (!is_dir(dirname($file))) {

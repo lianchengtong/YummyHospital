@@ -2,12 +2,13 @@
 
 namespace application\controllers;
 
-use application\base\BaseController;
+use application\base\WebController;
+use application\modules\manage\forms\ArticleForm;
 use common\models\SmsHistory;
 use common\utils\AliyunSMS;
 use common\utils\Json;
 
-class TestController extends BaseController
+class TestController extends WebController
 {
     public function actionIndex()
     {

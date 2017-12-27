@@ -2,9 +2,9 @@
 
 namespace application\controllers;
 
-use application\base\BaseController;
+use application\base\WebController;
 
-class PageController extends BaseController
+class PageController extends WebController
 {
     public $layoutSnip = "page";
 

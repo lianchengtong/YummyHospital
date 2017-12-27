@@ -3,9 +3,9 @@
 namespace application\controllers;
 
 
-use application\base\BaseController;
+use application\base\WebController;
 
-class MeController extends BaseController
+class MeController extends WebController
 {
     public function actionIndex()
     {

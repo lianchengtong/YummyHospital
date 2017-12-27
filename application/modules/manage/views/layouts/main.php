@@ -2,6 +2,7 @@
 
 /* @var $this \common\extend\View */
 /* @var $content string */
+
 /* @var $snip string */
 
 use yii\helpers\Html;
@@ -16,6 +17,22 @@ use yii\helpers\Html;
     <?= $this->commonMetaTags() ?>
     <?= Html::csrfMetaTags() ?>
     <?php $this->head() ?>
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        body > .container-fluid {
+            flex: 1;
+            width: 100%;
+        }
+
+    </style>
 </head>
 <body>
 <?php $this->beginBody() ?>

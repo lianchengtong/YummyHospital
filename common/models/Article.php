@@ -19,6 +19,16 @@ namespace common\models;
  */
 class Article extends \common\base\ActiveRecord
 {
+    /** @var \common\models\interfaces\InterfaceArticleMontData[] */
+    public $fieldModels;
+    public $field = [];
+
+    public function init()
+    {
+        parent::init();
+        $this->initFieldData();
+    }
+
     public function attributeLabels()
     {
         return [
@@ -54,5 +64,62 @@ class Article extends \common\base\ActiveRecord
     public function getType()
     {
         return $this->hasOne(ArticleType::className(), ['id' => 'type']);
+    }
+
+
+    public function initFieldData()
+    {
+        $typeFields = ArticleTypeField::getFieldsByTypeID($this->type);
+        foreach ($typeFields as $typeField) {
+            $fieldMapClass = $this->getFieldMapClass($typeField);
+            if (is_null($this)) {
+                $this->fieldModels[$typeField] = new $fieldMapClass();
+                continue;
+            }
+
+            $typeFieldModel                = $fieldMapClass::getModel($typeField, $this->id);
+            $this->fieldModels[$typeField] = $typeFieldModel;
+        }
+
+        foreach ($this->fieldModels as $fieldModel) {
+            $this->field[$fieldModel->getFieldName()] = $fieldModel->getData();
+        }
+    }
+
+    /**
+     * @param $name
+     *
+     * @return mixed|string
+     */
+    public function getFieldMapClass($name)
+    {
+        $mapList = [
+            'content' => ArticleContent::className(),
+        ];
+        if (!isset($mapList[$name])) {
+            return ArticleMountData::className();
+        }
+
+        return $mapList[$name];
+    }
+
+    public function getFieldModelData($fieldName)
+    {
+        $model = $this->getFieldModel($fieldName);
+        if (!is_null($model)) {
+            return $model->getData();
+        }
+
+        return "";
+    }
+
+    /**
+     * @param $fieldName
+     *
+     * @return \common\models\interfaces\InterfaceArticleMontData|\common\base\ActiveRecord
+     */
+    public function getFieldModel($fieldName)
+    {
+        return $this->fieldModels[$fieldName];
     }
 }

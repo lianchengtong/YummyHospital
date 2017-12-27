@@ -7,6 +7,7 @@ use common\models\WebsiteConfig;
 use common\utils\AliyunOSS;
 use common\utils\Request;
 use Yii;
+use yii\db\Exception;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
@@ -34,12 +35,14 @@ class UploadController extends AuthRestController
                         FileHelper::createDirectory(dirname($saveFilePath), 0777, true);
                     }
 
-                    if ($uploadInstance->saveAs($saveFilePath)) {
-                        return [
-                            'imageUrl' => str_replace(Yii::getAlias("@application/web"), "", $saveFilePath),
-                            'imageId'  => $fileID,
-                        ];
+                    if (!$uploadInstance->saveAs($saveFilePath)) {
+                        throw new Exception("未知错误");
                     }
+
+                    return [
+                        'imageUrl' => str_replace(Yii::getAlias("@application/web"), "", $saveFilePath),
+                        'imageId'  => $fileID,
+                    ];
                     break;
                 case "aliyun_oss":
                     $fileStream = fopen($uploadInstance->tempName, "r");

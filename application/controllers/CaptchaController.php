@@ -1,10 +1,10 @@
 <?php
 namespace application\controllers;
 
-use application\base\BaseController;
+use application\base\WebController;
 use common\extend\CaptchaAction;
 
-class CaptchaController extends BaseController
+class CaptchaController extends WebController
 {
     public function actions()
     {

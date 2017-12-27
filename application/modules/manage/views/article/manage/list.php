@@ -1,5 +1,7 @@
 <?php
 
+use common\models\Category;
+use common\models\ArticleType;
 use common\extend\PanelGridView;
 use yii\helpers\Html;
 
@@ -15,19 +17,27 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?= PanelGridView::widget([
     'dataProvider' => $dataProvider,
-    'buttons'      => [
-        Html::a('创建', ['create'], ['class' => 'btn btn-success']),
-    ],
     'filterModel'  => $searchModel,
     'columns'      => [
-        'id',
+        [
+            'attribute' => 'type',
+            'filter' => ArticleType::getList(),
+            'value'     => function ($model) {
+                return ArticleType::getByID($model->type)->name;
+            },
+        ],
         'title',
         'slug',
-        'head_image',
-        'category',
-        'keyword',
-        'description',
-        'author_id',
+        [
+            'attribute' => 'category',
+            'filter' => Category::getFlatIndentList(true),
+            'value'     => function ($model) {
+                return Category::getName($model->category);
+            },
+        ],
+        [
+            'attribute' => 'author_id',
+        ],
         'created_at:datetime',
         'updated_at:datetime',
 

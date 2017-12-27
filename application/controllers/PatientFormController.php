@@ -2,9 +2,9 @@
 
 namespace application\controllers;
 
-use application\base\BaseController;
+use application\base\WebController;
 
-class PatientFormController extends BaseController
+class PatientFormController extends WebController
 {
     public $layoutSnip = "nav";
 

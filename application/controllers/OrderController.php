@@ -2,9 +2,9 @@
 
 namespace application\controllers;
 
-use application\base\BaseController;
+use application\base\WebController;
 
-class OrderController extends BaseController
+class OrderController extends WebController
 {
     public $layoutSnip = "order_nav";
 

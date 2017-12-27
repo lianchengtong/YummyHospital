@@ -12,7 +12,7 @@ class Article extends ArticleModel
     {
         return [
             [['id', 'category', 'author_id', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'slug', 'head_image', 'description', 'keyword'], 'safe'],
+            [['title', 'type', 'slug', 'head_image', 'description', 'keyword'], 'safe'],
         ];
     }
 

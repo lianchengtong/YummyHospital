@@ -2,9 +2,9 @@
 
 namespace application\controllers;
 
-use application\base\BaseController;
+use application\base\WebController;
 
-class DoctorController extends BaseController
+class DoctorController extends WebController
 {
     public $layoutSnip = "main";
 

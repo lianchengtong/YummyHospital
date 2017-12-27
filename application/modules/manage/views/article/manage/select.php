@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\search\Article */
@@ -12,12 +12,15 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="panel panel-default">
-    <?php foreach ($models as $model): ?>
-        <div class="panel-body">
-            <h2>
-                <?= Html::a($model->name, ["@admin/article/manage/create", "type" => $model->slug]) ?>
-            </h2>
-            <p><?= $model->description ?></p>
-        </div>
-    <?php endforeach; ?>
+    <div class="panel-heading">
+        文章类型列表
+    </div>
+    <div class="list-group">
+        <?php foreach ($models as $model): ?>
+            <a href="<?= Url::to(["@admin/article/manage/create", "type" => $model->slug]) ?>" class="list-group-item">
+                <h4 class="list-group-item-heading"><?= $model->name ?></h4>
+                <p class="list-group-item-text"><?= $model->description ?></p>
+            </a>
+        <?php endforeach; ?>
+    </div>
 </div>

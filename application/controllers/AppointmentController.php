@@ -2,9 +2,9 @@
 
 namespace application\controllers;
 
-use application\base\BaseController;
+use application\base\WebController;
 
-class AppointmentController extends BaseController
+class AppointmentController extends WebController
 {
     public function actionIndex()
     {

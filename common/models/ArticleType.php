@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use yii\helpers\ArrayHelper;
+
 /**
  * This is the model class for table "article_type".
  *
@@ -56,5 +58,12 @@ class ArticleType extends \common\base\ActiveRecord
     public function getInputFields()
     {
         return $this->hasMany(ArticleTypeField::className(), ['type_id' => 'id']);
+    }
+
+    public static function getList()
+    {
+        $models = self::find()->all();
+
+        return ArrayHelper::map($models, "id", "name");
     }
 }

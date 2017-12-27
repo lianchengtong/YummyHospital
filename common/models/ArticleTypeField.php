@@ -31,6 +31,7 @@ class ArticleTypeField extends \common\base\ActiveRecord
     public static function getFieldsByTypeID($typeID)
     {
         $models = self::find()->where(['type_id' => $typeID])->select("field")->all();
+
         return ArrayHelper::getColumn($models, "field");
     }
 
@@ -69,7 +70,7 @@ class ArticleTypeField extends \common\base\ActiveRecord
         $fieldName = sprintf("%s[field][%s]", $model->formName(), $this->field);
 
         ArrayHelper::setValue($configure, "name", $fieldName);
-        ArrayHelper::setValue($configure, "value", $model->getFieldModelData($this->field));
+        ArrayHelper::setValue($configure, "value", $model->getArticleModel()->getFieldModelData($this->field));
 
         ArrayHelper::setValue($configure['customOptions'], "class", $this->class);
         ArrayHelper::setValue($configure['customOptions'], "class", $this->class);
