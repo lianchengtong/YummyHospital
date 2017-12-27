@@ -3,6 +3,7 @@
 namespace application\controllers;
 
 use application\base\WebController;
+use common\models\MyPatient;
 
 class PatientFormController extends WebController
 {
@@ -10,6 +11,10 @@ class PatientFormController extends WebController
 
     public function actionIndex()
     {
-        return $this->render("index");
+        $model = new MyPatient();
+
+        return $this->render("index", [
+            'model' => $model,
+        ]);
     }
 }
