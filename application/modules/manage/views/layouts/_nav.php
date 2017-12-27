@@ -45,6 +45,7 @@ if (\common\utils\UserSession::isGuest()) {
             ['label' => '系统配置', 'url' => ['@admin/website/config/set']],
             ['label' => '代码块', 'url' => ['@admin/code-block/list']],
             ['label' => '配置管理', 'url' => ['@admin/website/config/list']],
+            ['label' => '备份/恢复', 'url' => ['@admin/website/system']],
         ]],
     ];
     $rightMenus[] = ['label' => '退出', 'url' => ['/manage/logout']];

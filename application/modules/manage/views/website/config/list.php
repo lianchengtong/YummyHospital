@@ -41,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'key',
         'name',
+        'hint',
         'const_data',
         ['class' => '\common\extend\ActionColumn'],
     ],
