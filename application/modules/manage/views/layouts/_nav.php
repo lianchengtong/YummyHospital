@@ -41,6 +41,7 @@ if (\common\utils\UserSession::isGuest()) {
             ['label' => '后台用户', 'url' => ['@admin/user/manage/admin-list']],
         ]],
         ['label' => '系统', 'items' => [
+            ['label' => '短信统计', 'url' => ['@admin/sms-history/list']],
             ['label' => '系统配置', 'url' => ['@admin/website/config/set']],
             ['label' => '代码块', 'url' => ['@admin/code-block/list']],
             ['label' => '配置管理', 'url' => ['@admin/website/config/list']],

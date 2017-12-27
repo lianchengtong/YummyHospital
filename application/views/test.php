@@ -41,6 +41,10 @@ $items = [
         'url'   => ['/profile'],
     ],
     [
+        'label' => '个人中心',
+        'url'   => ['/me'],
+    ],
+    [
         'label' => '注册',
         'url'   => ['/register'],
     ],

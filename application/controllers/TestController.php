@@ -16,7 +16,7 @@ class TestController extends BaseController
     public function actionGo()
     {
         $to  = "18601013734";
-        $ret = AliyunSMS::sendSms($to, "SMS_117295732", [
+        $ret = AliyunSMS::sendSms($to, "SMS_119082144", [
             'code' => mt_rand(100000, 999999),
         ]);
 

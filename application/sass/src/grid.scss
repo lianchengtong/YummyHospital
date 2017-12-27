@@ -13,12 +13,21 @@
       padding: 10px;
       text-align: center;
 
+      .ui-grid-icon {
+        padding: 10% 20%;
+
+        img {
+          width: 100%;
+        }
+      }
+
       &:last-child {
         border-right: none;
       }
 
       .ui-grid-label {
-        font-size: 12px;
+        font-size: 16px;
+        color: #333333;
       }
     }
   }
