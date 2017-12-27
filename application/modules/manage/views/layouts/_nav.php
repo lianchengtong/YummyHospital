@@ -25,10 +25,7 @@ if (\common\utils\UserSession::isGuest()) {
             ['label' => '所有文章', 'url' => ['@admin/article/manage/list']],
             ['label' => '文章类型', 'url' => ['@admin/article/type/list']],
         ]],
-        ['label' => '预约', 'items' => [
-            ['label' => '近期', 'url' => ['@admin/appointment/recent']],
-            ['label' => '所有', 'url' => ['@admin/appointment/all']],
-        ]],
+        ['label' => '预约', 'url' => ['@admin/appointment/all']],
         ['label' => '医生管理', 'items' => [
             ['label' => '科室', 'url' => ['@admin/department/list']],
             ['label' => '医生', 'url' => ['@admin/doctor/doctor/list']],
