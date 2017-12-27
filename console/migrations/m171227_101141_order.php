@@ -4,7 +4,7 @@ use yii\db\Migration;
 
 class m171227_101141_order extends Migration
 {
-    private $_table = '{{%sms_history}}';
+    private $_table = '{{%order}}';
 
     public function safeDown()
     {
