@@ -58,6 +58,9 @@ return [
         'urlManager'   => [
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
+            'rules'           => [
+                '/test-wechatpay' => 'test/go',
+            ],
         ],
         'formatter'    => [
             'dateFormat'     => 'php:y/m/d',

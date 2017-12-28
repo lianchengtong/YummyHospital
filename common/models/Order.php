@@ -2,16 +2,15 @@
 
 namespace common\models;
 
-use Yii;
-
 /**
  * This is the model class for table "order".
  *
+ *
  * @property integer $id
- * @property string $order_id
- * @property string $out_trade_id
- * @property string $channel
- * @property string $name
+ * @property string  $order_id
+ * @property string  $out_trade_id
+ * @property string  $channel
+ * @property string  $name
  * @property integer $price
  * @property integer $status
  * @property integer $complete_at
@@ -20,42 +19,90 @@ use Yii;
  */
 class Order extends \common\base\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
+    const STATUS_PENDING_PAY = 0;
+    const STATUS_PAY_SUCCESS = 1;
+    const STATUS_PAY_REFUND  = 2;
+    const STATUS_PAY_CLOSED  = 3;
+
+    const CHANNEL_ALIPAY    = "alipay";
+    const CHANNEL_WECHATPAY = "wechatpay";
+
+    public static function create($channel, $name, $price)
     {
-        return 'order';
+        $model = new self();
+        $model->setAttributes([
+            'order_id' => self::generateOrderID(),
+            'price'    => $price * 100,
+            'name'     => $name,
+            'channel'  => $channel,
+        ]);
+        if (!$model->save()) {
+            return false;
+        }
+
+        return $model;
+    }
+
+    public static function generateOrderID()
+    {
+        $orderID = sprintf("%s%s%05d", date("Ymdhis"), uniqid(), mt_rand(1, 999));
+        return $orderID;
     }
 
     /**
-     * @inheritdoc
+     * @param $orderID
+     *
+     * @return array|null|\yii\db\ActiveRecord|self
      */
-    public function rules()
+    public static function getByOrderID($orderID)
     {
-        return [
-            [['order_id', 'out_trade_id', 'channel', 'name', 'price', 'status', 'complete_at', 'created_at', 'updated_at'], 'required'],
-            [['price', 'status', 'complete_at', 'created_at', 'updated_at'], 'integer'],
-            [['order_id', 'out_trade_id', 'channel', 'name'], 'string', 'max' => 255],
-        ];
+        return self::find()->where(['order_id' => $orderID])->one();
     }
 
-    /**
-     * @inheritdoc
-     */
+    // 把分值转换为yuan
+    public function getPriceYuan()
+    {
+        return sprintf("%d.%02f", $this->price / 100, $this->price % 100);
+    }
+
+    public function completeWithTradeNumber($outTradeNumber)
+    {
+        $this->out_trade_id = $outTradeNumber;
+        $this->complete_at  = time();
+        return $this->save();
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this->save();
+    }
+
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'order_id' => 'Order ID',
+            'id'           => 'ID',
+            'order_id'     => 'Order ID',
             'out_trade_id' => 'Out Trade ID',
-            'channel' => 'Channel',
-            'name' => 'Name',
-            'price' => 'Price',
-            'status' => 'Status',
-            'complete_at' => 'Complete At',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'channel'      => 'Channel',
+            'name'         => 'Name',
+            'price'        => 'Price',
+            'status'       => 'Status',
+            'complete_at'  => 'Complete At',
+            'created_at'   => 'Created At',
+            'updated_at'   => 'Updated At',
+        ];
+    }
+
+    public function rules()
+    {
+        return [
+            [['order_id', 'channel', 'name', 'price'], 'required'],
+            [['price', 'status', 'complete_at', 'created_at', 'updated_at'], 'integer'],
+            [['order_id', 'out_trade_id', 'channel', 'name'], 'string', 'max' => 255],
+            [['out_trade_id'], 'default', 'value' => ''],
+            [['complete_at'], 'default', 'value' => 0],
+            [['status'], 'default', 'value' => self::STATUS_PENDING_PAY],
         ];
     }
 }

@@ -34,12 +34,10 @@ class SystemController extends AuthController
                 $contentData = json_decode($content, true);
 
                 foreach ($contentData as $className => $dataItems) {
-                    foreach ($dataItems as $dataItem) {
-                        $model = $className::findOne($dataItem['id']);
-                        if (!$model) {
-                            $model = new $className();
-                        }
+                    $className::getDb()->createCommand()->truncateTable($className::tableName())->execute();
 
+                    foreach ($dataItems as $dataItem) {
+                        $model = new $className();
                         $model->setAttributes($dataItem);
                         if ($model->save()) {
                             $restoreInfo[] = sprintf("[SUCCESS] Table: %s, DATA: %s",

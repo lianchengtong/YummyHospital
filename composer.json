@@ -11,7 +11,9 @@
     "mrgoon/aliyun-sms": "^2.0",
     "xxtime/flysystem-aliyun-oss": "^1.1",
     "kartik-v/yii2-widget-datetimepicker": "^1.4",
-    "crazydb/yii2-ueditor": "^1.6"
+    "crazydb/yii2-ueditor": "^1.6",
+    "rogeecn/yii2-simple-ajax-uploader": "^1.0",
+    "lokielse/omnipay-wechatpay": "^1.0"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",

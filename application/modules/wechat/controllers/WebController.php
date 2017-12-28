@@ -6,6 +6,7 @@ use application\base\WeChatWebBaseController;
 use common\extend\Url;
 use common\models\AuthWechat;
 use common\models\User;
+use common\models\WebsiteConfig;
 use common\utils\Request;
 use common\utils\UserSession;
 use common\utils\WeChatInstance;
@@ -62,6 +63,7 @@ class WebController extends WeChatWebBaseController
                 'expire_at'     => $accessToken->expires_in,
                 'open_id'       => $accessToken->openid,
             ];
+            print_r($authTokenArr);exit;
 
             $userModel = UserSession::identity();
             if (!$userModel) {
