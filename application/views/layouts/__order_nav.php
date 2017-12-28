@@ -4,16 +4,7 @@
 /** @var \common\extend\View $this */
 ?>
 
-<header class="ui-header ui-header-stable ui-navbar ui-border-b">
-    <?php if ($this->showGoBack): ?>
-        <i class="ui-icon-return" onclick="history.back()"></i>
-    <?php endif; ?>
-    <h1><?= $this->title ?></h1>
-    <?php if ($this->showSave): ?>
-        <button class="ui-btn">Save</button>
-    <?php endif; ?>
-</header>
-
+<?= \application\builder\Code::output("element.navbar") ?>
 
 <footer class="ui-footer ui-footer-stable  ui-border-t ui-order-footer">
     <div class="tab-item ui-price-wrapper">

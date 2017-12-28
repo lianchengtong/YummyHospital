@@ -1,0 +1,21 @@
+.ui-page-appointment {
+  .ui-label-s {
+    &, &:before {
+      border: 1px solid #EFEFEF;
+      color: #999999;
+    }
+  }
+
+  .ui-desc {
+    line-height: 1.5;
+  }
+
+  .ui-avatar {
+    margin-top: 20px;
+  }
+
+  .ui-list-info {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}

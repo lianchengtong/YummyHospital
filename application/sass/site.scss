@@ -1,12 +1,12 @@
 @import "frozenui/frozen";
 @import "src/mixin";
 @import "src/_global";
-@import "src/util";
 @import "src/component/slider";
 @import "src/component/uploader";
 //hack
 @import "src/hack";
 // page setting
+@import "src/util";
 @import "src/grid";
 @import "src/doctor";
 @import "src/panel";
@@ -14,3 +14,4 @@
 @import "src/order";
 @import "src/register-login";
 @import "src/me";
+@import "src/appointment";
