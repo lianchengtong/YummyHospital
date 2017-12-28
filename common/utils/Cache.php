@@ -23,12 +23,26 @@ class Cache
         return self::getInstance()->set($key, $value, $duration, $dependency);
     }
 
+    public static function delete($key)
+    {
+        return self::getInstance()->delete($key);
+    }
+
+    public static function exist($key)
+    {
+        return self::getInstance()->exist($key);
+    }
+
+    public static function flush()
+    {
+        return self::getInstance()->flush();
+    }
+
     public static function dataProvider($key, callable $callable)
     {
         $data = self::get($key);
         if (!$data) {
-            $data = $callable();
-            if ($data) {
+            if ($data = $callable()) {
                 self::set($key, $data);
             }
         }

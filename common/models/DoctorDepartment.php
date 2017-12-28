@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\utils\Cache;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -42,18 +43,27 @@ class DoctorDepartment extends \common\base\ActiveRecord
         $models = self::find()->where(['doctor_id' => $doctorID])->all();
 
         $ret = ArrayHelper::getColumn($models, "department_id");
+
         return $ret;
     }
 
     public static function getDepartmentList($doctorID)
     {
-        $models = self::find()->where(['doctor_id' => $doctorID])->with("department")->all();
+        $cacheKey = "doctor.department.list." . $doctorID;
 
-        return ArrayHelper::map($models, "department_id", "department.name");
+        return Cache::dataProvider($cacheKey, function () use ($doctorID) {
+            $models = self::find()->where(['doctor_id' => $doctorID])->with("department")->all();
+
+            return ArrayHelper::map($models, "department_id", "department.name");
+        });
     }
 
     public static function setDepartment($doctorID, $departmentIDList = [])
     {
+
+        $cacheKey = "doctor.department.list." . $doctorID;
+        Cache::delete($cacheKey);
+
         $currentDepartmentID = self::getDepartmentID($doctorID);
         $hasNew              = array_diff($departmentIDList, $currentDepartmentID);
         $hasDel              = array_diff($currentDepartmentID, $departmentIDList);

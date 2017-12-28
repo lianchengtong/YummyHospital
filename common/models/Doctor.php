@@ -62,7 +62,7 @@ class Doctor extends \common\base\ActiveRecord
         ];
     }
 
-    public function beforeSave($insert)
+    public function afterSave($insert, $changedAttributes)
     {
         if (!DoctorDepartment::setDepartment($this->id, $this->department)) {
             $this->addError('department', "科室添加错误");
@@ -76,7 +76,7 @@ class Doctor extends \common\base\ActiveRecord
             return false;
         }
 
-        return parent::beforeSave($insert);
+        return parent::afterSave($insert);
     }
 
     public function getDoctorServiceTime()
@@ -91,5 +91,31 @@ class Doctor extends \common\base\ActiveRecord
         $this->department = DoctorDepartment::getDepartmentID($this->id);
         $this->tag        = implode(",", DoctorTag::getList($this->id));
         parent::afterFind();
+    }
+
+    public function getLevelModel()
+    {
+        return $this->hasOne(DoctorLevel::className(), ['id' => 'level']);
+    }
+
+    public function getDepartments()
+    {
+        return $this->hasMany(DoctorDepartment::className(), ['doctor_id' => 'id']);
+    }
+
+    public function getTags()
+    {
+        return $this->hasMany(DoctorTag::className(), ['doctor_id' => 'id']);
+    }
+
+    public static function getByTag($tagName = "")
+    {
+        $condition = [];
+        if (strlen($tagName)) {
+            $idList    = DoctorTag::getDoctorIDListByName($tagName);
+            $condition = ['id' => $idList];
+        }
+
+        return self::find()->where($condition)->with('tags', 'levelModel', "departments")->all();
     }
 }

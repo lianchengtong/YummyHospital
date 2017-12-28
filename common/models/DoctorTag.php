@@ -69,4 +69,11 @@ class DoctorTag extends \common\base\ActiveRecord
                    ->execute();
 
     }
+
+    public static function getDoctorIDListByName($tagName)
+    {
+        $models = self::find()->where(['name' => $tagName])->all();
+
+        return ArrayHelper::getColumn($models, "doctor_id");
+    }
 }

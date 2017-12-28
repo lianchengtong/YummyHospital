@@ -1,5 +1,8 @@
 <?php
+
 namespace common\models;
+
+use common\utils\Cache;
 
 /**
  * This is the model class for table "category".
@@ -13,7 +16,7 @@ namespace common\models;
  */
 class Category extends \common\base\ActiveRecord
 {
-    protected $enableTimeBehavior = FALSE;
+    protected $enableTimeBehavior = false;
 
     public function rules()
     {
@@ -44,6 +47,7 @@ class Category extends \common\base\ActiveRecord
 
     private static function updateAllPath($items = [], $path = [])
     {
+        Cache::flush();
         foreach ($items as $item) {
             $tmpPath   = $path;
             $tmpPath[] = $item['id'];
@@ -104,7 +108,7 @@ class Category extends \common\base\ActiveRecord
         }
     }
 
-    public static function getFlatIndentList($showRoot = FALSE)
+    public static function getFlatIndentList($showRoot = false)
     {
         $list = self::getIndentList();
 
@@ -147,7 +151,7 @@ class Category extends \common\base\ActiveRecord
         return $breadcrumbs;
     }
 
-    public static function getSubTree($id, $showFlat = FALSE)
+    public static function getSubTree($id, $showFlat = false)
     {
         $list = self::getIndentList();
 
@@ -171,7 +175,7 @@ class Category extends \common\base\ActiveRecord
 
             if (isset($item['children']) && is_array($item['children'])) {
                 $ret = self::getSubTreeItems($id, $item['children']);
-                if ($ret == FALSE) {
+                if ($ret == false) {
                     continue;
                 }
 
@@ -179,7 +183,7 @@ class Category extends \common\base\ActiveRecord
             }
         }
 
-        return FALSE;
+        return false;
     }
 
     public static function getByAlias($alias)
@@ -215,8 +219,12 @@ class Category extends \common\base\ActiveRecord
 
     public static function getSubCategoryIdList($pCategoryID)
     {
-        $items = self::getSubTree($pCategoryID);
+        $cacheKey = "category.sub." . $pCategoryID;
 
-        return $items;
+        return Cache::dataProvider($cacheKey, function () use ($pCategoryID) {
+            $items = self::getSubTree($pCategoryID);
+
+            return $items;
+        });
     }
 }

@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\utils\Cache;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -12,6 +13,8 @@ use yii\helpers\ArrayHelper;
  */
 class DoctorLevel extends \common\base\ActiveRecord
 {
+    protected $enableTimeBehavior = false;
+
     public function rules()
     {
         return [
@@ -29,9 +32,11 @@ class DoctorLevel extends \common\base\ActiveRecord
 
     public static function levelList()
     {
-        $models = self::find()->all();
+        return Cache::dataProvider("doctor.level.list", function () {
+            $models = self::find()->all();
 
-        return ArrayHelper::map($models, 'id', 'level_name');
+            return ArrayHelper::map($models, 'id', 'level_name');
+        });
     }
 
     public static function levelDesc($id)
