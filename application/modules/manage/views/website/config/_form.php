@@ -8,6 +8,7 @@ use common\models\WebsiteConfigGroup;
 ?>
 <?= $form->field($model, 'key')->textInput(['maxlength' => true]) ?>
 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+<?= $form->field($model, 'hint')->textInput(['maxlength' => true]) ?>
 <?= $form->field($model, 'group_id')->dropDownList(WebsiteConfigGroup::getGroupList()) ?>
 <?= $form->field($model, 'type')->dropDownList(WebsiteConfig::getTypeList()) ?>
 <?= $form->field($model, 'order')->textInput() ?>

@@ -1,5 +1,43 @@
+.ui-9-grids-wrapper {
+  background: white;
+  overflow: hidden;
+
+  .ui-9-grids {
+    margin-left: -1px;
+    margin-right: -1px;
+
+    @include clearfix;
+    display: flex;
+    flex-wrap: wrap;
+    @extend .ui-border-b;
+
+    .ui-item {
+      @include clearfix;
+      @extend .ui-border-tr;
+      padding: 20px 10px;
+      color: #333333;
+
+      text-align: center;
+      width: 33.33333333333%;
+      box-sizing: border-box;
+
+      .ui-grid-icon {
+        width: 100%;
+        text-align: center;
+
+        img {
+          height: 38px;
+          width: 38px;
+        }
+      }
+    }
+  }
+}
+
+/*
 .ui-9-grids {
   background: white;
+  @include clearfix;
   @extend .ui-border-b;
 
   .ui-3-grid {
@@ -32,3 +70,4 @@
     }
   }
 }
+*/
