@@ -15,27 +15,18 @@ namespace common\models;
  */
 class MyPatient extends \common\base\ActiveRecord
 {
+    protected $enableTimeBehavior = false;
+
     public $birthYear;
     public $birthMonth;
     public $birthDay;
 
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'my_patient';
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
-            [['user_id', 'name', 'sex', 'birth', 'phone', 'identify'], 'required'],
+            [['user_id', 'name', 'sex', 'phone', 'identify'], 'required'],
             [['user_id', 'sex'], 'integer'],
-            [['name', 'birth', 'phone', 'identify'], 'string', 'max' => 255],
+            [['name', 'birth', 'phone', 'birth', 'identify'], 'string', 'max' => 255],
             [['birthYear', 'birthMonth', 'birthDay'], 'safe'],
         ];
     }
@@ -47,7 +38,7 @@ class MyPatient extends \common\base\ActiveRecord
             $this->addError("birthYear", "日期不合法");
         }
 
-        parent::beforeValidate();
+        return parent::beforeValidate();
     }
 
     public function afterFind()
@@ -71,5 +62,49 @@ class MyPatient extends \common\base\ActiveRecord
             'phone'    => '手机号码',
             'identify' => '身份证号码',
         ];
+    }
+
+    public function getAge()
+    {
+        $deltaDate = date("Y") - $this->birthYear;
+
+        return $deltaDate;
+    }
+
+    public function getSexDesc()
+    {
+        $list = ['女', '男'];
+
+        return $list[$this->sex];
+
+    }
+
+    public static function getList($userID)
+    {
+        $models = self::getModelList($userID);
+
+        $retData = [];
+        foreach ($models as $model) {
+            $retData[$model->id] = sprintf("%s, %s, %d岁",
+                $model->name,
+                $model->getSexDesc(),
+                $model->getAge()
+            );
+        }
+
+        return $retData;
+    }
+
+    /**
+     * @param $userID
+     *
+     * @return array|\common\models\MyPatient[]|\yii\db\ActiveRecord[]
+     */
+    public static function getModelList($userID)
+    {
+        /** @var self[] $models */
+        $models = self::find()->where(['user_id' => $userID])->all();
+
+        return $models;
     }
 }

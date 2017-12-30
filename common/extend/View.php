@@ -7,9 +7,12 @@ use common\utils\Param;
 
 class View extends \yii\web\View
 {
-    public  $showGoBack = true;
-    public  $showSave   = false;
-    public  $data       = [];
+    public $showTab    = true;
+    public $showNav    = true;
+    public $showGoBack = true;
+    public $showSave   = false;
+
+    public  $data = [];
     private $keywords;
     private $description;
 
