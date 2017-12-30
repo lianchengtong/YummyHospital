@@ -33,7 +33,7 @@ class PatientAsk extends PatientAskModel
         ]);
 
         if (!isset($params['sort'])) {
-            $params['sort'] = "-id";
+            $query->orderBy(['id' => SORT_DESC]);
         }
 
         $this->load($params);

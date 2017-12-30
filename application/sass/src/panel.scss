@@ -14,6 +14,23 @@ $pad-size: 10px;
     .ui-label-list {
       margin: 0;
     }
+
+    .image-list {
+      display: flex;
+
+      li {
+        width: 80px;
+        height: 80px;
+        line-height: 80px;
+        border: 1px solid #efefef;
+        padding: 10px;
+        margin-right: 5px;
+
+        img {
+          width: 100%;
+        }
+      }
+    }
   }
 
   .list-group {
