@@ -5,7 +5,8 @@
 /* @var $dataProvider \yii\data\ActiveDataProvider */
 /* @var $model \common\models\WebsiteConfig */
 
-$this->title = "门诊预约";
+$this->title      = "门诊预约";
+$this->showGoBack = false;
 
 $tagName = \common\utils\Request::input("tag");
 $items   = \common\utils\Cache::dataProvider(

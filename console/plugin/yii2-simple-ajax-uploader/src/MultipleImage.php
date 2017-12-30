@@ -11,7 +11,6 @@ class MultipleImage extends ImageUploaderInput
         'class' => 'thumbnail text-center uploader-drop-zone',
         'style' => 'line-height: 120px;',
     ];
-    private $containerID;
 
 
     public function renderImageUploader()
@@ -59,7 +58,7 @@ _CODE;
     {
         $callbackOnComplete = <<<_CODE
 function (filename, response, uploadBtn, fileSize){
-    $("#{$this->dropZoneOptions['id']}").before('<span class="thumbnail"><img src="'+response.imageUrl+'"></span>');
+    $("#{$this->dropZoneOptions['id']}").before('<span class="thumbnail"><img src="'+response.imageUrl+'"><span class="remove-thumbnail"></span></span>');
     
     var imgList = [];
     $("#{$this->containerID} .thumbnail img").each(function(index,item){

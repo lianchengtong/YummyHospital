@@ -8,33 +8,34 @@ use yii\helpers\Html;
 
 $this->title = "门诊预约";
 
-$items = [
-    '杨豪，男，27岁',
-    '杨豪，男，28岁',
-    '杨豪，男，29岁',
-    '杨豪，男，29岁',
-];
+$items = \common\models\MyPatient::getList(\common\utils\UserSession::getId());
 ?>
 
+<?php $form = \yii\widgets\ActiveForm::begin(); ?>
 <div class="row ui-form ui-border-t pb-20">
     <div class="ui-form-item ui-border-b">
         <label>就诊人</label>
         <div class="ui-select">
-            <?= Html::dropDownList("patient", 0, $items) ?>
+            <?= Html::activeDropDownList($model, "patient_id", $items) ?>
         </div>
     </div>
 
     <div class="ui-row-container mt-20 mb-20">
         <label class="ui-block">病情描述</label>
         <div class="ui-block-textarea-wrapper">
-            <textarea rows="5" class="ui-block-textarea" placeholder="请对您的病情进行描述"></textarea>
+            <?= Html::activeTextarea($model, "description", [
+                'class'       => 'ui-block-textarea',
+                'rows'        => 5,
+                'placeholder' => "请对您的病情进行描述",
+            ]) ?>
         </div>
     </div>
 
     <div class="ui-row-container mt-20 mb-20">
         <?= \rogeecn\SimpleAjaxUploader\MultipleImage::widget([
+            'model'             => $model,
+            'attribute'         => 'images',
             'style'             => false,
-            'name'              => 'images',
             'uploadIconOptions' => [
                 'class' => 'ui-icon-add',
             ],
@@ -46,5 +47,8 @@ $items = [
 </div>
 
 <div class="ui-btn-wrap mt-20">
-    <button class="ui-btn-lg ui-btn-primary">确定</button>
+    <input type="submit" value="确定" class="ui-btn-lg ui-btn-primary"/>
 </div>
+<?php \yii\widgets\ActiveForm::end() ?>
+
+<?php print_r($model->getErrors())?>
