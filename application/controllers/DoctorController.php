@@ -12,13 +12,14 @@ class DoctorController extends WebController
 
     public function actionIndex($id)
     {
+        /** @var Doctor $model */
         $model = Doctor::findOne($id);
         if (!$model) {
             throw new NotFoundHttpException();
         }
 
-        return $this->output("page.doctor",[
-            'model'=>$model,
-        ],['title'=>'医生详情']);
+        return $this->output("page.doctor", [
+            'model' => $model,
+        ], ['title' => '医生详情']);
     }
 }

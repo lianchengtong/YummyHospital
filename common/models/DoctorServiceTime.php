@@ -390,4 +390,28 @@ class DoctorServiceTime extends \common\base\ActiveRecord
             [['month', 'day', 'am', 'week_service_start_at', 'pm'], 'safe'],
         ];
     }
+
+    // 获取医生所有可用号源天数
+    public static function getAllRecentServiceTimeDate($doctorID)
+    {
+        $monthDelta  = 0;
+        $serviceDate = [];
+        while (true) {
+            $datetime = strtotime(sprintf("+%d month", $monthDelta));
+            $monthDelta++;
+            list($year, $month) = explode("-", date("Y-m", $datetime));
+            $serviceDays = self::getDoctorMonthServiceDays($doctorID, $year, $month);
+
+            if (empty($serviceDays)) {
+                break;
+            }
+
+            foreach ($serviceDays as $serviceDay => $ticketCount) {
+                $date               = sprintf("%s-%s-%s", $year, $month, $serviceDay);
+                $serviceDate[$date] = $ticketCount;
+            }
+        }
+
+        return $serviceDate;
+    }
 }

@@ -7,14 +7,16 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "doctor".
  *
- * @property integer $id
- * @property string  $head_image
- * @property integer $level
- * @property integer $name
- * @property string  $summary
- * @property integer $work_time
- * @property string  $introduce
- * @property string  $rank
+ * @property integer                          $id
+ * @property string                           $head_image
+ * @property integer                          $level
+ * @property integer                          $name
+ * @property string                           $summary
+ * @property integer                          $work_time
+ * @property string                           $introduce
+ * @property string                           $rank
+ *
+ * @property \common\models\DoctorServiceTime $docorServiceTime
  */
 class Doctor extends \common\base\ActiveRecord
 {
