@@ -24,7 +24,6 @@ $this->showTab    = false;
 
 <script>
     function onBridgeReady() {
-        alert("ready");
         $("#action-btn-pay").removeAttr("disabled");
     }
 

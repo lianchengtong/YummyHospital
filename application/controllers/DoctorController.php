@@ -128,7 +128,7 @@ class DoctorController extends WebController
 
                 $trans->commit();
 
-                return $this->redirect(['/order/pay', 'id' => $order->order_id]);
+                return $this->redirect(['/order/wechat-pay', 'id' => $order->order_id]);
             } catch (\Exception $e) {
                 $trans->rollBack();
             }

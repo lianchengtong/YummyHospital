@@ -59,7 +59,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
             'rules'           => [
-                '/test-wechatpay' => 'test/go',
+                '/order-wechatpay' => 'order/wechat-pay',
             ],
         ],
         'formatter'    => [

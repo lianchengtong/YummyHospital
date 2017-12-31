@@ -71,6 +71,7 @@ class Order extends \common\base\ActiveRecord
     {
         $this->out_trade_id = $outTradeNumber;
         $this->complete_at  = time();
+        $this->status       = self::STATUS_PAY_SUCCESS;
 
         return $this->save();
     }
