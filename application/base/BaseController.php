@@ -2,6 +2,7 @@
 
 namespace application\base;
 
+use application\builder\Code;
 use common\extend\View;
 use common\utils\Request;
 use yii\helpers\Url;
@@ -81,5 +82,16 @@ class BaseController extends Controller
         }
 
         return parent::render($view, $params);
+    }
+
+    public function output($codeID, $params = [], $viewSettings = [])
+    {
+        foreach ($viewSettings as $key => $value) {
+            $this->getView()->$key = $value;
+        }
+
+        $content = Code::output($codeID, $params);
+
+        return $this->renderContent($content);
     }
 }

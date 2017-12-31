@@ -27,6 +27,7 @@ class CodeBlock extends \common\base\ActiveRecord
         if (!$model) {
             return "";
         }
+
         return $model->code;
     }
 
@@ -59,5 +60,15 @@ class CodeBlock extends \common\base\ActiveRecord
             [['slug'], 'unique'],
             [['slug'], 'match', 'pattern' => '/^[a-z|0-9|\-|\_|\.]+$/'],
         ];
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        $cacheFile = \Yii::getAlias("@runtime/cache/code_block/" . $this->slug);
+        if (YII_DEBUG && is_file($cacheFile)) {
+            unlink($cacheFile);
+        }
+
+        parent::afterSave($insert, $changedAttributes);
     }
 }

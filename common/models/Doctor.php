@@ -118,4 +118,36 @@ class Doctor extends \common\base\ActiveRecord
 
         return self::find()->where($condition)->with('tags', 'levelModel', "departments")->all();
     }
+
+    // 同科室医生列表
+
+    /**
+     * @param int $limit
+     *
+     * @return array|\yii\db\ActiveRecord[]|\common\models\Doctor[]
+     */
+    public function getSameDepartmentDoctors($limit = 5)
+    {
+        $doctorDepartment = $this->departments;
+        $departmentID     = ArrayHelper::getColumn($doctorDepartment, "department_id");
+        $departmentDoctor = DoctorDepartment::find()->where(['department_id' => $departmentID])->all();
+        $doctorID         = ArrayHelper::getColumn($departmentDoctor, "doctor_id");
+
+        shuffle($doctorID);
+        $doctorIDGroup = array_chunk($doctorID, $limit);
+        $doctors       = Doctor::find()->where(['id' => $doctorIDGroup[0]])->all();
+
+        return $doctors;
+    }
+
+    public function departmentString()
+    {
+        $doctorDepartment = $this->departments;
+        $departmentName   = [];
+        foreach ($doctorDepartment as $departmentLinkModel) {
+            $departmentName[] = $departmentLinkModel->department->name;
+        }
+
+        return implode(",", $departmentName);
+    }
 }

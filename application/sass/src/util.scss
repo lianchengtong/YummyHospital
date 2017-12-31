@@ -43,6 +43,7 @@
     padding: #{$i*5}px;
   }
 }
+
 //padding top
 @for $i from 1 to 10 {
   .pt-#{$i*5} {
@@ -115,4 +116,12 @@
 
 .ui-txt-white {
   color: white;
+}
+
+.ui-hide {
+  display: none;
+}
+
+.ui-show {
+  display: block;
 }

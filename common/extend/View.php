@@ -11,6 +11,7 @@ class View extends \yii\web\View
     public $showNav    = true;
     public $showGoBack = true;
     public $showSave   = false;
+    public $goBackTo   = 'javascript:history.back()';
 
     public  $data = [];
     private $keywords;

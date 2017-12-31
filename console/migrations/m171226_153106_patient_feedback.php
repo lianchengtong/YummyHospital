@@ -20,8 +20,8 @@ class m171226_153106_patient_feedback extends Migration
             'id'             => $this->primaryKey(),
             'doctor_id'      => $this->integer()->notNull(),
             'appointment_id' => $this->integer()->notNull(),
-            'mark'           => $this->string()->notNull(),
-            'content'        => $this->integer()->notNull(),
+            'mark'           => $this->integer()->notNull(),
+            'content'        => $this->string()->notNull(),
             'created_at'     => $this->integer()->notNull(),
             'updated_at'     => $this->integer()->notNull(),
         ]);

@@ -131,6 +131,17 @@ $border-color: #EFEFEF;
   }
 }
 
+.ui-doctor-recommend {
+  .head {
+    width: 120px;
+    height: 120px;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
 .ui-doctor-service-time-wrapper {
   position: relative;
   padding: 15px;

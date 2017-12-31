@@ -1,4 +1,5 @@
 <?php
+
 use yii\db\Migration;
 
 class m130524_201442_user extends Migration
@@ -11,6 +12,7 @@ class m130524_201442_user extends Migration
             'id'                   => $this->primaryKey(),
             'phone'                => $this->string()->notNull()->defaultValue(""),
             'email'                => $this->string()->notNull()->defaultValue(""),
+            'head_image'           => $this->string()->notNull()->defaultValue(""),
             'nickname'             => $this->string()->notNull()->defaultValue(""),
             'auth_key'             => $this->string(32)->notNull(),
             'password_hash'        => $this->string()->notNull(),

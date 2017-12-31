@@ -28,17 +28,27 @@ class AskController extends WebController
             }
         }
 
-        return $this->render("index", [
-            'model' => $model,
-        ]);
+        return $this->output("page.patient-ask-form",
+            [
+                'model' => $model,
+            ],
+            [
+                'title' => "门诊预约",
+            ]
+        );
     }
 
     public function actionList()
     {
         $models = PatientAsk::getModelList(UserSession::getId());
 
-        return $this->render("list", [
-            'models' => $models,
-        ]);
+        return $this->output("page.my-ask-history-list",
+            [
+                'models' => $models,
+            ],
+            [
+                'title' => "我的咨询",
+            ]
+        );
     }
 }

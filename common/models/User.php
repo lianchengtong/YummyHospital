@@ -15,6 +15,7 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property string  $nickname
+ * @property string  $head_image
  * @property string  $password_hash
  * @property string  $password_reset_token
  * @property string  $email
@@ -76,6 +77,7 @@ class User extends ActiveRecord implements IdentityInterface
     public static function randomPassword()
     {
         $random = Yii::$app->security->generateRandomKey();
+
         return Yii::$app->security->generatePasswordHash($random);
     }
 
@@ -98,6 +100,7 @@ class User extends ActiveRecord implements IdentityInterface
             default:
                 throw new InvalidParamException($type . " : is not defined!");
         }
+
         return call_user_func_array([$class, "getByUserID"], [UserSession::getId()]);
     }
 
@@ -107,7 +110,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['nickname', 'phone', 'auth_key', 'password_reset_token', 'password_hash'], 'string'],
+            [['nickname', 'head_image', 'phone', 'auth_key', 'password_reset_token', 'password_hash'], 'string'],
             ['email', 'email'],
             [['email', 'phone'], 'default', 'value' => ''],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
@@ -154,6 +157,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->setAttributes($userInfo);
         $this->generateAuthKey();
+
         return $this->save();
     }
 
@@ -172,6 +176,7 @@ class User extends ActiveRecord implements IdentityInterface
         if (!$userAuth->connectWithUser($this)) {
             return $userAuth->getErrors();
         }
+
         return true;
     }
 }
