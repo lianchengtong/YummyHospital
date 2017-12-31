@@ -8,6 +8,9 @@ class IndexController extends WebController
 {
     public function actionIndex()
     {
-        return $this->render("index");
+        return $this->output("page.index", [], [
+            'title'      => '首页',
+            'showGoBack' => false,
+        ]);
     }
 }

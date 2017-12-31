@@ -60,7 +60,6 @@ class DoctorDepartment extends \common\base\ActiveRecord
 
     public static function setDepartment($doctorID, $departmentIDList = [])
     {
-
         $cacheKey = "doctor.department.list." . $doctorID;
         Cache::delete($cacheKey);
 

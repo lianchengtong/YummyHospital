@@ -26,6 +26,7 @@ class Order extends \common\base\ActiveRecord
 
     const CHANNEL_ALIPAY    = "alipay";
     const CHANNEL_WECHATPAY = "wechatpay";
+    const CHANNEL_OFFLINE   = "offline";
 
     public static function create($channel, $name, $price)
     {
@@ -46,6 +47,7 @@ class Order extends \common\base\ActiveRecord
     public static function generateOrderID()
     {
         $orderID = sprintf("%s%s%05d", date("Ymdhis"), uniqid(), mt_rand(1, 999));
+
         return $orderID;
     }
 
@@ -69,12 +71,14 @@ class Order extends \common\base\ActiveRecord
     {
         $this->out_trade_id = $outTradeNumber;
         $this->complete_at  = time();
+
         return $this->save();
     }
 
     public function setStatus($status)
     {
         $this->status = $status;
+
         return $this->save();
     }
 
@@ -104,5 +108,24 @@ class Order extends \common\base\ActiveRecord
             [['complete_at'], 'default', 'value' => 0],
             [['status'], 'default', 'value' => self::STATUS_PENDING_PAY],
         ];
+    }
+
+    public static function getPayChannel($partial = [])
+    {
+        $list = [
+            self::CHANNEL_ALIPAY    => '支付宝',
+            self::CHANNEL_WECHATPAY => '微信支付',
+            self::CHANNEL_OFFLINE   => '到院支付',
+        ];
+
+        if (!empty($partial)) {
+            $partialList = [];
+            foreach ($partial as $item) {
+                $partialList[$item] = $list[$item];
+            }
+            $list = $partialList;
+        }
+
+        return $list;
     }
 }

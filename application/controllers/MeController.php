@@ -9,6 +9,6 @@ class MeController extends WebController
 {
     public function actionIndex()
     {
-        return $this->render("index");
+        return $this->output("page.me", [], ['title' => '个人中心', 'showGoBack' => false]);
     }
 }

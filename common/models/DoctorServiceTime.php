@@ -3,6 +3,7 @@
 namespace common\models;
 
 use common\extend\Html;
+use common\utils\Cache;
 
 /**
  * This is the model class for table "doctor_service_time".
@@ -219,9 +220,11 @@ class DoctorServiceTime extends \common\base\ActiveRecord
      */
     public static function getByDoctorID($doctor_id)
     {
-        $model = self::find()->where(['doctor_id' => $doctor_id])->one();
+        return Cache::model(self::className(), $doctor_id, function () use ($doctor_id) {
+            $model = self::find()->where(['doctor_id' => $doctor_id])->one();
 
-        return $model;
+            return $model;
+        });
     }
 
     private static function renderTableBody($doctorID, $doctorServiceDays, $year, $month)
@@ -394,6 +397,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
     // 获取医生所有可用号源天数
     public static function getAllRecentServiceTimeDate($doctorID)
     {
+        $dateLimit   = strtotime(sprintf("+%d days", self::getMaxTimeLong($doctorID)));
         $monthDelta  = 0;
         $serviceDate = [];
         while (true) {
@@ -405,13 +409,54 @@ class DoctorServiceTime extends \common\base\ActiveRecord
             if (empty($serviceDays)) {
                 break;
             }
+            foreach ($serviceDays as $day => $ticketCount) {
+                if ($month == date("m") && $day < date("d")) {
+                    continue;
+                }
 
-            foreach ($serviceDays as $serviceDay => $ticketCount) {
-                $date               = sprintf("%s-%s-%s", $year, $month, $serviceDay);
+                $date = sprintf("%d-%d-%d", $year, $month, $day);
+                if (strtotime($date) > $dateLimit) {
+                    break;
+                }
                 $serviceDate[$date] = $ticketCount;
             }
+
         }
 
         return $serviceDate;
+    }
+
+    public static function getAllRecentServiceTimeDateList($doctorID, $withWeekDay = true)
+    {
+        $serviceDays = self::getAllRecentServiceTimeDate($doctorID);
+
+        $retDay = [];
+        foreach ($serviceDays as $serviceDate => $ticketCount) {
+            list($year, $month, $serviceDay) = explode("-", $serviceDate);
+
+            $dateCN = sprintf("%s年%d月%s日", $year, $month, $serviceDay);
+            if ($withWeekDay) {
+                $weekDay = date("N", strtotime($serviceDate));
+                $weekDay = self::convertToWeekDay([$weekDay])[0];
+                $dateCN  .= " 周" . $weekDay;
+            }
+            $retDay[$serviceDate] = $dateCN;
+        }
+
+        return $retDay;
+    }
+
+    public static function getMaxTimeLong($doctorID)
+    {
+        $model = self::getByDoctorID($doctorID);
+
+        return $model->max_time_long;
+    }
+
+    public static function getDoctorServicePrice($doctorID)
+    {
+        $model = self::getByDoctorID($doctorID);
+
+        return $model->price;
     }
 }

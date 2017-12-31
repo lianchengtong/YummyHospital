@@ -1,3 +1,19 @@
+.ui-date-selector {
+  li {
+    @extend .ui-align-center;
+
+    a {
+      display: block;
+      padding: 10px;
+      border: 1px solid #efefef;
+      margin: 5px;
+      box-sizing: border-box;
+      color: #333333;
+    }
+  }
+
+}
+
 .ui-order-footer {
   display: flex;
   font-size: 18px;

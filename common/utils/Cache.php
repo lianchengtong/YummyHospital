@@ -49,4 +49,17 @@ class Cache
 
         return $data;
     }
+
+    public static function model($modalClassName, $id, callable $callable)
+    {
+        $key  = "model." . $modalClassName . $id;
+        $data = self::get($key);
+        if (!$data) {
+            if ($data = $callable()) {
+                self::set($key, $data);
+            }
+        }
+
+        return $data;
+    }
 }
