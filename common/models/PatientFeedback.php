@@ -53,7 +53,7 @@ class PatientFeedback extends \common\base\ActiveRecord
 
     public function maskPatientName()
     {
-        $name  = $this->appointment->patientInfo->username;
+        $name  = $this->appointment->patientInfo->name;
         $len   = mb_strlen($name, "utf8");
         $first = mb_substr($name, 0, 1, 'utf8');
 

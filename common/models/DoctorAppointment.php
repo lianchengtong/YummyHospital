@@ -9,6 +9,7 @@ use common\utils\UserSession;
  *
  * @property integer $id
  * @property integer $user_id
+ * @property integer $patient_id
  * @property integer $doctor_id
  * @property integer $time_begin
  * @property integer $time_end
@@ -87,7 +88,7 @@ class DoctorAppointment extends \common\base\ActiveRecord
     public function rules()
     {
         return [
-            [['doctor_id', 'order_number', 'status'], 'required'],
+            [['doctor_id', 'patient_id', 'order_number', 'status'], 'required'],
             [['user_id', 'doctor_id', 'order_number', 'status', 'created_at', 'updated_at'], 'integer'],
             [['time_begin', 'time_end'], 'string'],
         ];
@@ -105,7 +106,7 @@ class DoctorAppointment extends \common\base\ActiveRecord
 
     public function getPatientInfo()
     {
-        return $this->hasOne(DoctorAppointmentPatientInfo::className(), ['appointment_id' => 'id']);
+        return $this->hasOne(MyPatient::className(), ['id' => 'patient_id']);
     }
 
 }

@@ -1,3 +1,39 @@
+.ui-notice.ui-pay-order > i:before {
+  content: "";
+  color: #65d521
+}
+
+.ui-pay-order {
+  background: white;
+  -webkit-box-pack: start;
+
+  i {
+    margin-top: 30px;
+  }
+
+  p {
+    color: #333333;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .title {
+    font-size: 26px;
+    line-height: 26px;
+    color: #65d521;
+  }
+
+  .price {
+    @extend .ui-txt-highlight;
+  }
+
+  .ui-notice-btn {
+    padding-top: 0;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
 .ui-date-selector {
   li {
     @extend .ui-align-center;

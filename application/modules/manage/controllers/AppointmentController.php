@@ -4,7 +4,6 @@ namespace application\modules\manage\controllers;
 
 use application\base\AuthController;
 use common\models\DoctorAppointment;
-use common\models\DoctorAppointmentPatientInfo;
 use common\models\search\DoctorAppointment as DoctorAppointmentSearch;
 use common\utils\Request;
 use Yii;
@@ -29,12 +28,12 @@ class AppointmentController extends AuthController
     {
         $searchModel  = new DoctorAppointmentSearch();
         $params       = Yii::$app->request->queryParams;
-        $dataProvider = $searchModel->search($params, TRUE);
+        $dataProvider = $searchModel->search($params, true);
 
         return $this->render('list', [
             'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
-            'isRecent'     => TRUE,
+            'isRecent'     => true,
         ]);
     }
 
@@ -47,7 +46,7 @@ class AppointmentController extends AuthController
         return $this->render('list', [
             'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
-            'isRecent'     => FALSE,
+            'isRecent'     => false,
         ]);
     }
 
@@ -60,73 +59,29 @@ class AppointmentController extends AuthController
 
     public function actionCreate()
     {
-        $model        = new DoctorAppointment();
-        $patientModel = new DoctorAppointmentPatientInfo();
-
-        if (Request::isPost()) {
-            $modelLoad        = $model->load(Request::post());
-            $patientModelLoad = $patientModel->load(Request::post());
-
-            if ($modelLoad && $patientModelLoad) {
-                $trans = Yii::$app->getDb()->beginTransaction();
-                try {
-                    if (!$model->save()) {
-                        throw new \Exception("model save fail");
-                    }
-
-                    $patientModel->appointment_id = $model->primaryKey;
-                    if (!$patientModel->save()) {
-                        throw new \Exception("patientModel save fail");
-                    }
-
-                    $trans->commit();
-
-                    return $this->redirect(['all']);
-                } catch (\Exception $e) {
-                    $trans->rollBack();
-                }
+        $model = new DoctorAppointment();
+        if (Request::isPost() && $model->load(Request::post())) {
+            if (!$model->save()) {
+                throw new \Exception("model save fail");
             }
         }
 
         return $this->render('create', [
-            'model'        => $model,
-            'patientModel' => $patientModel,
+            'model' => $model,
         ]);
     }
 
     public function actionUpdate($id)
     {
-        $model        = $this->findModel($id);
-        $patientModel = $model->patientInfo;
-
-        if (Request::isPost()) {
-            $modelLoad        = $model->load(Request::post());
-            $patientModelLoad = $patientModel->load(Request::post());
-
-            if ($modelLoad && $patientModelLoad) {
-                $trans = Yii::$app->getDb()->beginTransaction();
-                try {
-                    if (!$model->save()) {
-                        throw new \Exception("model save fail");
-                    }
-
-                    $patientModel->appointment_id = $model->primaryKey;
-                    if (!$patientModel->save()) {
-                        throw new \Exception("patientModel save fail");
-                    }
-
-                    $trans->commit();
-
-                    return $this->redirect(['all']);
-                } catch (\Exception $e) {
-                    $trans->rollBack();
-                }
+        $model = $this->findModel($id);
+        if (Request::isPost() && $model->load(Request::post())) {
+            if (!$model->save()) {
+                throw new \Exception("model save fail");
             }
         }
 
         return $this->render('create', [
-            'model'        => $model,
-            'patientModel' => $patientModel,
+            'model' => $model,
         ]);
     }
 
@@ -139,7 +94,7 @@ class AppointmentController extends AuthController
 
     protected function findModel($id)
     {
-        if (($model = DoctorAppointment::findOne($id)) !== NULL) {
+        if (($model = DoctorAppointment::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');

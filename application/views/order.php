@@ -18,17 +18,18 @@ $this->showTab = false;
             实付款: <span class="ui-txt-danger ui-price-show">&yen;<?= $doctorServicePrice ?></span>
         </div>
     </div>
-    <div class="tab-item ui-order-ensure action-order-ensure">确认订单</div>
+    <div class="tab-item ui-order-ensure action-order-ensure" id="order-submit">确认订单</div>
 </footer>
 
 
-<?php $form = \yii\widgets\ActiveForm::begin() ?>
+<?php $form = \yii\widgets\ActiveForm::begin(['id' => 'form']) ?>
 
 <?= \application\builder\Code::output("element.order.patient-selector") ?>
 
 <div class="ui-form ui-border-t mb-20">
     <div class="ui-form-item ui-border-b">
         <label>医生姓名</label>
+        <?= \yii\helpers\Html::hiddenInput("data[doctor_id]", $doctorModel->id) ?>
         <?= \yii\helpers\Html::textInput("doctor_name", $doctorModel->name, ['readonly' => true]) ?>
     </div>
 
@@ -42,19 +43,20 @@ $this->showTab = false;
         <div class="ui-select">
             <?php
             $doctorDepartment = \common\models\DoctorDepartment::getDepartmentList($doctorModel->id);
-            echo \yii\helpers\Html::dropDownList("department", null, $doctorDepartment);
+            echo \yii\helpers\Html::dropDownList("data[department]", null, $doctorDepartment);
             ?>
         </div>
     </div>
 
     <div class="ui-form-item ui-border-b">
         <label>就诊地址</label>
-        <?= \yii\helpers\Html::textInput("location", "朝阳区石佛营东里133号", ['readonly' => true]) ?>
+        <?php $location = \common\models\WebsiteConfig::getValueByKey("site.hospital.location"); ?>
+        <?= \yii\helpers\Html::textInput("location", $location, ['readonly' => true]) ?>
     </div>
 
     <div class="ui-form-item ui-border-b">
         <label>预约时间</label>
-        <?= \yii\helpers\Html::textInput("time", \common\utils\Request::input("date"), ['readonly' => true]) ?>
+        <?= \yii\helpers\Html::textInput("data[date]", \common\utils\Request::input("date"), ['readonly' => true]) ?>
     </div>
 </div>
 
@@ -67,3 +69,15 @@ $this->showTab = false;
 <?= \application\builder\Code::output("element.order.appointment-term-link") ?>
 
 <?php \yii\widgets\ActiveForm::end() ?>
+<script>
+    $(function () {
+        $("body").on("click", "#order-submit", function () {
+            if (!confirm("请确认预约信息是否正确？")) {
+                return false;
+            }
+
+            $("#form").submit();
+        });
+    })
+</script>
+

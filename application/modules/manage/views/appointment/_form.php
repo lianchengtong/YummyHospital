@@ -12,8 +12,12 @@ if (!$model->isNewRecord) {
     $model->time_begin = date("Y-m-d H:i", $model->time_begin);
     $model->time_end   = date("Y-m-d H:i", $model->time_end);
 }
+
+//todo: get patient info , get user list
 ?>
 <?= $form->field($model, 'doctor_id')->dropDownList(Doctor::getList()) ?>
+<?= $form->field($model, 'user_id')->dropDownList(\common\models\User::getList()) ?>
+<?= $form->field($model, 'patient_id')->dropDownList(\common\models\MyPatient::getList(0)) ?>
 
 <div class="row">
     <div class="col-md-6">
@@ -43,12 +47,3 @@ if (!$model->isNewRecord) {
 <?= $form->field($model, 'order_number')->textInput() ?>
 
 <?= $form->field($model, 'status', ['inline' => true])->radioList(DoctorAppointment::getStatus()) ?>
-
-<div class="panel panel-default">
-    <div class="panel-heading"><strong>患者信息</strong></div>
-    <div class="panel-body">
-        <?= $form->field($patientModel, 'username')->textInput() ?>
-        <?= $form->field($patientModel, 'phone')->textInput() ?>
-        <?= $form->field($patientModel, 'memo')->textarea() ?>
-    </div>
-</div>

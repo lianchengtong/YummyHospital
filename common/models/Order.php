@@ -64,7 +64,7 @@ class Order extends \common\base\ActiveRecord
     // 把分值转换为yuan
     public function getPriceYuan()
     {
-        return sprintf("%d.%02f", $this->price / 100, $this->price % 100);
+        return sprintf("%d.%02d", $this->price / 100, $this->price % 100);
     }
 
     public function completeWithTradeNumber($outTradeNumber)

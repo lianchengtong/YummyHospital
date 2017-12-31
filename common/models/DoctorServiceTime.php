@@ -397,33 +397,37 @@ class DoctorServiceTime extends \common\base\ActiveRecord
     // 获取医生所有可用号源天数
     public static function getAllRecentServiceTimeDate($doctorID)
     {
-        $dateLimit   = strtotime(sprintf("+%d days", self::getMaxTimeLong($doctorID)));
-        $monthDelta  = 0;
-        $serviceDate = [];
-        while (true) {
-            $datetime = strtotime(sprintf("+%d month", $monthDelta));
-            $monthDelta++;
-            list($year, $month) = explode("-", date("Y-m", $datetime));
-            $serviceDays = self::getDoctorMonthServiceDays($doctorID, $year, $month);
+        $key = "doctor.all-recent-service-time-date-" . date("Ymd");
 
-            if (empty($serviceDays)) {
-                break;
-            }
-            foreach ($serviceDays as $day => $ticketCount) {
-                if ($month == date("m") && $day < date("d")) {
-                    continue;
-                }
+        return Cache::dataProvider($key, function () use ($doctorID) {
+            $dateLimit   = strtotime(sprintf("+%d days", self::getMaxTimeLong($doctorID)));
+            $monthDelta  = 0;
+            $serviceDate = [];
+            while (true) {
+                $datetime = strtotime(sprintf("+%d month", $monthDelta));
+                $monthDelta++;
+                list($year, $month) = explode("-", date("Y-m", $datetime));
+                $serviceDays = self::getDoctorMonthServiceDays($doctorID, $year, $month);
 
-                $date = sprintf("%d-%d-%d", $year, $month, $day);
-                if (strtotime($date) > $dateLimit) {
+                if (empty($serviceDays)) {
                     break;
                 }
-                $serviceDate[$date] = $ticketCount;
+                foreach ($serviceDays as $day => $ticketCount) {
+                    if ($month == date("m") && $day < date("d")) {
+                        continue;
+                    }
+
+                    $date = sprintf("%d-%d-%d", $year, $month, $day);
+                    if (strtotime($date) > $dateLimit) {
+                        break;
+                    }
+                    $serviceDate[$date] = $ticketCount;
+                }
+
             }
 
-        }
-
-        return $serviceDate;
+            return $serviceDate;
+        });
     }
 
     public static function getAllRecentServiceTimeDateList($doctorID, $withWeekDay = true)
@@ -458,5 +462,38 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         $model = self::getByDoctorID($doctorID);
 
         return $model->price;
+    }
+
+    public static function getDateServiceRange($doctorID, $date, $timestamp = true)
+    {
+        $model = self::getByDoctorID($doctorID);
+        if ($model->am['begin'] != $model->am['end']) {
+            $begin = sprintf("%s %d:00:00", $date, $model->am['begin']);
+            $end   = sprintf("%s %d:00:00", $date, $model->am['end']);
+            if ($timestamp) {
+                return [
+                    strtotime($begin),
+                    strtotime($end),
+                ];
+            }
+
+            return [$begin, $end];
+        }
+
+        if ($model->pm['begin'] != $model->pm['end']) {
+            $begin = sprintf("%s %d:00:00", $date, $model->pm['begin']);
+            $end   = sprintf("%s %d:00:00", $date, $model->pm['end']);
+
+            if ($timestamp) {
+                return [
+                    strtotime($begin),
+                    strtotime($end),
+                ];
+            }
+
+            return [$begin, $end];
+        }
+
+        return [];
     }
 }

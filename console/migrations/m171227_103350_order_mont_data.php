@@ -18,7 +18,7 @@ class m171227_103350_order_mont_data extends Migration
     {
         $this->createTable($this->_table, [
             'id'       => $this->primaryKey(),
-            'order_id' => $this->string()->notNull(),
+            'order_id' => $this->integer()->notNull(),
             'name'     => $this->string()->notNull(),
             'content'  => $this->string()->notNull(),
         ]);
