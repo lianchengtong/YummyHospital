@@ -134,11 +134,14 @@ class DoctorController extends WebController
             }
         }
 
-        return $this->render("/order", [
+        $params = [
             'doctorModel' => $doctorModel,
             'model'       => $orderModel,
+        ];
+
+        return $this->output("page.order", $params, [
+            'title'   => '确认订单',
+            'showTab' => false,
         ]);
     }
-
-
 }

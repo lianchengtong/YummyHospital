@@ -28,6 +28,10 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    //注册登陆用code
+    public $code;
+    public $password;
+
     const STATUS_ACTIVE   = 0;
     const STATUS_VERIFIED = 1;
     const STATUS_DISABLED = 99;
@@ -115,6 +119,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['email', 'phone'], 'default', 'value' => ''],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DISABLED]],
+            [['code', 'password'], 'safe'],
         ];
     }
 
@@ -178,5 +183,10 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
         return true;
+    }
+
+    public static function getByPhone($phone)
+    {
+        return self::find()->where(['phone' => $phone])->one();
     }
 }

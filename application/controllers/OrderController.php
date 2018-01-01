@@ -13,8 +13,6 @@ use yii\web\NotFoundHttpException;
 
 class OrderController extends WebController
 {
-    public $enableCsrfValidation = false;
-
     public function actionList()
     {
         echo "list";
@@ -32,8 +30,12 @@ class OrderController extends WebController
             throw new NotFoundHttpException();
         }
 
-        return $this->render("pay", [
+        return $this->output("page.order-pay", [
             'model' => $orderModel,
+        ], [
+            'title'      => "你好中国",
+            'showGoBack' => true,
+            'showTab'    => false,
         ]);
     }
 

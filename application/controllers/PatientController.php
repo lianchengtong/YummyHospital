@@ -14,9 +14,9 @@ class PatientController extends WebController
     {
         $models = MyPatient::getModelList(UserSession::getId());
 
-        return $this->render("index", [
+        return $this->output("page.patient-list", [
             'models' => $models,
-        ]);
+        ], ['title' => '就诊人管理']);
     }
 
     public function actionCreate()
@@ -30,8 +30,14 @@ class PatientController extends WebController
             }
         }
 
-        return $this->render("form", [
+        $params = [
             'model' => $model,
+        ];
+
+        return $this->output("page.patient-create-update-form", $params, [
+            'title'    => "就诊人",
+            'showTab'  => false,
+            'showSave' => true,
         ]);
     }
 
@@ -50,8 +56,14 @@ class PatientController extends WebController
             }
         }
 
-        return $this->render("form", [
+        $params = [
             'model' => $model,
+        ];
+
+        return $this->output("page.patient-create-update-form", $params, [
+            'title'    => "就诊人",
+            'showTab'  => false,
+            'showSave' => true,
         ]);
     }
 }
