@@ -19,8 +19,8 @@ class RegisterController extends WebController
             return $this->goBack();
         }
 
-        $model = new User();
-        $erros = [];
+        $model  = new User();
+        $errors = [];
         if (Request::isPost() && $model->load(Request::input())) {
             $cacheCode = Cache::get("register:" . $model->phone);
             if ($model->code != $cacheCode) {
@@ -35,9 +35,11 @@ class RegisterController extends WebController
             }
         }
 
-        return $this->render('index', [
+        return $this->output('page.register', [
             'model'  => $model,
             'errors' => $errors,
+        ], [
+            'title' => '用户注册',
         ]);
     }
 }
