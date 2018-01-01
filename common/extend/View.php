@@ -3,6 +3,7 @@
 namespace common\extend;
 
 
+use common\models\WebsiteConfig;
 use common\utils\Param;
 
 class View extends \yii\web\View
@@ -67,7 +68,7 @@ class View extends \yii\web\View
             $title = sprintf("%s - %s", $this->title, $title);
         }
 
-        echo Html::tag("title", $title);
+        echo Html::tag("title", WebsiteConfig::getValueByKey("site.name"));
         echo "\n";
 
         //register keywords
