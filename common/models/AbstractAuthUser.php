@@ -55,6 +55,11 @@ class AbstractAuthUser extends ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
+    /**
+     * @param $userID
+     *
+     * @return array|null|\yii\db\ActiveRecord|self
+     */
     public function getByUserID($userID)
     {
         return self::find()->where(['user_id' => $userID])->one();

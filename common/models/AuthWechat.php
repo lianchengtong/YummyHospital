@@ -18,4 +18,5 @@ class AuthWechat extends AbstractAuthUser implements InterfaceUserAuth
             'refresh_token_expire_at' => time() + 29 * 24 * 60 * 60,
         ]);
     }
+
 }

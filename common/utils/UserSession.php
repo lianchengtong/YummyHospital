@@ -48,10 +48,6 @@ class UserSession
         return self::instance()->login($user, $duration);
     }
 
-    public static function setFlash($key, $value = TRUE, $removeAfterAccess = TRUE)
-    {
-        \Yii::$app->getSession()->setFlash($key, $value, $removeAfterAccess);
-    }
 
     public static function needLogin()
     {
