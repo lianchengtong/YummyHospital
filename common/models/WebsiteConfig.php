@@ -3,9 +3,9 @@
 namespace common\models;
 
 
+use common\utils\Cache;
 use yii\behaviors\TimestampBehavior;
 use yii\db\BaseActiveRecord;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "website_config".
@@ -59,6 +59,29 @@ class WebsiteConfig extends \common\base\ActiveRecord
         return $model->save();
     }
 
+    public static function getAll()
+    {
+        return Cache::dataProvider("website_config", function () {
+            /** @var self[] $models */
+            $models = self::find()->all();
+
+            $keyValue = [];
+            foreach ($models as $model) {
+                if ($model->type == self::TYPE_SPLIT) {
+                    continue;
+                }
+                $keyValue[$model->key] = $model->value;
+            }
+
+            return $keyValue;
+        });
+    }
+
+    public static function clearCache()
+    {
+        Cache::delete("website_config");
+    }
+
     /**
      * @param $key
      *
@@ -73,18 +96,20 @@ class WebsiteConfig extends \common\base\ActiveRecord
 
     public static function getValueByKey($key)
     {
-        $model = self::getByKey($key);
-        if (!$model) {
-            return "";
-        }
+        $list = self::getAll();
 
-        return $model->value;
+        return $list[$key];
     }
 
     public static function getMultiValue($keys)
     {
-        $models = self::find()->select("key,value")->where(['key' => $keys])->all();
-        return ArrayHelper::map($models, "key", "value");
+        $list = self::getAll();
+        $data = [];
+        foreach ($keys as $key) {
+            $data[$key] = $list[$key];
+        }
+
+        return $data;
     }
 
     public function attributeLabels()

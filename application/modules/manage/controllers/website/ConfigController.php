@@ -29,13 +29,21 @@ class ConfigController extends AuthController
     {
         if (Request::isPost()) {
             $postForm = Request::input((new WebsiteConfig())->formName(), []);
+            $listData = WebsiteConfig::getAll();
             foreach ($postForm as $key => $value) {
                 if (is_array($value)) {
                     $value = implode(",", $value);
                 }
+
+                if ($listData[$key] == $value) {
+                    continue;
+                }
+
                 WebsiteConfig::set($key, $value);
             }
+            WebsiteConfig::clearCache();
         }
+
         $configGroup   = WebsiteConfigGroup::getGroupList();
         $websiteConfig = WebsiteConfig::find()->orderBy(['order' => SORT_DESC, 'created_at' => SORT_ASC])->all();
 
