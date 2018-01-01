@@ -109,4 +109,40 @@ class DoctorAppointment extends \common\base\ActiveRecord
         return $this->hasOne(MyPatient::className(), ['id' => 'patient_id']);
     }
 
+    public function getFeedback()
+    {
+        return $this->hasOne(PatientFeedback::className(), [
+            'appointment_id' => 'id',
+        ]);
+    }
+
+    public function getPrice()
+    {
+        $orderModel = $this->getOrderModel();
+        if (!$orderModel) {
+            return 0;
+        }
+
+        return $orderModel->getPriceYuan();
+    }
+
+    public function getOrderModel()
+    {
+        $condition = [
+            'name'    => 'appointment_id',
+            'content' => $this->id,
+        ];
+        /** @var \common\models\OrderMontData $orderMontInfo */
+        $orderMontInfo = OrderMontData::find()->where($condition)->one();
+        if (!$orderMontInfo) {
+            return null;
+        }
+
+        /** @var \common\models\Order $orderModel */
+        $orderModel = Order::find()
+                           ->where(['id' => $orderMontInfo->order_id])
+                           ->one();
+
+        return $orderModel;
+    }
 }

@@ -26,7 +26,7 @@ AppAsset::register($this);
 <script>
     <?php
     if (!empty($this->errors)) {
-        echo "alert(\"" . implode("\n", $this->errors) . "\");";
+        echo 'alert("' . implode('\n', $this->errors) . '");';
     }
     ?>
 </script>

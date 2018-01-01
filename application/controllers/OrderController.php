@@ -33,7 +33,7 @@ class OrderController extends WebController
         return $this->output("page.order-pay", [
             'model' => $orderModel,
         ], [
-            'title'      => "你好中国",
+            'title'      => "订单支付",
             'showGoBack' => true,
             'showTab'    => false,
         ]);

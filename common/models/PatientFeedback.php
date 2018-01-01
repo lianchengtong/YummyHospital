@@ -18,7 +18,7 @@ class PatientFeedback extends \common\base\ActiveRecord
     public function rules()
     {
         return [
-            [['doctor_id', 'appointment_id', 'mark', 'content', 'created_at', 'updated_at'], 'required'],
+            [['doctor_id', 'appointment_id', 'mark', 'content'], 'required'],
             [['doctor_id', 'appointment_id', 'mark', 'created_at', 'updated_at'], 'integer'],
             [['content'], 'string', 'max' => 255],
         ];
@@ -40,6 +40,11 @@ class PatientFeedback extends \common\base\ActiveRecord
     public function getAppointment()
     {
         return $this->hasOne(DoctorAppointment::className(), ['id' => 'appointment_id']);
+    }
+
+    public function getDoctor()
+    {
+        return $this->hasOne(Doctor::className(), ['id' => 'doctor_id']);
     }
 
     public static function getLatestFeedbackToDoctor($doctorID)
