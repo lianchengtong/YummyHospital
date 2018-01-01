@@ -88,8 +88,13 @@ class AppointmentController extends WebController
                                             ->orderBy(['id' => SORT_DESC])
                                             ->all();
 
-        return $this->render("list", [
+        $params = [
             'models' => $feedbackModels,
+        ];
+
+        return $this->output("page.appointment.feedback-list", $params, [
+            'title'   => '我的评价',
+            'showTab' => false,
         ]);
     }
 }
