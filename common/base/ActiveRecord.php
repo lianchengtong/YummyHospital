@@ -1,4 +1,5 @@
 <?php
+
 namespace common\base;
 
 
@@ -6,7 +7,7 @@ use yii\behaviors\TimestampBehavior;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
-    protected $enableTimeBehavior = TRUE;
+    protected $enableTimeBehavior = true;
 
     public function behaviors()
     {
@@ -31,5 +32,15 @@ class ActiveRecord extends \yii\db\ActiveRecord
         $class = preg_replace('/([A-Z])/', '_${1}', $class);
 
         return '{{%' . trim(strtolower($class), "_") . '}}';
+    }
+
+    public function getErrorList()
+    {
+        $errors = [];
+        foreach ($this->getErrors() as $attribute => $error) {
+            $errors[] = implode(",", $error);
+        }
+
+        return $errors;
     }
 }

@@ -23,6 +23,13 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 <?php require sprintf("%s/%s.php", __DIR__, $snip); ?>
 <?php $this->endBody() ?>
+<script>
+    <?php
+    if (!empty($this->errors)) {
+        echo "alert(\"" . implode("\n", $this->errors) . "\");";
+    }
+    ?>
+</script>
 </body>
 </html>
 <?php $this->endPage() ?>

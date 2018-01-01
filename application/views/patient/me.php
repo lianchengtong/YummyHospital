@@ -5,7 +5,7 @@
 /* @var $model \common\models\WebsiteConfig */
 
 $this->title    = "个人资料";
-$this->showSave = true;
+$this->showSave = $model->isNewRecord;
 $this->showTab  = false;
 ?>
 <div class="ui-form ui-border-t">
@@ -38,7 +38,9 @@ $this->showTab  = false;
 
     <div class="ui-form-item ui-border-b">
         <label>成员关系</label>
-        <?= \yii\helpers\Html::activeDropDownList($model, "relation", \common\models\MyPatient::relationList()); ?>
+        <div class="ui-select">
+            <?= \yii\helpers\Html::activeDropDownList($model, "relation", \common\models\MyPatient::relationList()); ?>
+        </div>
     </div>
 
     <div class="ui-form-item ui-border-b">
@@ -59,7 +61,6 @@ $this->showTab  = false;
 
     <div class="ui-form-item ui-border-b">
         <label>身份证号</label>
-        <input type="text" placeholder="15或18位身份证号">
         <?= \yii\helpers\Html::activeTextInput($model, "identify", [
             'pattern' => '\d*', 'placeholder' => "18或15位身份证号", 'type' => 'tel',
         ]) ?>
@@ -68,7 +69,6 @@ $this->showTab  = false;
 
     <div class="ui-form-item ui-border-b">
         <label>身高</label>
-        <input type="text" placeholder="cm">
         <?= \yii\helpers\Html::activeTextInput($model, "height", [
             'pattern' => '\d*', 'placeholder' => "厘米", 'type' => 'tel',
         ]) ?>
@@ -83,3 +83,14 @@ $this->showTab  = false;
     <?php \yii\widgets\ActiveForm::end(); ?>
 </div>
 
+<script>
+    $(function () {
+        $("body").on("click", "#action-btn-save", function (e) {
+            e.preventDefault();
+            if (!confirm("请认真核对您的个人信息，保存后不可修改和删除，是否保存？")) {
+                return false;
+            }
+            $("#form").submit();
+        })
+    })
+</script>

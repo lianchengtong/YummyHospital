@@ -12,6 +12,10 @@ namespace common\models;
  * @property string  $birth
  * @property string  $phone
  * @property string  $identify
+ * @property integer $relation
+ * @property integer $height
+ * @property integer $weight
+ * @property integer $is_self
  */
 class MyPatient extends \common\base\ActiveRecord
 {
@@ -25,7 +29,7 @@ class MyPatient extends \common\base\ActiveRecord
     {
         return [
             [['user_id', 'name', 'sex', 'phone', 'identify'], 'required'],
-            [['user_id', 'sex'], 'integer'],
+            [['user_id', 'sex', 'height', 'is_self', 'weight', 'relation'], 'integer'],
             [['name', 'birth', 'phone', 'birth', 'identify'], 'string', 'max' => 255],
             [['birthYear', 'birthMonth', 'birthDay'], 'safe'],
         ];
@@ -106,5 +110,15 @@ class MyPatient extends \common\base\ActiveRecord
         $models = self::find()->where(['user_id' => $userID])->all();
 
         return $models;
+    }
+
+    public static function relationList()
+    {
+        return [
+            '本人',
+            '家人',
+            '亲属',
+            '朋友',
+        ];
     }
 }

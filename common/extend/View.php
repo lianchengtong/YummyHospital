@@ -13,7 +13,8 @@ class View extends \yii\web\View
     public $showSave   = false;
     public $goBackTo   = 'javascript:history.back()';
 
-    public  $data = [];
+    public  $errors = [];
+    public  $data   = [];
     private $keywords;
     private $description;
 

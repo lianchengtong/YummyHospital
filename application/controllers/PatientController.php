@@ -19,6 +19,26 @@ class PatientController extends WebController
         ], ['title' => '就诊人管理']);
     }
 
+    public function actionMe()
+    {
+        $model = MyPatient::findOne(['is_self' => 1, 'user_id' => UserSession::getId()]);
+        if (!$model) {
+            $model = new MyPatient();
+        }
+        if ($model->isNewRecord && Request::isPost() && $model->load(Request::input())) {
+            $model->is_self = true;
+            $model->user_id = UserSession::getId();
+            if ($model->save()) {
+                $this->redirect("/me");
+            }
+            $this->getView()->errors = $model->getErrorList();
+        }
+
+        return $this->render("me", [
+            'model' => $model,
+        ]);
+    }
+
     public function actionCreate()
     {
         $model          = new MyPatient();
