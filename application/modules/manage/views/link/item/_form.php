@@ -1,7 +1,6 @@
 <?php
 
 use common\models\LinkGroupItem;
-
 /* @var $this yii\web\View */
 /* @var $model common\models\LinkGroupItem */
 
