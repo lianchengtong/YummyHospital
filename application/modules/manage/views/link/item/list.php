@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'pid',
         'data',
+        'options',
 
         ['class' => '\common\extend\ActionColumn'],
     ],

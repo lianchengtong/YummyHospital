@@ -11,7 +11,7 @@ namespace common\models;
  */
 class LinkGroup extends \common\base\ActiveRecord
 {
-    protected $enableTimeBehavior = FALSE;
+    protected $enableTimeBehavior = false;
 
     public function rules()
     {
@@ -29,5 +29,20 @@ class LinkGroup extends \common\base\ActiveRecord
             'name' => 'Name',
             'slug' => 'Slug',
         ];
+    }
+
+    public static function getBySlug($slug)
+    {
+        return self::find()->where(['slug' => $slug])->one();
+    }
+
+    public static function getLinkItems($slug)
+    {
+        $model = self::getBySlug($slug);
+        if (!$model) {
+            return [];
+        }
+
+        return LinkGroupItem::getIndentList($model->id);
     }
 }

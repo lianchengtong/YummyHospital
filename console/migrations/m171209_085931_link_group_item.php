@@ -17,6 +17,7 @@ class m171209_085931_link_group_item extends Migration
             'pid'           => $this->integer()->notNull()->defaultValue(0),
             'order'         => $this->integer()->notNull()->defaultValue(0),
             'data'          => $this->string()->notNull()->defaultValue(""),
+            'options'       => $this->string()->notNull()->defaultValue(""),
         ]);
     }
 

@@ -12,7 +12,7 @@ class LinkGroupItem extends LinkGroupItemModel
     {
         return [
             [['id', 'link_group_id', 'order', 'type', 'pid'], 'integer'],
-            [['name', 'slug', 'data'], 'safe'],
+            [['name', 'options', 'slug', 'data'], 'safe'],
         ];
     }
 

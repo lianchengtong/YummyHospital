@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use yii\helpers\Url;
+
 /**
  * This is the model class for table "link_group_item".
  *
@@ -11,11 +13,16 @@ namespace common\models;
  * @property string  $slug
  * @property integer $type
  * @property integer $pid
+ * @property integer $order
  * @property string  $data
+ * @property string  $options
  */
 class LinkGroupItem extends \common\base\ActiveRecord
 {
-    protected $enableTimeBehavior = FALSE;
+    protected $enableTimeBehavior = false;
+
+    /** @var self[] */
+    public $children;
 
     const TYPE_MODULE  = 0;
     const TYPE_ARTICLE = 1;
@@ -27,7 +34,7 @@ class LinkGroupItem extends \common\base\ActiveRecord
             [['link_group_id'], 'required'],
             ['slug', 'unique'],
             [['link_group_id', 'order', 'type', 'pid'], 'integer'],
-            [['name', 'slug', 'data'], 'string', 'max' => 255],
+            [['name', 'slug', 'options', 'data'], 'string', 'max' => 255],
             ['order', 'default', 'value' => 0],
         ];
     }
@@ -55,6 +62,15 @@ class LinkGroupItem extends \common\base\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if (empty($this->slug)) {
+            $this->slug = md5(\Yii::$app->getSecurity()->generateRandomString());
+        }
+
+        return parent::beforeSave($insert);
+    }
+
     public static function getTypeDesc($typeID)
     {
         $list = self::typeList();
@@ -62,9 +78,9 @@ class LinkGroupItem extends \common\base\ActiveRecord
         return $list[$typeID];
     }
 
-    public static function getFlatIndentList($showRoot = FALSE)
+    public static function getFlatIndentList($groupID, $showRoot = false)
     {
-        $list = self::getIndentList();
+        $list = self::getIndentList($groupID);
 
         $items = [];
         $level = 0;
@@ -80,25 +96,28 @@ class LinkGroupItem extends \common\base\ActiveRecord
     private static function generateTree($items)
     {
         foreach ($items as $item)
-            $items[$item['pid']]['children'][$item['id']] = &$items[$item['id']];
+            $items[$item->pid]->children[$item->id] = &$items[$item->id];
 
-        return isset($items[0]['children']) ? $items[0]['children'] : [];
+        return isset($items[0]->children) ? $items[0]->children : [];
     }
 
-    public static function getIndentList()
+    public static function getIndentList($groupID)
     {
-        $list = self::getList();
+        $list = self::getList($groupID);
 
         return self::generateTree($list);
     }
 
-    public static function getList()
+    public static function getList($groupID)
     {
-        $dataList = self::find()->orderBy(['pid' => SORT_ASC])->asArray()->all();
+        $dataList = self::find()
+                        ->where(['link_group_id' => $groupID])
+                        ->orderBy(['pid' => SORT_ASC])
+                        ->all();
 
         $keyDataList = [];
         foreach ($dataList as $data) {
-            $keyDataList[$data['id']] = $data;
+            $keyDataList[$data->primaryKey] = $data;
         }
 
         return $keyDataList;
@@ -112,10 +131,40 @@ class LinkGroupItem extends \common\base\ActiveRecord
             if ($treeLevel > 0) {
                 $prefix = str_repeat("- ", $treeLevel * 2);
             }
-            $items[$item['id']] = $prefix . $item['name'];
-            if (isset($item['children']) && is_array($item['children'])) {
-                self::formatFlatIndentList($item['children'], $items, ++$treeLevel);
+            $items[$item->id] = $prefix . $item->name;
+            if (isset($item->children) && is_array($item->children)) {
+                self::formatFlatIndentList($item->children, $items, ++$treeLevel);
             }
         }
+    }
+
+    public function getOption($optionName = null)
+    {
+        $optionData = json_decode($this->options, true);
+        if (is_null($optionName)) {
+            return $optionData;
+        }
+
+        return $optionData[$optionName];
+    }
+
+    public function getUrl()
+    {
+        $url = [];
+        switch ($this->type) {
+            case self::TYPE_ARTICLE:
+                $url = ["/article/index", 'id' => $this->data];
+                break;
+            case self::TYPE_MODULE:
+                $url = json_decode($this->data, true);
+                break;
+            case self::TYPE_URL:
+                if (!($url = json_decode($this->data, true))) {
+                    $url = $this->data;
+                }
+                break;
+        }
+
+        return Url::to($url);
     }
 }

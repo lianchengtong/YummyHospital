@@ -6,6 +6,7 @@ use application\base\AuthController;
 use common\models\LinkGroup;
 use common\models\LinkGroupItem;
 use common\models\search\LinkGroupItem as LinkGroupItemSearch;
+use common\utils\Json;
 use common\utils\Request;
 use Yii;
 use yii\base\InvalidParamException;
@@ -33,10 +34,10 @@ class ItemController extends AuthController
             throw new NotFoundHttpException();
         }
 
-        $searchModel                                       = new LinkGroupItemSearch();
-        $params                                            = Yii::$app->request->queryParams;
-        $params[$searchModel->formName()]['link_group_id'] = $linkGroupModel->id;
-        $dataProvider                                      = $searchModel->search($params);
+        $searchModel = new LinkGroupItemSearch();
+        $params      = Request::input();
+        //$params[$searchModel->formName()]['link_group_id'] = $linkGroupModel->id;
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('list', [
             'searchModel'    => $searchModel,
@@ -96,7 +97,7 @@ class ItemController extends AuthController
 
     protected function findModel($id)
     {
-        if (($model = LinkGroupItem::findOne($id)) !== NULL) {
+        if (($model = LinkGroupItem::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
