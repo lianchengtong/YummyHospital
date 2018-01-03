@@ -10,7 +10,7 @@ use yii\web\Controller;
 
 class BaseController extends Controller
 {
-    public $layoutSnip    = "main";
+    public $layoutSnip = "main";
     public $pageItemCount = 10;
 
     public function init()
@@ -58,7 +58,7 @@ class BaseController extends Controller
 
             return $this->getView()->renderFile($layoutFile, [
                 'content' => $content,
-                'snip'    => $snipFile,
+                'snip' => $snipFile,
             ], $this);
         }
 
@@ -67,7 +67,7 @@ class BaseController extends Controller
 
     /**
      * @param string|array $view
-     * @param array        $params
+     * @param array $params
      *
      * @return string
      */
@@ -84,12 +84,17 @@ class BaseController extends Controller
         return parent::render($view, $params);
     }
 
-    public function output($codeID, $params = [], $viewSettings = [])
+    public function setViewData($viewSettings = [])
     {
         foreach ($viewSettings as $key => $value) {
             $this->getView()->$key = $value;
         }
+        return $this;
+    }
 
+    public function output($codeID, $params = [], $viewSettings = [])
+    {
+        $this->setViewData($viewSettings);
         $content = Code::output($codeID, $params);
 
         return $this->renderContent($content);

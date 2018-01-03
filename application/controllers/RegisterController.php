@@ -68,10 +68,11 @@ class RegisterController extends WebController
 
         $this->getView()->errors = $errors;
 
-        return $this->output('page.register', [
-            'model' => $model,
-        ], [
+        return $this->setViewData([
             'title' => '用户注册',
+            'errors' => $errors
+        ])->output('page.register', [
+            'model' => $model,
         ]);
     }
 }

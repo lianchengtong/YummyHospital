@@ -57,12 +57,12 @@ class LoginController extends WebController
 
         }
 
-        $this->getView()->errors = $errors;
-        return $this->output('page.login', [
+        return $this->setViewData([
+            'errors' => $errors,
+            'title' => '用户登录',
+        ])->output('page.login', [
             'model' => $model,
             'mode' => Request::input("mode", "password"),
-        ], [
-            'title' => '用户登录',
         ]);
     }
 }
