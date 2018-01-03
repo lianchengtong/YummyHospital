@@ -16,12 +16,12 @@ class LoginController extends WebController
     public function actionIndex()
     {
         if (!UserSession::isGuest()) {
-            return $this->goBack();
+            return $this->redirect("/");
         }
 
-        $model  = new User();
+        $model = new User();
         $errors = [];
-        $mode   = Request::input("mode", "password");
+        $mode = Request::input("mode", "password");
         if (Request::isPost() && $model->load(Request::input())) {
             if ($mode == "password") {
                 $password = $model->password;
@@ -56,7 +56,7 @@ class LoginController extends WebController
 
         return $this->output('page.login', [
             'model' => $model,
-            'mode'  => Request::input("mode", "password"),
+            'mode' => Request::input("mode", "password"),
         ], [
             'title' => '用户登录',
         ]);

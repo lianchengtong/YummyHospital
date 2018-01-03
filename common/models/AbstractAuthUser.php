@@ -7,14 +7,14 @@ use common\base\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 
 /**
- * @property integer             $id
- * @property integer             $user_id
- * @property string              $open_id
- * @property string              $access_token
- * @property string              $refresh_token
- * @property integer             $access_token_expire_at
- * @property integer             $refresh_token_expire_at
- * @property integer             $created_at
+ * @property integer $id
+ * @property integer $user_id
+ * @property string $open_id
+ * @property string $access_token
+ * @property string $refresh_token
+ * @property integer $access_token_expire_at
+ * @property integer $refresh_token_expire_at
+ * @property integer $created_at
  * @property \common\models\User $user
  */
 class AbstractAuthUser extends ActiveRecord
@@ -22,7 +22,7 @@ class AbstractAuthUser extends ActiveRecord
     /**
      * @param $openID
      *
-     * @return array|null|\yii\db\ActiveRecord|\common\models\interfaces\InterfaceUserAuth
+     * @return array|null|\yii\db\ActiveRecord|\common\models\interfaces\InterfaceUserAuth|AbstractAuthUser
      */
     public static function getByOpenID($openID)
     {
@@ -33,7 +33,7 @@ class AbstractAuthUser extends ActiveRecord
     {
         return [
             [
-                'class'      => TimestampBehavior::className(),
+                'class' => TimestampBehavior::className(),
                 'attributes' => [
                     self::EVENT_BEFORE_INSERT => ['created_at'],
                 ],
@@ -50,6 +50,9 @@ class AbstractAuthUser extends ActiveRecord
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery|User
+     */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);

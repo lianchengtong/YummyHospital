@@ -3,8 +3,8 @@
   overflow: hidden;
 
   .ui-9-grids {
-    margin-left: -1px;
-    margin-right: -1px;
+    margin-left: -20px;
+    margin-right: -20px;
 
     @include clearfix;
     display: flex;
@@ -18,7 +18,7 @@
       color: #333333;
 
       text-align: center;
-      width: 33.33333333333%;
+      width: 32.333%;
       box-sizing: border-box;
 
       .ui-grid-icon {

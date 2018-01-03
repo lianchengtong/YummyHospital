@@ -3,11 +3,12 @@
 namespace application\controllers;
 
 
-use application\base\WebController;
+use application\base\BaseController;
 use common\models\Order;
 use common\utils\pay\Wechat;
+use common\utils\Request;
 
-class CallbackController extends WebController
+class CallbackController extends BaseController
 {
     public $enableCsrfValidation = false;
 
@@ -20,9 +21,9 @@ class CallbackController extends WebController
 
         $trans = \Yii::$app->getDb()->beginTransaction();
         try {
-            $totalFee    = $response['total_fee'];
+            $totalFee = $response['total_fee'];
             $outTradeNum = $response['transaction_id'];
-            $orderID     = $response['out_trade_no'];
+            $orderID = $response['out_trade_no'];
 
             $orderModel = Order::getByOrderID($orderID);
             if (!$orderModel) {

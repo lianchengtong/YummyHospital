@@ -2,9 +2,10 @@
 
 namespace application\controllers;
 
-use application\base\WebController;
+use application\base\BaseController;
+use yii\web\Controller;
 
-class ErrorController extends WebController
+class ErrorController extends BaseController
 {
     //public function actions()
     //{
@@ -18,7 +19,7 @@ class ErrorController extends WebController
     public function actionIndex()
     {
         return $this->output("page.error", [], [
-            'title'   => '出错了',
+            'title' => '出错了',
             'showTab' => false,
         ]);
     }

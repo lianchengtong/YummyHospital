@@ -11,7 +11,7 @@ class AuthWechat extends AbstractAuthUser implements InterfaceUserAuth
     public function setAuthData($authInfo)
     {
         $this->setAttributes([
-            'open_id'                 => $authInfo['open_id'],
+            'open_id'                 => $authInfo['openid'],
             'access_token'            => $authInfo['access_token'],
             'refresh_token'           => $authInfo['refresh_token'],
             'access_token_expire_at'  => time() + intval($authInfo['expire_at']),

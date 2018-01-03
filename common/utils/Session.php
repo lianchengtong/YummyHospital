@@ -13,6 +13,16 @@ class Session
         return \Yii::$app->getSession();
     }
 
+    public static function remove($key)
+    {
+        return self::instance()->remove($key);
+    }
+
+    public static function removeAll()
+    {
+        return self::instance()->removeAll();
+    }
+
     public static function get($key, $default = null)
     {
         return self::instance()->get($key, $default);

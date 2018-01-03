@@ -16,13 +16,13 @@ class AliyunSMS extends Component
 
     public static function sendSms($to, $template_code, $data, $outId = '')
     {
-        $configData      = WebsiteConfig::getMultiValue([
+        $configData = WebsiteConfig::getMultiValue([
             "site.aliyun.access_key_id",
             "site.aliyun.access_key_secret",
         ]);
-        $accessKeyId     = $configData['site.aliyun.access_key_id'];
+        $accessKeyId = $configData['site.aliyun.access_key_id'];
         $accessKeySecret = $configData['site.aliyun.access_key_secret'];
-        $signName        = "爱泡云";
+        $signName = "爱泡云";
 
         //短信API产品名
         $product = "Dysmsapi";
@@ -56,10 +56,10 @@ class AliyunSMS extends Component
         }
 
         //发起访问请求
-        $response            = $acsClient->getAcsResponse($request);
+        $response = $acsClient->getAcsResponse($request);
         self::$_lastResponse = $response;
 
-        if ($response['Code'] == "OK") {
+        if ($response->Code == "OK") {
             return true;
         }
 
