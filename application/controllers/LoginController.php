@@ -27,23 +27,27 @@ class LoginController extends WebController
                 $password = $model->password;
 
                 /** @var User $model */
-                $model = User::getByPhone($model->phone);
-                if ($model->validatePassword($password)) {
-                    UserSession::login($model);
+                $userModel = User::getByPhone($model->phone);
+                if (!$userModel) {
+                    $errors[] = "手机号还没有注册";
+                } else {
+                    if ($userModel->validatePassword($password)) {
+                        UserSession::login($userModel);
 
-                    return $this->redirect("/");
+                        return $this->redirect("/");
+                    }
+                    $errors[] = "密码错误";
                 }
-                $errors[] = "密码错误";
             } else {
                 $cacheCode = Cache::get("login:" . $model->phone);
                 if ($cacheCode != $model->code) {
                     $errors[] = "验证码错误！";
                 } else {
-                    $model = User::getByPhone($model->phone);
-                    if (!$model) {
+                    $userModel = User::getByPhone($model->phone);
+                    if (!$userModel) {
                         $errors[] = "用户不存在";
                     } else {
-                        UserSession::login($model);
+                        UserSession::login($userModel);
 
                         return $this->redirect("/");
                     }
@@ -53,7 +57,6 @@ class LoginController extends WebController
         }
 
         $this->getView()->errors = $errors;
-
         return $this->output('page.login', [
             'model' => $model,
             'mode' => Request::input("mode", "password"),

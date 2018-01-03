@@ -57,7 +57,7 @@ class SmsController extends WebController
             Cache::set($mode . ":" . $phone, $code, 30 * 60);
             Cache::set($cacheSendLockKey, 1, 60);
 
-            return Json::success($code);
+            return Json::success();
         }
 
         return Json::error();
