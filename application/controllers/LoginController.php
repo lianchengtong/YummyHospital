@@ -48,6 +48,7 @@ class LoginController extends WebController
                         $errors[] = "用户不存在";
                     } else {
                         UserSession::login($userModel);
+                        Cache::delete("login:" . $model->phone);
 
                         return $this->redirect("/");
                     }

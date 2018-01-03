@@ -55,6 +55,7 @@ class RegisterController extends WebController
                         throw new \Exception("用户登陆失败！");
                     }
 
+                    Cache::delete("register:" . $model->phone);
                     $trans->commit();
                     return $this->redirect("/");
                 } catch (\Exception $e) {
