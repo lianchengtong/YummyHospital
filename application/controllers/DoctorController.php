@@ -34,7 +34,7 @@ class DoctorController extends WebController
     public function actionAppointmentTerm()
     {
         return $this->output("page.doctor-appointment.term", [], [
-            'title'   => '预约需知',
+            'title' => '预约需知',
             'showTab' => false,
         ]);
     }
@@ -50,7 +50,7 @@ class DoctorController extends WebController
         return $this->output("page.doctor-appointment.date-picker",
             ['model' => $model],
             [
-                'title'   => '就诊日期',
+                'title' => '就诊日期',
                 'showTab' => false,
             ]
         );
@@ -66,13 +66,13 @@ class DoctorController extends WebController
 
         $orderModel = new Order();
         if (Request::isPost()) {
-            $data  = Request::input("data");
+            $data = Request::input("data");
             $trans = Order::getDb()->beginTransaction();
             try {
-                $patientID  = $data['patient'];
-                $doctorID   = $data['doctor_id'];
+                $patientID = $data['patient'];
+                $doctorID = $data['doctor_id'];
                 $department = $data['department'];
-                $date       = $data['date'];
+                $date = $data['date'];
                 $payChannel = $data['pay_channel'];
                 list($year, $month, $day) = explode("-", $date);
 
@@ -97,7 +97,7 @@ class DoctorController extends WebController
                 }
                 $departmentName = Department::getName($department);
 
-                $name  = sprintf("%s %s 医生 %s 会诊", $date, $doctorModel->name, $departmentName);
+                $name = sprintf("%s %s 医生 %s 会诊", $date, $doctorModel->name, $departmentName);
                 $price = DoctorServiceTime::getDoctorServicePrice($doctorID);
                 $order = Order::create($payChannel, $name, $price);
                 if (!$order) {
@@ -105,11 +105,11 @@ class DoctorController extends WebController
                 }
                 $doctorServiceRange = DoctorServiceTime::getDateServiceRange($doctorID, $date, false);
 
-                $appointmentModel               = new DoctorAppointment();
-                $appointmentModel->doctor_id    = $doctorID;
-                $appointmentModel->user_id      = UserSession::getId();
-                $appointmentModel->patient_id   = $patientID;
-                $appointmentModel->status       = DoctorAppointment::STATUS_PENDING;
+                $appointmentModel = new DoctorAppointment();
+                $appointmentModel->doctor_id = $doctorID;
+                $appointmentModel->user_id = UserSession::getId();
+                $appointmentModel->patient_id = $patientID;
+                $appointmentModel->status = DoctorAppointment::STATUS_PENDING;
                 $appointmentModel->order_number = 1 + DoctorAppointment::getDayAppointmentCount($doctorID, $year, $month, $day);
                 list($appointmentModel->time_begin, $appointmentModel->time_end) = $doctorServiceRange;
 
@@ -117,10 +117,10 @@ class DoctorController extends WebController
                     throw new \Exception("save appoint ment info fail");
                 }
 
-                $orderMontDataModel           = new OrderMontData();
+                $orderMontDataModel = new OrderMontData();
                 $orderMontDataModel->order_id = $order->primaryKey;
-                $orderMontDataModel->name     = 'appointment_id';
-                $orderMontDataModel->content  = strval($appointmentModel->id);
+                $orderMontDataModel->name = 'appointment_id';
+                $orderMontDataModel->content = strval($appointmentModel->id);
                 if (!$orderMontDataModel->save()) {
                     throw new \Exception("order mont data save fail");
                 }
@@ -131,17 +131,21 @@ class DoctorController extends WebController
                 return $this->redirect(['/order/wechat-pay', 'id' => $order->order_id]);
             } catch (\Exception $e) {
                 $trans->rollBack();
+
+                $errors[] = $e->getMessage();
             }
         }
 
         $params = [
             'doctorModel' => $doctorModel,
-            'model'       => $orderModel,
+            'model' => $orderModel,
+        ];
+        $viewData = [
+            'title' => '确认订单',
+            'showTab' => false,
+            'errors' => $errors,
         ];
 
-        return $this->output("page.order", $params, [
-            'title'   => '确认订单',
-            'showTab' => false,
-        ]);
+        return $this->setViewData($viewData)->output("page.order", $params);
     }
 }

@@ -27,9 +27,10 @@ class AppointmentController extends WebController
             'showGoBack' => false,
         ];
 
-        return $this->output("page.doctor-appointment-ask-list", [
-            'items' => $items,
-        ], $viewSettings);
+        return $this->setViewData($viewSettings)
+            ->output("page.doctor-appointment-ask-list", [
+                'items' => $items,
+            ]);
     }
 
     public function actionList()
