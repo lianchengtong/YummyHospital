@@ -221,7 +221,7 @@ class Category extends \common\base\ActiveRecord
     {
         $cacheKey = "category.sub." . $pCategoryID;
 
-        return Cache::dataProvider($cacheKey, function () use ($pCategoryID) {
+        return Cache::getOrSet($cacheKey, function () use ($pCategoryID) {
             $items = self::getSubTree($pCategoryID);
 
             return $items;

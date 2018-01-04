@@ -399,7 +399,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
     {
         $key = "doctor.all-recent-service-time-date-" . date("Ymd");
 
-        return Cache::dataProvider($key, function () use ($doctorID) {
+        return Cache::getOrSet($key, function () use ($doctorID) {
             $dateLimit = strtotime(sprintf("+%d days", self::getMaxTimeLong($doctorID)));
             $monthDelta = 0;
             $serviceDate = [];

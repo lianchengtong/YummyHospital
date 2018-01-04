@@ -32,7 +32,7 @@ class DoctorLevel extends \common\base\ActiveRecord
 
     public static function levelList()
     {
-        return Cache::dataProvider("doctor.level.list", function () {
+        return Cache::getOrSet("doctor.level.list", function () {
             $models = self::find()->all();
 
             return ArrayHelper::map($models, 'id', 'level_name');

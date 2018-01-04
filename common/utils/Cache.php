@@ -38,28 +38,14 @@ class Cache
         return self::getInstance()->flush();
     }
 
-    public static function dataProvider($key, callable $callable)
+    public static function getOrSet($key, callable $callable, $duration = null, $dependency = null)
     {
-        $data = self::get($key);
-        if (!$data) {
-            if ($data = $callable()) {
-                self::set($key, $data);
-            }
-        }
-
-        return $data;
+        return self::getInstance()->getOrSet($key, $callable, $duration, $dependency);
     }
 
     public static function model($modalClassName, $id, callable $callable)
     {
-        $key  = "model." . $modalClassName . $id;
-        $data = self::get($key);
-        if (!$data) {
-            if ($data = $callable()) {
-                self::set($key, $data);
-            }
-        }
-
-        return $data;
+        $key = "model." . $modalClassName . $id;
+        return self::getOrSet($key, $callable);
     }
 }

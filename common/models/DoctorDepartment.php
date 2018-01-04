@@ -51,7 +51,7 @@ class DoctorDepartment extends \common\base\ActiveRecord
     {
         $cacheKey = "doctor.department.list." . $doctorID;
 
-        return Cache::dataProvider($cacheKey, function () use ($doctorID) {
+        return Cache::getOrSet($cacheKey, function () use ($doctorID) {
             $models = self::find()->where(['doctor_id' => $doctorID])->with("department")->all();
 
             return ArrayHelper::map($models, "department_id", "department.name");

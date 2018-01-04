@@ -11,11 +11,11 @@ use yii\db\BaseActiveRecord;
  * This is the model class for table "website_config".
  *
  * @property integer $id
- * @property string  $key
- * @property string  $name
- * @property string  $value
- * @property string  $type
- * @property string  $const_data
+ * @property string $key
+ * @property string $name
+ * @property string $value
+ * @property string $type
+ * @property string $const_data
  * @property integer $group_id
  * @property integer $order
  * @property integer $hint
@@ -23,10 +23,10 @@ use yii\db\BaseActiveRecord;
  */
 class WebsiteConfig extends \common\base\ActiveRecord
 {
-    const TYPE_SPLIT              = "split";
-    const TYPE_STRING             = "string";
-    const TYPE_TEXT               = "text";
-    const TYPE_SINGLE_SELECTION   = "single";
+    const TYPE_SPLIT = "split";
+    const TYPE_STRING = "string";
+    const TYPE_TEXT = "text";
+    const TYPE_SINGLE_SELECTION = "single";
     const TYPE_MULTIPLE_SELECTION = "multiple";
 
     public static function getTypeName($typeID)
@@ -39,10 +39,10 @@ class WebsiteConfig extends \common\base\ActiveRecord
     public static function getTypeList()
     {
         return [
-            self::TYPE_SPLIT              => '分割行',
-            self::TYPE_STRING             => '字符串',
-            self::TYPE_TEXT               => '文本',
-            self::TYPE_SINGLE_SELECTION   => '单选',
+            self::TYPE_SPLIT => '分割行',
+            self::TYPE_STRING => '字符串',
+            self::TYPE_TEXT => '文本',
+            self::TYPE_SINGLE_SELECTION => '单选',
             self::TYPE_MULTIPLE_SELECTION => '多选',
         ];
     }
@@ -61,7 +61,7 @@ class WebsiteConfig extends \common\base\ActiveRecord
 
     public static function getAll()
     {
-        return Cache::dataProvider("website_config", function () {
+        return Cache::getOrSet("website_config", function () {
             /** @var self[] $models */
             $models = self::find()->all();
 
@@ -115,15 +115,15 @@ class WebsiteConfig extends \common\base\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'         => 'ID',
-            'key'        => '键',
-            'name'       => '名称',
-            'value'      => '值',
-            'type'       => '类型',
-            'hint'       => '提示',
+            'id' => 'ID',
+            'key' => '键',
+            'name' => '名称',
+            'value' => '值',
+            'type' => '类型',
+            'hint' => '提示',
             'const_data' => '预置数据',
-            'group_id'   => '分组',
-            'order'      => '排序',
+            'group_id' => '分组',
+            'order' => '排序',
             'created_at' => '创建日期',
         ];
     }
@@ -133,7 +133,7 @@ class WebsiteConfig extends \common\base\ActiveRecord
         $behaviors = [];
         if ($this->enableTimeBehavior) {
             $behaviors[] = [
-                'class'      => TimestampBehavior::className(),
+                'class' => TimestampBehavior::className(),
                 'attributes' => [
                     BaseActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
                 ],

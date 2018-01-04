@@ -18,7 +18,7 @@ echo PanelGridView::widget([
         Html::submitButton("提交排序", ['class' => 'btn btn-primary']),
         Html::a('创建', ['create'], ['class' => 'btn btn-success']),
     ],
-    'filterModel'  => $searchModel,
+//    'filterModel'  => $searchModel,
     'columns'      => [
         ['class' => 'yii\grid\SerialColumn'],
         'name',
