@@ -9,7 +9,7 @@ use yii\helpers\Html;
 /* @var $searchModel common\models\search\Doctor */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title                   = 'Doctors';
+$this->title                   = '所有医生';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

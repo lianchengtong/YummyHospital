@@ -8,7 +8,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\Order */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '创建 Order';
+$this->title = '创建订单';
 $this->params['breadcrumbs'][] = ['label' => 'Orders', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

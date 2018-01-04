@@ -8,7 +8,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\CodeBlock */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '创建 Code Block';
+$this->title = '创建代码段';
 $this->params['breadcrumbs'][] = ['label' => 'Code Blocks', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

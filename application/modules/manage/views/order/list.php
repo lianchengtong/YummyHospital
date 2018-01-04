@@ -7,7 +7,7 @@ use common\extend\PanelGridView;
 /* @var $searchModel common\models\search\Order */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Orders';
+$this->title = '订单列表';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model common\models\CodeBlock */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title                   = '编辑 Code Block: ' . $model->name;
+$this->title                   = '编辑代码段：' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Code Blocks', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = '编辑';

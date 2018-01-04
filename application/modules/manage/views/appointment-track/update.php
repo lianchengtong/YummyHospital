@@ -7,7 +7,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\DoctorAppointmentTrack */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '编辑 Doctor Appointment Track: ' . $model->id;
+$this->title = '编辑预约跟踪';
 $this->params['breadcrumbs'][] = ['label' => 'Doctor Appointment Tracks', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = '编辑';

@@ -9,7 +9,7 @@ use yii\helpers\Html;
 /* @var $model common\models\DoctorServiceTime */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title                   = '创建 Doctor Service Time';
+$this->title                   = '医生问诊时间';
 $this->params['breadcrumbs'][] = ['label' => 'Doctor Service Times', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 if ($model->isNewRecord) {

@@ -8,7 +8,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\Department */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '创建 Department';
+$this->title = '创建科室';
 $this->params['breadcrumbs'][] = ['label' => 'Departments', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

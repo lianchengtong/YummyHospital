@@ -8,7 +8,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\LinkGroup */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '创建 Link Group';
+$this->title = '创建链接分组';
 $this->params['breadcrumbs'][] = ['label' => 'Link Groups', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

@@ -8,7 +8,7 @@ use yii\helpers\Html;
 /* @var $model common\models\WebsiteConfig */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title                   = '创建 Website Config';
+$this->title                   = '创建配置';
 $this->params['breadcrumbs'][] = ['label' => 'Website Configs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

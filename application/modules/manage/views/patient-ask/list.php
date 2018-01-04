@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel common\models\search\PatientAsk */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title                   = 'Patient Asks';
+$this->title                   = '患者咨询列表';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

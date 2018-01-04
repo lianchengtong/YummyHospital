@@ -7,7 +7,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\LinkGroupItem */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '编辑 Link Group Item: ' . $model->name;
+$this->title = '编辑链接：' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Link Group Items', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = '编辑';

@@ -7,7 +7,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\ArticleType */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '编辑 Article Type: ' . $model->name;
+$this->title = '编辑文章类型：' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Article Types', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = '编辑';

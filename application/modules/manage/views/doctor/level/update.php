@@ -7,7 +7,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\DoctorLevel */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '编辑 Doctor Level: ' . $model->id;
+$this->title = '编辑职称：' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Doctor Levels', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = '编辑';

@@ -6,6 +6,8 @@ use yii\helpers\Html;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $this yii\web\View */
 /* @var $model common\models\PatientAsk */
+
+$this->title="咨询回复";
 ?>
 
 <?php $form = ActiveForm::begin(); ?>

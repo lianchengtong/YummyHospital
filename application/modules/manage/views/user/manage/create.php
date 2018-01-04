@@ -8,7 +8,7 @@ use yii\helpers\Html;
 /* @var $model common\models\User */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title                   = 'Create User';
+$this->title                   = '创建用户';
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

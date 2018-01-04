@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel common\models\search\ArticleType */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title                   = 'Article Types';
+$this->title                   = '文章类型列表';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

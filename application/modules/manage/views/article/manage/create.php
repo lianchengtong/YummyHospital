@@ -8,7 +8,7 @@ use yii\helpers\Html;
 /* @var $model common\models\Article */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title                   = '创建 Article';
+$this->title                   = '新建文章';
 $this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

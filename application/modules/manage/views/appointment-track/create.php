@@ -8,7 +8,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\DoctorAppointmentTrack */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '创建 Doctor Appointment Track';
+$this->title = '添加预约跟踪';
 $this->params['breadcrumbs'][] = ['label' => 'Doctor Appointment Tracks', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </div>
     <div class="panel-footer text-right">
-        <?=  Html::submitButton("提交", ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton("提交", ['class' => 'btn btn-primary']) ?>
     </div>
 </div>
 <?php ActiveForm::end(); ?>

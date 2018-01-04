@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model common\models\DoctorAppointment */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title                   = '编辑 Doctor Appointment: ' . $model->id;
+$this->title = '编辑预约';
 $this->params['breadcrumbs'][] = ['label' => 'Doctor Appointments', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = '编辑';
@@ -20,9 +20,9 @@ $this->params['breadcrumbs'][] = '编辑';
     </div>
     <div class="panel-body">
         <?= $this->render('_form', [
-            'model'        => $model,
+            'model' => $model,
             'patientModel' => $patientModel,
-            'form'         => $form,
+            'form' => $form,
         ]) ?>
     </div>
     <div class="panel-footer text-right">

@@ -7,7 +7,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\WebsiteConfigGroup */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '编辑 Website Config Group: ' . $model->name;
+$this->title = '编辑配置分组：' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Website Config Groups', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = '编辑';

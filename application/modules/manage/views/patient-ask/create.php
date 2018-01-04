@@ -8,7 +8,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\PatientAsk */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '创建 Patient Ask';
+$this->title = '创建患者咨询';
 $this->params['breadcrumbs'][] = ['label' => 'Patient Asks', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

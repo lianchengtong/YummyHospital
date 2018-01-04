@@ -7,7 +7,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\SmsHistory */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '编辑 Sms History: ' . $model->id;
+$this->title = '编辑发送历史：' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Sms Histories', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = '编辑';

@@ -8,7 +8,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\ArticleTypeField */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '创建 Article Type Field';
+$this->title = '创建字段';
 $this->params['breadcrumbs'][] = ['label' => 'Article Type Fields', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

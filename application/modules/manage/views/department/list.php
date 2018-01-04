@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel common\models\search\Department */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title                   = 'Departments';
+$this->title                   = '所有科室';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

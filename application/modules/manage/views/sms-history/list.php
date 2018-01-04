@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel common\models\search\SmsHistory */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title                   = 'Sms Histories';
+$this->title = '短信发送历史';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -15,12 +15,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?= PanelGridView::widget([
     'dataProvider' => $dataProvider,
-    'buttons'      => [
-        Html::a('创建', ['create'], ['class' => 'btn btn-success']),
+    'buttons' => [
+//        Html::a('创建', ['create'], ['class' => 'btn btn-success']),
     ],
-    'filterModel'  => $searchModel,
-    'columns'      => [
+    'filterModel' => $searchModel,
+    'columns' => [
         'phone',
+        'channel',
+        'type',
         'success',
         'data:ntext',
         'created_at:datetime',

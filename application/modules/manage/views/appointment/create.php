@@ -8,7 +8,7 @@ use yii\helpers\Html;
 /* @var $model common\models\DoctorAppointment */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title                   = '创建 Doctor Appointment';
+$this->title                   = '新建预约';
 $this->params['breadcrumbs'][] = ['label' => 'Doctor Appointments', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

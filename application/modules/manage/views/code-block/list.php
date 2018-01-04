@@ -8,7 +8,7 @@ use yii\helpers\Html;
 /* @var $searchModel common\models\search\CodeBlock */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title                   = 'Code Blocks';
+$this->title                   = '代码段';
 $this->params['breadcrumbs'][] = $this->title;
 
 \yii\bootstrap\ActiveForm::begin();

@@ -8,7 +8,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model common\models\ArticleType */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = '创建 Article Type';
+$this->title = '创建文章类型';
 $this->params['breadcrumbs'][] = ['label' => 'Article Types', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model common\models\WebsiteConfig */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title                   = '编辑 Website Config: ' . $model->id;
+$this->title                   = '编辑配置：' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Website Configs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = '编辑';
