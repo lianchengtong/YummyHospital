@@ -27,9 +27,9 @@ class OrderMontData extends \common\base\ActiveRecord
     {
         return [
             'id'       => 'ID',
-            'order_id' => 'Order ID',
-            'name'     => 'Name',
-            'content'  => 'Content',
+            'order_id' => '订单 ID',
+            'name'     => '名称',
+            'content'  => '内容',
         ];
     }
 }

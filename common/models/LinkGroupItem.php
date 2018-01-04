@@ -43,13 +43,13 @@ class LinkGroupItem extends \common\base\ActiveRecord
     {
         return [
             'id'            => 'ID',
-            'link_group_id' => 'Link Group ID',
-            'name'          => 'Name',
-            'slug'          => 'Slug',
-            'type'          => 'Type',
-            'pid'           => 'Pid',
-            'data'          => 'Data',
-            'order'         => 'Order',
+            'link_group_id' => '链接组',
+            'name'          => '名称',
+            'slug'          => '别名',
+            'type'          => '类型',
+            'pid'           => '父分类',
+            'data'          => '数据',
+            'order'         => '排序',
         ];
     }
 

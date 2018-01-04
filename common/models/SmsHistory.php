@@ -59,10 +59,10 @@ class SmsHistory extends \common\base\ActiveRecord
     {
         return [
             'id'         => 'ID',
-            'phone'      => 'Phone',
-            'success'    => 'Success',
-            'data'       => 'Data',
-            'created_at' => 'Created At',
+            'phone'      => '电话号',
+            'success'    => '是否成功',
+            'data'       => '数据',
+            'created_at' => '发送日期',
         ];
     }
 

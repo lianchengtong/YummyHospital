@@ -26,8 +26,8 @@ class LinkGroup extends \common\base\ActiveRecord
     {
         return [
             'id'   => 'ID',
-            'name' => 'Name',
-            'slug' => 'Slug',
+            'name' => '名称',
+            'slug' => '别名',
         ];
     }
 

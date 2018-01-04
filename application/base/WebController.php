@@ -24,9 +24,8 @@ class WebController extends BaseController
 
     public function beforeAction($action)
     {
-//        exit;
-//        Session::removeAll();exit;
-        $this->app = WeChatInstance::officialAccount();
+        $userInfo = [];
+        /*$this->app = WeChatInstance::officialAccount();
         if (!($userInfo = Session::get("wechat.user"))) {
             if (!$this->isAuthCallbackPage()) {
                 $this->gotoAuthPage();
@@ -50,7 +49,7 @@ class WebController extends BaseController
                 $this->redirect($url);
                 return false;
             }
-        }
+        }*/
 
         if ($this->needLogin && UserSession::isGuest()) {
             $authUserModel = AuthWechat::getByOpenID($userInfo['token']['openid']);

@@ -28,8 +28,8 @@ class DoctorDepartment extends \common\base\ActiveRecord
     {
         return [
             'id'            => 'ID',
-            'doctor_id'     => 'Doctor ID',
-            'department_id' => 'Department ID',
+            'doctor_id'     => '医生',
+            'department_id' => '部门',
         ];
     }
 

@@ -20,9 +20,9 @@ class ArticleMountData extends \common\base\ActiveRecord implements InterfaceArt
     {
         return [
             'id'         => 'ID',
-            'article_id' => 'Article ID',
-            'tag'        => 'Tag',
-            'data'       => 'Data',
+            'article_id' => '文章ID',
+            'tag'        => '标签',
+            'data'       => '数据',
         ];
     }
 

@@ -30,6 +30,7 @@ class Doctor extends DoctorModel
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => false,
         ]);
 
         $this->load($params);

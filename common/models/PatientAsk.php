@@ -31,14 +31,14 @@ class PatientAsk extends \common\base\ActiveRecord
     {
         return [
             'id'          => 'ID',
-            'user_id'     => 'User ID',
-            'patient_id'  => 'Patient ID',
-            'description' => 'Description',
-            'images'      => 'Images',
-            'reply'       => 'Reply',
-            'reply_at'    => 'Reply At',
-            'created_at'  => 'Created At',
-            'updated_at'  => 'Updated At',
+            'user_id'     => '用户',
+            'patient_id'  => '患者',
+            'description' => '描述',
+            'images'      => '图片',
+            'reply'       => '回复内容',
+            'reply_at'    => '回复日期',
+            'created_at'  => '创建日期',
+            'updated_at'  => '更新日期',
         ];
     }
 

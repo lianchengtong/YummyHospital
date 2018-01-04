@@ -62,14 +62,14 @@ class DoctorAppointment extends \common\base\ActiveRecord
     {
         return [
             'id'           => 'ID',
-            'user_id'      => 'User ID',
-            'doctor_id'    => 'Doctor ID',
-            'time_begin'   => 'Time Begin',
-            'time_end'     => 'Time End',
-            'order_number' => 'Order Number',
-            'status'       => 'Status',
-            'created_at'   => 'Created At',
-            'updated_at'   => 'Updated At',
+            'user_id'      => '用户',
+            'doctor_id'    => '医生',
+            'time_begin'   => '开始时间',
+            'time_end'     => '结束时间',
+            'order_number' => '序号',
+            'status'       => '状态',
+            'created_at'   => '创建时间',
+            'updated_at'   => '更新时间',
         ];
     }
 

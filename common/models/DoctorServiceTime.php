@@ -14,16 +14,16 @@ use common\utils\Cache;
  * @property integer $price
  * @property integer $ticket_count
  * @property integer $max_time_long
- * @property array   $month
- * @property array   $week
- * @property array   $week_service_start_at
- * @property array   $day
- * @property array   $am
- * @property array   $pm
+ * @property array $month
+ * @property array $week
+ * @property array $week_service_start_at
+ * @property array $day
+ * @property array $am
+ * @property array $pm
  */
 class DoctorServiceTime extends \common\base\ActiveRecord
 {
-    const   MODE_WEEK  = 0;
+    const   MODE_WEEK = 0;
     const   MODE_MONTH = 1;
 
     protected $enableTimeBehavior = false;
@@ -36,7 +36,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
     public static function modeList()
     {
         return [
-            self::MODE_WEEK  => "周",
+            self::MODE_WEEK => "周",
             self::MODE_MONTH => "月",
         ];
     }
@@ -85,12 +85,12 @@ class DoctorServiceTime extends \common\base\ActiveRecord
     public static function calendar($doctorID, $year, $month)
     {
 
-        $headRows  = Html::tag("tr", self::renderTableHead(self::weekDays()));
+        $headRows = Html::tag("tr", self::renderTableHead(self::weekDays()));
         $tableHead = Html::tag("thead", $headRows);
 
         $doctorServiceDay = self::getDoctorMonthServiceDays($doctorID, $year, $month);
 
-        $bodyRows  = Html::tag("tr", self::renderTableBody($doctorID, $doctorServiceDay, $year, $month));
+        $bodyRows = Html::tag("tr", self::renderTableBody($doctorID, $doctorServiceDay, $year, $month));
         $tableBody = Html::tag("tbody", $bodyRows);
 
         $table = Html::tag("table", $tableHead . $tableBody, ['class' => 'table table-bordered text-center']);
@@ -119,7 +119,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
      */
     public static function getDoctorMonthServiceDays($doctorID, $year, $month)
     {
-        $serviceDays      = [];
+        $serviceDays = [];
         $serviceTimeModel = self::getByDoctorID($doctorID);
         if (!$serviceTimeModel) {
             return [];
@@ -130,7 +130,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
                 return [];
             }
 
-            $endDateYear  = date("Y", strtotime(sprintf("+%d month", $serviceTimeModel->max_time_long)));
+            $endDateYear = date("Y", strtotime(sprintf("+%d month", $serviceTimeModel->max_time_long)));
             $endDateMonth = date("n", strtotime(sprintf("+%d month", $serviceTimeModel->max_time_long)));
             if ($endDateYear == $year && $month > $endDateMonth) {
                 return [];
@@ -146,7 +146,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
                     continue;
                 }
 
-                $appointmentCount       = DoctorAppointment::getDayAppointmentCount($doctorID, $year, $month, $monthDay);
+                $appointmentCount = DoctorAppointment::getDayAppointmentCount($doctorID, $year, $month, $monthDay);
                 $serviceDays[$monthDay] = $serviceTimeModel->ticket_count - $appointmentCount;
             }
 
@@ -154,9 +154,9 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         }
 
         $calTimestamp = strtotime(sprintf("%s-%s-1", $year, $month));
-        $monthDays    = range(1, date("t", $calTimestamp));
+        $monthDays = range(1, date("t", $calTimestamp));
 
-        $endDateYear  = date("Y", strtotime(sprintf("+%d week", $serviceTimeModel->max_time_long)));
+        $endDateYear = date("Y", strtotime(sprintf("+%d week", $serviceTimeModel->max_time_long)));
         $endDateMonth = date("n", strtotime(sprintf("+%d week", $serviceTimeModel->max_time_long)));
         if ($endDateYear == $year && $month > $endDateMonth) {
             return [];
@@ -175,7 +175,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
                     continue;
                 }
 
-                $appointmentCount       = DoctorAppointment::getDayAppointmentCount($doctorID, $year, $month, $monthDay);
+                $appointmentCount = DoctorAppointment::getDayAppointmentCount($doctorID, $year, $month, $monthDay);
                 $serviceDays[$monthDay] = $serviceTimeModel->ticket_count - $appointmentCount;
             }
 
@@ -205,7 +205,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
                     continue;
                 }
 
-                $appointmentCount       = DoctorAppointment::getDayAppointmentCount($doctorID, $year, $month, $monthDay);
+                $appointmentCount = DoctorAppointment::getDayAppointmentCount($doctorID, $year, $month, $monthDay);
                 $serviceDays[$monthDay] = $serviceTimeModel->ticket_count - $appointmentCount;
             }
 
@@ -230,7 +230,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
     private static function renderTableBody($doctorID, $doctorServiceDays, $year, $month)
     {
         $calTimestamp = strtotime(sprintf("%s-%s-1", $year, $month));
-        $monthDays    = range(1, date("t", $calTimestamp));
+        $monthDays = range(1, date("t", $calTimestamp));
 
         if (($firstDayWeekID = date("N", $calTimestamp)) != 1) {
             $padPrefix = array_pad([], $firstDayWeekID - 1, 0);
@@ -242,10 +242,10 @@ class DoctorServiceTime extends \common\base\ActiveRecord
             $monthDays = array_merge($monthDays, $padSuffix);
         }
 
-        $activeClass         = ['class' => 'success', 'style' => 'vertical-align:middle'];
-        $disableClass        = ['class' => 'active', 'style' => 'vertical-align:middle'];
-        $fullItems           = [];
-        $chunkFullMonthDays  = array_chunk($monthDays, 7);
+        $activeClass = ['class' => 'success', 'style' => 'vertical-align:middle'];
+        $disableClass = ['class' => 'active', 'style' => 'vertical-align:middle'];
+        $fullItems = [];
+        $chunkFullMonthDays = array_chunk($monthDays, 7);
         $doctorServiceDayKey = array_keys($doctorServiceDays);
         foreach ($chunkFullMonthDays as $chunkWeekDays) {
             $rowItem = [];
@@ -257,17 +257,17 @@ class DoctorServiceTime extends \common\base\ActiveRecord
 
                 if (in_array($monthDay, $doctorServiceDayKey)) {
                     $remainTicket = $doctorServiceDays[$monthDay];
-                    $text         = sprintf("%d<br>(剩余：%d)", $monthDay, $remainTicket);
+                    $text = sprintf("%d<br>(剩余：%d)", $monthDay, $remainTicket);
                     if ($remainTicket == 0) {
                         $rowItem[] = Html::tag("td", $text, $activeClass);
                         continue;
                     }
 
-                    $linkUrl   = [
+                    $linkUrl = [
                         "/order",
-                        'year'   => $year,
-                        'month'  => $month,
-                        'day'    => $monthDay,
+                        'year' => $year,
+                        'month' => $month,
+                        'day' => $monthDay,
                         'doctor' => $doctorID,
                     ];
                     $orderLink = Html::a($text, $linkUrl, [
@@ -335,7 +335,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
     public static function convertToWeekDay($days)
     {
         $weekDayList = self::weekDays();
-        $descDays    = [];
+        $descDays = [];
         foreach ($days as $day) {
             $descDays[] = $weekDayList[$day];
         }
@@ -346,10 +346,10 @@ class DoctorServiceTime extends \common\base\ActiveRecord
     public function afterFind()
     {
         $this->week_service_start_at = json_decode($this->week_service_start_at, true);
-        $this->month                 = json_decode($this->month, true);
-        $this->day                   = json_decode($this->day, true);
-        $this->am                    = json_decode($this->am, true);
-        $this->pm                    = json_decode($this->pm, true);
+        $this->month = json_decode($this->month, true);
+        $this->day = json_decode($this->day, true);
+        $this->am = json_decode($this->am, true);
+        $this->pm = json_decode($this->pm, true);
 
         parent::afterFind();
     }
@@ -357,13 +357,13 @@ class DoctorServiceTime extends \common\base\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'        => 'ID',
-            'doctor_id' => 'Doctor ID',
-            'month'     => 'Month',
-            'week'      => 'Week',
-            'day'       => 'Day',
-            'am'        => 'Am',
-            'pm'        => 'Pm',
+            'id' => 'ID',
+            'doctor_id' => '医生',
+            'month' => '月',
+            'week' => '周',
+            'day' => '日',
+            'am' => '上午',
+            'pm' => '下午',
         ];
     }
 
@@ -376,9 +376,9 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         }
 
         $this->week_service_start_at = json_encode($this->week_service_start_at);
-        $this->month                 = json_encode($this->month);
-        $this->am                    = json_encode($this->am);
-        $this->pm                    = json_encode($this->pm);
+        $this->month = json_encode($this->month);
+        $this->am = json_encode($this->am);
+        $this->pm = json_encode($this->pm);
 
         return parent::beforeSave($insert);
     }
@@ -400,8 +400,8 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         $key = "doctor.all-recent-service-time-date-" . date("Ymd");
 
         return Cache::dataProvider($key, function () use ($doctorID) {
-            $dateLimit   = strtotime(sprintf("+%d days", self::getMaxTimeLong($doctorID)));
-            $monthDelta  = 0;
+            $dateLimit = strtotime(sprintf("+%d days", self::getMaxTimeLong($doctorID)));
+            $monthDelta = 0;
             $serviceDate = [];
             while (true) {
                 $datetime = strtotime(sprintf("+%d month", $monthDelta));
@@ -442,7 +442,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
             if ($withWeekDay) {
                 $weekDay = date("N", strtotime($serviceDate));
                 $weekDay = self::convertToWeekDay([$weekDay])[0];
-                $dateCN  .= " 周" . $weekDay;
+                $dateCN .= " 周" . $weekDay;
             }
             $retDay[$serviceDate] = $dateCN;
         }
@@ -469,7 +469,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         $model = self::getByDoctorID($doctorID);
         if ($model->am['begin'] != $model->am['end']) {
             $begin = sprintf("%s %d:00:00", $date, $model->am['begin']);
-            $end   = sprintf("%s %d:00:00", $date, $model->am['end']);
+            $end = sprintf("%s %d:00:00", $date, $model->am['end']);
             if ($timestamp) {
                 return [
                     strtotime($begin),
@@ -482,7 +482,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
 
         if ($model->pm['begin'] != $model->pm['end']) {
             $begin = sprintf("%s %d:00:00", $date, $model->pm['begin']);
-            $end   = sprintf("%s %d:00:00", $date, $model->pm['end']);
+            $end = sprintf("%s %d:00:00", $date, $model->pm['end']);
 
             if ($timestamp) {
                 return [

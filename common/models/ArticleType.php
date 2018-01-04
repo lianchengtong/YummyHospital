@@ -7,11 +7,11 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "article_type".
  *
- * @property integer                           $id
- * @property string                            $name
- * @property string                            $slug
- * @property string                            $description
- * @property string                            $order
+ * @property integer $id
+ * @property string $name
+ * @property string $slug
+ * @property string $description
+ * @property string $order
  * @property \common\models\ArticleTypeField[] $inputFields
  */
 class ArticleType extends \common\base\ActiveRecord
@@ -36,11 +36,11 @@ class ArticleType extends \common\base\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'          => 'ID',
-            'name'        => 'Name',
-            'slug'        => 'Slug',
-            'description' => 'Description',
-            'order'       => 'Order',
+            'id' => 'ID',
+            'name' => '名称',
+            'slug' => '别名',
+            'description' => '描述',
+            'order' => '排序',
         ];
     }
 

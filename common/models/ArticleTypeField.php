@@ -11,11 +11,11 @@ use yii\helpers\ArrayHelper;
  *
  * @property integer $id
  * @property integer $type_id
- * @property string  $name
- * @property string  $field
- * @property string  $description
- * @property string  $class
- * @property string  $configure
+ * @property string $name
+ * @property string $field
+ * @property string $description
+ * @property string $class
+ * @property string $configure
  * @property integer $order
  * @property boolean $side_show
  */
@@ -38,15 +38,15 @@ class ArticleTypeField extends \common\base\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'          => 'ID',
-            'type_id'     => 'Type ID',
-            'name'        => 'Name',
-            'field'       => 'Field',
-            'description' => 'Description',
-            'class'       => 'Class',
-            'configure'   => 'Configure',
-            'order'       => 'Order',
-            'side_show'   => 'Side Show',
+            'id' => 'ID',
+            'type_id' => '类型ID',
+            'name' => '名称',
+            'field' => '字段',
+            'description' => '描述',
+            'class' => '类',
+            'configure' => '配置',
+            'order' => '排序',
+            'side_show' => '是否边栏展示',
         ];
     }
 

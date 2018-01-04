@@ -33,10 +33,10 @@ class Category extends \common\base\ActiveRecord
     {
         return [
             'id'    => 'ID',
-            'name'  => 'Name',
-            'alias' => 'Alias',
-            'path'  => 'Path',
-            'pid'   => 'Pid',
+            'name'  => '名称',
+            'alias' => '别名',
+            'path'  => '路径',
+            'pid'   => '父ID',
         ];
     }
 

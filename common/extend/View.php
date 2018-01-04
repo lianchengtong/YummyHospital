@@ -8,14 +8,15 @@ use common\utils\Param;
 
 class View extends \yii\web\View
 {
-    public $showTab    = true;
-    public $showNav    = true;
+    public $showTab = true;
+    public $showNav = true;
     public $showGoBack = true;
-    public $showSave   = false;
-    public $goBackTo   = 'javascript:history.back()';
+    public $showSave = false;
+    public $goBackTo = 'javascript:history.back()';
+    public $isManageMode = false;
 
-    public  $errors = [];
-    public  $data   = [];
+    public $errors = [];
+    public $data = [];
     private $keywords;
     private $description;
 
@@ -48,7 +49,7 @@ class View extends \yii\web\View
 
     protected function findViewFile($view, $context = null)
     {
-        $path          = parent::findViewFile($view, $context);
+        $path = parent::findViewFile($view, $context);
         $currentModule = \Yii::$app->controller->module->id;
         if (in_array($currentModule, ['gii'])) {
             return $path;
@@ -63,25 +64,31 @@ class View extends \yii\web\View
 
     public function head()
     {
-        $title = Param::Get("site.title");
+        $title = WebsiteConfig::getValueByKey("site.name");
+        if ($this->isManageMode) {
+            $title = sprintf("后台管理 - %s", $title);
+        }
+
         if (!empty($this->title)) {
             $title = sprintf("%s - %s", $this->title, $title);
         }
 
-        echo Html::tag("title", WebsiteConfig::getValueByKey("site.name"));
+
+//        echo Html::tag("title", WebsiteConfig::getValueByKey("site.name"));
+        echo Html::tag("title", $title);
         echo "\n";
 
         //register keywords
         $defaultKeywords = Param::Get('site.keywords');
         $this->registerMetaTag([
-            'name'    => 'keyword',
+            'name' => 'keyword',
             'content' => empty($this->keywords) ? $defaultKeywords : $this->keywords,
         ], 'keyword');
 
         //register description
         $defaultDescription = Param::Get("site.description");
         $this->registerMetaTag([
-            'name'    => 'description',
+            'name' => 'description',
             'content' => empty($this->description) ? $defaultDescription : $this->description,
         ], 'description');
 
@@ -123,7 +130,7 @@ class View extends \yii\web\View
             switch ($tag) {
                 case 'viewport':
                     $defaultOptions = [
-                        'name'    => $tag,
+                        'name' => $tag,
                         'content' => 'width=device-width,height=device-height,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1',
                     ];
                     break;
@@ -131,25 +138,25 @@ class View extends \yii\web\View
                 case 'format-detection':
                     //忽略电话号码和邮箱
                     $defaultOptions = [
-                        'name'    => $tag,
+                        'name' => $tag,
                         'content' => 'telphone=no, email=no',
                     ];
                     break;
                 case 'X-UA-Compatible': //优先使用 IE 最新版本和 Chrome
                     $defaultOptions = [
-                        'name'    => $tag,
+                        'name' => $tag,
                         'content' => 'IE=edge,chrome=1',
                     ];
                     break;
                 case 'renderer':
                     $defaultOptions = [
-                        'name'    => $tag,
+                        'name' => $tag,
                         'content' => 'webkit',
                     ];
                     break;
                 case 'Cache-Control': //不让百度转码
                     $defaultOptions = [
-                        'name'    => $tag,
+                        'name' => $tag,
                         'content' => 'no-siteapp',
                     ];
                     break;

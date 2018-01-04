@@ -7,27 +7,27 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "doctor".
  *
- * @property integer                          $id
- * @property string                           $head_image
- * @property integer                          $level
- * @property integer                          $name
- * @property string                           $summary
- * @property integer                          $work_time
- * @property string                           $introduce
- * @property string                           $rank
+ * @property integer $id
+ * @property string $head_image
+ * @property integer $level
+ * @property integer $name
+ * @property string $summary
+ * @property integer $work_time
+ * @property string $introduce
+ * @property string $rank
  *
  * @property \common\models\DoctorServiceTime $docorServiceTime
  */
 class Doctor extends \common\base\ActiveRecord
 {
     protected $enableTimeBehavior = false;
-    public    $department;
-    public    $tag;
+    public $department;
+    public $tag;
 
     public function attributeHints()
     {
         return [
-            'tag'        => '多个标签用逗号分割',
+            'tag' => '多个标签用逗号分割',
             'department' => '支持选择多个科室',
         ];
     }
@@ -53,14 +53,16 @@ class Doctor extends \common\base\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'         => 'ID',
+            'id' => 'ID',
             'head_image' => '头像',
-            'level'      => '职称',
-            'name'       => '姓名',
-            'summary'    => '简介',
-            'work_time'  => '工作年限',
-            'introduce'  => '医生介绍',
-            'rank'       => '星级',
+            'level' => '职称',
+            'name' => '姓名',
+            'summary' => '简介',
+            'work_time' => '工作年限',
+            'introduce' => '医生介绍',
+            'rank' => '星级',
+            'doctorServiceTime.price' => '挂号价格',
+            'doctorServiceTime.ticket_count' => '号源数',
         ];
     }
 
@@ -91,7 +93,7 @@ class Doctor extends \common\base\ActiveRecord
     public function afterFind()
     {
         $this->department = DoctorDepartment::getDepartmentID($this->id);
-        $this->tag        = implode(",", DoctorTag::getList($this->id));
+        $this->tag = implode(",", DoctorTag::getList($this->id));
         parent::afterFind();
     }
 
@@ -114,7 +116,7 @@ class Doctor extends \common\base\ActiveRecord
     {
         $condition = [];
         if (strlen($tagName)) {
-            $idList    = DoctorTag::getDoctorIDListByName($tagName);
+            $idList = DoctorTag::getDoctorIDListByName($tagName);
             $condition = ['id' => $idList];
         }
 
@@ -131,13 +133,13 @@ class Doctor extends \common\base\ActiveRecord
     public function getSameDepartmentDoctors($limit = 5)
     {
         $doctorDepartment = $this->departments;
-        $departmentID     = ArrayHelper::getColumn($doctorDepartment, "department_id");
+        $departmentID = ArrayHelper::getColumn($doctorDepartment, "department_id");
         $departmentDoctor = DoctorDepartment::find()->where(['department_id' => $departmentID])->all();
-        $doctorID         = ArrayHelper::getColumn($departmentDoctor, "doctor_id");
+        $doctorID = ArrayHelper::getColumn($departmentDoctor, "doctor_id");
 
         shuffle($doctorID);
         $doctorIDGroup = array_chunk($doctorID, $limit);
-        $doctors       = Doctor::find()->where(['id' => $doctorIDGroup[0]])->all();
+        $doctors = Doctor::find()->where(['id' => $doctorIDGroup[0]])->all();
 
         return $doctors;
     }
@@ -145,7 +147,7 @@ class Doctor extends \common\base\ActiveRecord
     public function departmentString()
     {
         $doctorDepartment = $this->departments;
-        $departmentName   = [];
+        $departmentName = [];
         foreach ($doctorDepartment as $departmentLinkModel) {
             $departmentName[] = $departmentLinkModel->department->name;
         }

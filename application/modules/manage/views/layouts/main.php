@@ -8,6 +8,7 @@
 use yii\helpers\Html;
 
 \application\assets\ManageAssets::register($this);
+$this->isManageMode = true;
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

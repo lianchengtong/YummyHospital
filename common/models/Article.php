@@ -33,16 +33,16 @@ class Article extends \common\base\ActiveRecord
     {
         return [
             'id'          => 'ID',
-            'title'       => 'Title',
-            'type'        => 'Type',
-            'slug'        => 'Slug',
-            'head_image'  => 'Head Image',
-            'category'    => 'Category',
-            'description' => 'Description',
-            'keyword'     => 'Keyword',
-            'author_id'   => 'Author ID',
-            'created_at'  => 'Created At',
-            'updated_at'  => 'Updated At',
+            'title'       => '标题',
+            'type'        => '类型',
+            'slug'        => '别名',
+            'head_image'  => '头图',
+            'category'    => '分类',
+            'description' => '概要',
+            'keyword'     => '关键字',
+            'author_id'   => '作者',
+            'created_at'  => '创建时间',
+            'updated_at'  => '更新时间',
         ];
     }
 

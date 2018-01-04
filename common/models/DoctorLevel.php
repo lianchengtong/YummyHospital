@@ -26,7 +26,7 @@ class DoctorLevel extends \common\base\ActiveRecord
     {
         return [
             'id'         => 'ID',
-            'level_name' => 'Level Name',
+            'level_name' => '名称',
         ];
     }
 

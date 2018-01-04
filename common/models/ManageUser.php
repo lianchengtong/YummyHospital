@@ -42,10 +42,10 @@ class ManageUser extends \common\base\ActiveRecord
     {
         return [
             'id'         => 'ID',
-            'user_id'    => 'User ID',
-            'role'       => 'Role',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'user_id'    => '用户',
+            'role'       => '角色',
+            'created_at' => '创建日期',
+            'updated_at' => '更新日期',
         ];
     }
 

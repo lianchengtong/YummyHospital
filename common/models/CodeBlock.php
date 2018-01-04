@@ -42,10 +42,10 @@ class CodeBlock extends \common\base\ActiveRecord
     {
         return [
             'id'    => 'ID',
-            'name'  => 'Name',
-            'slug'  => 'Slug',
-            'code'  => 'Code',
-            'order' => 'Order',
+            'name'  => '名称',
+            'slug'  => '别名',
+            'code'  => '代码',
+            'order' => '排序',
         ];
     }
 

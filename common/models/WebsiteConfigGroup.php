@@ -47,9 +47,9 @@ class WebsiteConfigGroup extends \common\base\ActiveRecord
     {
         return [
             'id'         => 'ID',
-            'name'       => 'Name',
-            'order'      => 'Order',
-            'created_at' => 'Created At',
+            'name'       => '名称',
+            'order'      => '排序',
+            'created_at' => '创建日期',
         ];
     }
 

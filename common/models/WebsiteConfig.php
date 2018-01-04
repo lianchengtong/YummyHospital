@@ -116,15 +116,15 @@ class WebsiteConfig extends \common\base\ActiveRecord
     {
         return [
             'id'         => 'ID',
-            'key'        => 'Key',
-            'name'       => 'Name',
-            'value'      => 'Value',
-            'type'       => 'Type',
-            'hint'       => 'Hint',
-            'const_data' => 'Const Data',
-            'group_id'   => 'Group ID',
-            'order'      => 'Order',
-            'created_at' => 'Created At',
+            'key'        => '键',
+            'name'       => '名称',
+            'value'      => '值',
+            'type'       => '类型',
+            'hint'       => '提示',
+            'const_data' => '预置数据',
+            'group_id'   => '分组',
+            'order'      => '排序',
+            'created_at' => '创建日期',
         ];
     }
 

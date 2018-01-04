@@ -28,11 +28,11 @@ class DoctorAppointmentTrack extends \common\base\ActiveRecord
     {
         return [
             'id'             => 'ID',
-            'user_id'        => 'User ID',
-            'appointment_id' => 'Appointment ID',
-            'track_message'  => 'Track Message',
-            'created_at'     => 'Created At',
-            'updated_at'     => 'Updated At',
+            'user_id'        => '用户',
+            'appointment_id' => '预约',
+            'track_message'  => '跟踪消息',
+            'created_at'     => '创建时间',
+            'updated_at'     => '更新时间',
         ];
     }
 

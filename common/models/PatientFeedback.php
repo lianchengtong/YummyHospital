@@ -28,12 +28,12 @@ class PatientFeedback extends \common\base\ActiveRecord
     {
         return [
             'id'             => 'ID',
-            'doctor_id'      => 'Doctor ID',
-            'appointment_id' => 'Appointment ID',
-            'mark'           => 'Mark',
-            'content'        => 'Content',
-            'created_at'     => 'Created At',
-            'updated_at'     => 'Updated At',
+            'doctor_id'      => '医生',
+            'appointment_id' => '预约',
+            'mark'           => '评分',
+            'content'        => '内容',
+            'created_at'     => '创建日期',
+            'updated_at'     => '更新日期',
         ];
     }
 

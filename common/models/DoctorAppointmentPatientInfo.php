@@ -29,10 +29,10 @@ class DoctorAppointmentPatientInfo extends \common\base\ActiveRecord
     {
         return [
             'id'             => 'ID',
-            'appointment_id' => 'Appointment ID',
-            'username'       => 'Username',
-            'phone'          => 'Phone',
-            'memo'           => 'Memo',
+            'appointment_id' => '预约',
+            'username'       => '用户名',
+            'phone'          => '电话',
+            'memo'           => '备注',
         ];
     }
 }

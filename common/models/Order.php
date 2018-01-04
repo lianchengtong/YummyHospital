@@ -87,15 +87,15 @@ class Order extends \common\base\ActiveRecord
     {
         return [
             'id'           => 'ID',
-            'order_id'     => 'Order ID',
-            'out_trade_id' => 'Out Trade ID',
-            'channel'      => 'Channel',
-            'name'         => 'Name',
-            'price'        => 'Price',
-            'status'       => 'Status',
-            'complete_at'  => 'Complete At',
-            'created_at'   => 'Created At',
-            'updated_at'   => 'Updated At',
+            'order_id'     => '订单号',
+            'out_trade_id' => '渠道订单号',
+            'channel'      => '渠道',
+            'name'         => '名称',
+            'price'        => '价格',
+            'status'       => '状态',
+            'complete_at'  => '完成时间',
+            'created_at'   => '创建时间',
+            'updated_at'   => '更新时间',
         ];
     }
 

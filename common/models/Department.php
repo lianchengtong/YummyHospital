@@ -29,7 +29,7 @@ class Department extends \common\base\ActiveRecord
     {
         return [
             'id'   => 'ID',
-            'name' => 'Name',
+            'name' => '名称',
         ];
     }
 

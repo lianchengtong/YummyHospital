@@ -27,8 +27,8 @@ class DoctorTag extends \common\base\ActiveRecord
     {
         return [
             'id'        => 'ID',
-            'doctor_id' => 'Doctor ID',
-            'name'      => 'Name',
+            'doctor_id' => '医生',
+            'name'      => '标签',
         ];
     }
 

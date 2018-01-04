@@ -19,8 +19,8 @@ class ArticleContent extends \common\base\ActiveRecord implements InterfaceArtic
     {
         return [
             'id'         => 'ID',
-            'article_id' => 'Article ID',
-            'content'    => 'Content',
+            'article_id' => '文章ID',
+            'content'    => '内容',
         ];
     }
 
