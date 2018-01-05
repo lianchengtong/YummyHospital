@@ -1,7 +1,9 @@
 <?php
+
 namespace common\utils;
 
 
+use common\models\ManageUser;
 use common\models\User;
 use yii\web\IdentityInterface;
 
@@ -40,7 +42,7 @@ class UserSession
 
     public static function logout()
     {
-        return self::instance()->logout(TRUE);
+        return self::instance()->logout(true);
     }
 
     public static function login(IdentityInterface $user, $duration = 0)
@@ -52,5 +54,10 @@ class UserSession
     public static function needLogin()
     {
         self::instance()->loginRequired();
+    }
+
+    public static function isAdmin()
+    {
+        return ManageUser::getUser(self::getId());
     }
 }

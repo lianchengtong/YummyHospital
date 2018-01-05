@@ -49,7 +49,7 @@ class WebController extends BaseController
                 $this->redirect($url);
                 return false;
             }
-        }*/
+        }
 
         if ($this->needLogin && UserSession::isGuest()) {
             $authUserModel = AuthWechat::getByOpenID($userInfo['token']['openid']);
@@ -68,7 +68,7 @@ class WebController extends BaseController
 
             $this->redirect(Url::full(['/login/index']));
             return false;
-        }
+        }*/
 
         return parent::beforeAction($action);
     }

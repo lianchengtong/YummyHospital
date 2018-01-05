@@ -1,22 +1,22 @@
 <?php
 \yii\bootstrap\NavBar::begin([
-    'brandLabel'            => "Hello World!",
-    'brandUrl'              => ["@admin/dashboard"],
-    'innerContainerOptions' => [
-        'class' => 'container-fluid',
-    ],
-    'options'               => [
-        'class' => 'navbar navbar-default navbar-static-top',
-    ],
-]);
+                                 'brandLabel'            => "Hello World!",
+                                 'brandUrl'              => ["@admin/dashboard"],
+                                 'innerContainerOptions' => [
+                                     'class' => 'container-fluid',
+                                 ],
+                                 'options'               => [
+                                     'class' => 'navbar navbar-default navbar-static-top',
+                                 ],
+                             ]);
 
-$leftMenus  = [
+$leftMenus = [
 ];
 $rightMenus = [
     ['label' => '首页', 'url' => ['/']],
 ];
 
-if (\common\utils\UserSession::isGuest()) {
+if (\common\utils\UserSession::isGuest() || \common\utils\UserSession::isAdmin()) {
     $rightMenus[] = ['label' => '登录', 'url' => ['/manage/login']];
 } else {
     $leftMenus = [
@@ -55,13 +55,13 @@ if (\common\utils\UserSession::isGuest()) {
 }
 
 echo \yii\bootstrap\Nav::widget([
-    'options' => ['class' => 'navbar-nav'],
-    'items'   => $leftMenus,
-]);
+                                    'options' => ['class' => 'navbar-nav'],
+                                    'items'   => $leftMenus,
+                                ]);
 
 echo \yii\bootstrap\Nav::widget([
-    'options' => ['class' => 'navbar-nav navbar-right'],
-    'items'   => $rightMenus,
-]);
+                                    'options' => ['class' => 'navbar-nav navbar-right'],
+                                    'items'   => $rightMenus,
+                                ]);
 
 \yii\bootstrap\NavBar::end();
