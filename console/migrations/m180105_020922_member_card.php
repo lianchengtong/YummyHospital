@@ -22,6 +22,7 @@ class m180105_020922_member_card extends Migration
             'description'  => $this->text(),
             'time_long'    => $this->integer()->notNull()->defaultValue(0),
             'order'        => $this->integer()->notNull()->defaultValue(0),
+            'options'      => $this->string()->notNull()->defaultValue(""),
             'created_at'   => $this->integer(),
             'updated_at'   => $this->integer(),
         ]);

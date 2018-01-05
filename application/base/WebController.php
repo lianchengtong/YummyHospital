@@ -2,33 +2,30 @@
 
 namespace application\base;
 
-use common\utils\Session;
-use application\base\WeChatWebBaseController;
 use common\extend\Url;
 use common\models\AuthWechat;
-use common\models\User;
-use common\models\WebsiteConfig;
 use common\utils\Request;
+use common\utils\Session;
 use common\utils\UserSession;
 use common\utils\WeChatInstance;
 use EasyWeChat\OfficialAccount\Application;
-use yii\base\Exception;
 
 class WebController extends BaseController
 {
-    public $layoutSnip = "tab_nav";
-    protected $needLogin = false;
+    public    $layoutSnip = "tab_nav";
+    protected $needLogin  = false;
 
     /** @var Application */
     protected $app;
 
     public function beforeAction($action)
     {
-        $userInfo = [];
-        /*$this->app = WeChatInstance::officialAccount();
-        if (!($userInfo = Session::get("wechat.user"))) {
+        $this->app = WeChatInstance::officialAccount();
+        $userInfo  = Session::get("wechat.user");
+        if (!$userInfo) {
             if (!$this->isAuthCallbackPage()) {
                 $this->gotoAuthPage();
+
                 return false;
             }
 
@@ -39,6 +36,7 @@ class WebController extends BaseController
 
                 $url = Request::input("redirect");
                 $this->redirect($url);
+
                 return false;
             }
         }
@@ -47,6 +45,7 @@ class WebController extends BaseController
             $url = Request::input("redirect");
             if (!empty($url)) {
                 $this->redirect($url);
+
                 return false;
             }
         }
@@ -67,8 +66,9 @@ class WebController extends BaseController
             }
 
             $this->redirect(Url::full(['/login/index']));
+
             return false;
-        }*/
+        }
 
         return parent::beforeAction($action);
     }
@@ -76,6 +76,7 @@ class WebController extends BaseController
     protected function isAuthCallbackPage()
     {
         $isAuthCallback = Request::get("code") && Request::get("state");
+
         return $isAuthCallback;
     }
 
@@ -92,21 +93,21 @@ class WebController extends BaseController
         //scope: snsapi_base, snsapi_userinfo
         $app = WeChatInstance::officialAccount();
         $app->oauth->scopes(['snsapi_userinfo'])
-            ->setRedirectUrl($redirectTo)
-            ->redirect()
-            ->send();
+                   ->setRedirectUrl($redirectTo)
+                   ->redirect()
+                   ->send();
     }
 
     protected function setSessionUserInfo()
     {
         try {
             $authUserInfo = $this->app->oauth->user();
-            $accessToken = $authUserInfo->getAccessToken();
+            $accessToken  = $authUserInfo->getAccessToken();
             $authTokenArr = [
-                'access_token' => $accessToken->access_token,
+                'access_token'  => $accessToken->access_token,
                 'refresh_token' => $accessToken->refresh_token,
-                'expire_at' => $accessToken->expires_in,
-                'open_id' => $accessToken->openid,
+                'expire_at'     => $accessToken->expires_in,
+                'open_id'       => $accessToken->openid,
             ];
             Session::set("wechat.user", $authUserInfo);
 

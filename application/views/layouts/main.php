@@ -17,6 +17,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <?= $this->commonMetaTags() ?>
     <?= Html::csrfMetaTags() ?>
+    <title><?=\common\models\WebsiteConfig::getValueByKey("site.name")?></title>
     <?php $this->head() ?>
 </head>
 <body>

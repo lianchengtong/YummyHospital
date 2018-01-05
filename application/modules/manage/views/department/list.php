@@ -18,12 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
     'buttons'      => [
         Html::a('创建', ['create'], ['class' => 'btn btn-success']),
     ],
-    'filterModel'  => $searchModel,
+    //'filterModel'  => $searchModel,
     'columns'      => [
         ['class' => 'yii\grid\SerialColumn'],
-
         'name',
-
         ['class' => '\common\extend\ActionColumn'],
     ],
 ]); ?>

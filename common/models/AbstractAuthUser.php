@@ -7,14 +7,14 @@ use common\base\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 
 /**
- * @property integer $id
- * @property integer $user_id
- * @property string $open_id
- * @property string $access_token
- * @property string $refresh_token
- * @property integer $access_token_expire_at
- * @property integer $refresh_token_expire_at
- * @property integer $created_at
+ * @property integer             $id
+ * @property integer             $user_id
+ * @property string              $open_id
+ * @property string              $access_token
+ * @property string              $refresh_token
+ * @property integer             $access_token_expire_at
+ * @property integer             $refresh_token_expire_at
+ * @property integer             $created_at
  * @property \common\models\User $user
  */
 class AbstractAuthUser extends ActiveRecord
@@ -33,7 +33,7 @@ class AbstractAuthUser extends ActiveRecord
     {
         return [
             [
-                'class' => TimestampBehavior::className(),
+                'class'      => TimestampBehavior::className(),
                 'attributes' => [
                     self::EVENT_BEFORE_INSERT => ['created_at'],
                 ],
@@ -63,7 +63,7 @@ class AbstractAuthUser extends ActiveRecord
      *
      * @return array|null|\yii\db\ActiveRecord|self
      */
-    public function getByUserID($userID)
+    public static function getByUserID($userID)
     {
         return self::find()->where(['user_id' => $userID])->one();
     }
@@ -71,6 +71,7 @@ class AbstractAuthUser extends ActiveRecord
     public function connectWithUser(User $user)
     {
         $this->user_id = $user->primaryKey;
+
         return $this->save();
     }
 
@@ -97,12 +98,14 @@ class AbstractAuthUser extends ActiveRecord
     public function updateRefreshToken($newToken)
     {
         $this->refresh_token = $newToken;
+
         return $this->save(false);
     }
 
     public function updateAccessToken($newToken)
     {
         $this->access_token = $newToken;
+
         return $this->save(false);
     }
 
@@ -114,12 +117,14 @@ class AbstractAuthUser extends ActiveRecord
     public function setAccessTokenExpire($timeDuration)
     {
         $this->access_token_expire_at = time() + $timeDuration;
+
         return $this->save(false);
     }
 
     public function setRefreshTokenExpire($timeDuration)
     {
         $this->refresh_token_expire_at = time() + $timeDuration;
+
         return $this->save(false);
     }
 }

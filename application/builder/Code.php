@@ -35,7 +35,13 @@ class Code extends Widget
             file_put_contents($file, $content);
         }
 
-        return $this->renderFile($file, $this->params);
+        $renderContent = $this->renderFile($file, $this->params);
+
+        if (YII_DEBUG) { # debug mode no cache data
+            unlink($file);
+        }
+
+        return $renderContent;
     }
 
     protected static function renderWithInclude($blockSlug)

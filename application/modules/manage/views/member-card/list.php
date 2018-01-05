@@ -1,14 +1,14 @@
 <?php
 
-use yii\helpers\Html;
 use common\extend\PanelGridView;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\search\MemberCard */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = '会员卡';
+$this->title                   = '会员卡';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'style' => 'width: 80px;',
             ],
             'value'     => function ($data) {
-                $name = sprintf("order[%d]", $data['id']);
+                $name      = sprintf("order[%d]", $data['id']);
                 $orderAttr = [
                     'data-old'     => $data['order'],
                     'data-id'      => $data['id'],
@@ -48,7 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 return Html::textInput($name, $data['order'], $orderAttr);
             },
         ],
-        'created_at',
 
         ['class' => '\common\extend\ActionColumn'],
     ],

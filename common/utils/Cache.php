@@ -3,6 +3,8 @@
 namespace common\utils;
 
 
+use yii\caching\ExpressionDependency;
+
 class Cache
 {
     public static function get($key)
@@ -40,12 +42,17 @@ class Cache
 
     public static function getOrSet($key, callable $callable, $duration = null, $dependency = null)
     {
+        if (YII_DEBUG && is_null($dependency)) {
+            $dependency = new ExpressionDependency("1==0");
+        }
+
         return self::getInstance()->getOrSet($key, $callable, $duration, $dependency);
     }
 
     public static function model($modalClassName, $id, callable $callable)
     {
         $key = "model." . $modalClassName . $id;
+
         return self::getOrSet($key, $callable);
     }
 }

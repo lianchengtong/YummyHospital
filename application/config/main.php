@@ -78,6 +78,7 @@ return [
                     ],
                     'js'        => [
                         '//cdn.staticfile.org/jquery/3.2.1/jquery.min.js',
+                        '//cdn.staticfile.org/jquery-touch-events/1.0.8/jquery.mobile-events.min.js',
                     ],
                 ],
                 'yii\bootstrap\BootstrapAsset'       => [

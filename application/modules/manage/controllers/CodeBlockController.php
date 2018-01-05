@@ -77,8 +77,9 @@ class CodeBlockController extends AuthController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['list']);
+            return $this->redirect(['update', 'id' => $model->primaryKey]);
         }
+
         return $this->render('update', [
             'model' => $model,
         ]);

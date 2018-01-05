@@ -9,7 +9,7 @@ use yii\helpers\Html;
 /* @var $linkGroupModel common\models\LinkGroup */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title                   = '链接列表：'.$linkGroupModel->name;
+$this->title                   = '链接列表：' . $linkGroupModel->name;
 $this->params['breadcrumbs'][] = ['label' => '链接分组', 'url' => ['@admin/link/group/list']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         Html::a('链接分组', ['@admin/link/group/list'], ['class' => 'btn btn-primary']),
         Html::a('创建', ['create', 'group' => $linkGroupModel->id], ['class' => 'btn btn-success']),
     ],
-    'filterModel'  => $searchModel,
+    //'filterModel'  => $searchModel,
     'columns'      => [
         'name',
         'slug',

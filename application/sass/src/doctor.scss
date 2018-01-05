@@ -53,6 +53,7 @@ $border-color: #EFEFEF;
     background: #f8f3f3;
     color: #333333;
     border: none;
+    margin-bottom: 5px;
 
     &:before {
       border: none;
@@ -115,12 +116,16 @@ $border-color: #EFEFEF;
 
 .ui-doctor-footer {
   color: white;
+  li.tab-item {
+    padding: 0;
+  }
 
   .tab-item a {
     height: 56px;
-    line-height: 46px;
+    line-height: 56px;
     font-size: 18px;
     color: white;
+    display: block;
   }
 
   .appointment {

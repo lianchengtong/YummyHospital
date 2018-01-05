@@ -2,8 +2,6 @@
 
 namespace common\models;
 
-use Yii;
-
 /**
  * This is the model class for table "member_card".
  *
@@ -51,18 +49,21 @@ class MemberCard extends \common\base\ActiveRecord
     public function beforeSave($insert)
     {
         $this->price *= 100;
+
         return parent::beforeSave($insert);
     }
 
     public function afterFind()
     {
         $this->price /= 100;
+
         return parent::afterFind();
     }
 
-    public function getOptions($key)
+    public function getOptionData($key)
     {
         $options = json_decode($this->options);
+
         return $options[$key];
     }
 
