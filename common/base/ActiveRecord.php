@@ -64,4 +64,9 @@ class ActiveRecord extends \yii\db\ActiveRecord
         }
         return true;
     }
+
+    public static function count($condition = [])
+    {
+        return self::find()->where($condition)->count();
+    }
 }
