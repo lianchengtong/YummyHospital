@@ -25,8 +25,8 @@ class MemberCard extends \common\base\ActiveRecord
     {
         return [
             [['name', 'price', 'discount', 'pay_discount'], 'required'],
-            [['name', 'price', 'discount', 'pay_discount', 'time_long', 'order', 'created_at', 'updated_at'], 'integer'],
-            [['description', 'options'], 'string'],
+            [['price', 'discount', 'pay_discount', 'time_long', 'order', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'description', 'options'], 'string'],
             [['description', 'options'], 'default', 'value' => ''],
         ];
     }

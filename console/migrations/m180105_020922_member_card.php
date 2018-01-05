@@ -15,7 +15,7 @@ class m180105_020922_member_card extends Migration
     {
         $this->createTable($this->_table, [
             'id'           => $this->primaryKey(),
-            'name'         => $this->integer()->notNull(),
+            'name'         => $this->string()->notNull(),
             'price'        => $this->integer()->notNull(),
             'discount'     => $this->integer()->notNull(),
             'pay_discount' => $this->integer()->notNull(),

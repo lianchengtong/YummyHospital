@@ -1,22 +1,20 @@
 <?php
 \yii\bootstrap\NavBar::begin([
-                                 'brandLabel'            => "Hello World!",
-                                 'brandUrl'              => ["@admin/dashboard"],
-                                 'innerContainerOptions' => [
-                                     'class' => 'container-fluid',
-                                 ],
-                                 'options'               => [
-                                     'class' => 'navbar navbar-default navbar-static-top',
-                                 ],
-                             ]);
+    'brandLabel'            => "Hello World!",
+    'brandUrl'              => ["@admin/dashboard"],
+    'innerContainerOptions' => [
+        'class' => 'container-fluid',
+    ],
+    'options'               => [
+        'class' => 'navbar navbar-default navbar-static-top',
+    ],
+]);
 
-$leftMenus = [
-];
 $rightMenus = [
     ['label' => '首页', 'url' => ['/']],
 ];
 
-if (\common\utils\UserSession::isGuest() || \common\utils\UserSession::isAdmin()) {
+if (\common\utils\UserSession::isGuest() || !\common\utils\UserSession::isAdmin()) {
     $rightMenus[] = ['label' => '登录', 'url' => ['/manage/login']];
 } else {
     $leftMenus = [
@@ -26,6 +24,8 @@ if (\common\utils\UserSession::isGuest() || \common\utils\UserSession::isAdmin()
             ['label' => '文章类型', 'url' => ['@admin/article/type/list']],
         ]],
         ['label' => '预约', 'url' => ['@admin/appointment/all']],
+        ['label' => '订单管理', 'url' => ['@admin/appointment/all']],
+        ['label' => '会员卡', 'url' => ['@admin/member-card/list']],
         ['label' => '在线咨询', 'url' => ['@admin/patient-ask/list']],
         ['label' => '医生管理', 'items' => [
             ['label' => '科室', 'url' => ['@admin/department/list']],
@@ -55,13 +55,13 @@ if (\common\utils\UserSession::isGuest() || \common\utils\UserSession::isAdmin()
 }
 
 echo \yii\bootstrap\Nav::widget([
-                                    'options' => ['class' => 'navbar-nav'],
-                                    'items'   => $leftMenus,
-                                ]);
+    'options' => ['class' => 'navbar-nav'],
+    'items'   => $leftMenus,
+]);
 
 echo \yii\bootstrap\Nav::widget([
-                                    'options' => ['class' => 'navbar-nav navbar-right'],
-                                    'items'   => $rightMenus,
-                                ]);
+    'options' => ['class' => 'navbar-nav navbar-right'],
+    'items'   => $rightMenus,
+]);
 
 \yii\bootstrap\NavBar::end();

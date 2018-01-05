@@ -6,7 +6,7 @@ use yii\web\Response;
 
 class AuthRestController extends Controller
 {
-    use TraitNeedLogin;
+    use TraitNeedLoginAdmin;
 
     public function behaviors()
     {
