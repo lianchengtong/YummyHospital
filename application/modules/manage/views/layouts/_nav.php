@@ -25,7 +25,10 @@ if (\common\utils\UserSession::isGuest() || !\common\utils\UserSession::isAdmin(
         ]],
         ['label' => '预约', 'url' => ['@admin/appointment/all']],
         ['label' => '订单管理', 'url' => ['@admin/appointment/all']],
-        ['label' => '会员卡', 'url' => ['@admin/member-card/list']],
+        ['label' => '会员卡', 'items' => [
+            ['label' => '管理', 'url' => ['@admin/member-card/list']],
+            ['label' => '已售', 'url' => ['@admin/member-own-card/list']],
+        ]],
         ['label' => '在线咨询', 'url' => ['@admin/patient-ask/list']],
         ['label' => '医生管理', 'items' => [
             ['label' => '科室', 'url' => ['@admin/department/list']],

@@ -21,9 +21,11 @@ class MemberOwnCard extends \common\base\ActiveRecord
     public function behaviors()
     {
         return [
-            'class'      => TimestampBehavior::className(),
-            'attributes' => [
-                self::EVENT_BEFORE_INSERT => [$this->createdAtAttribute],
+            [
+                'class'      => TimestampBehavior::className(),
+                'attributes' => [
+                    self::EVENT_BEFORE_INSERT => ['created_at'],
+                ],
             ],
         ];
     }
@@ -40,6 +42,7 @@ class MemberOwnCard extends \common\base\ActiveRecord
     {
         return [
             'id'             => 'ID',
+            'user.nickname'  => '购买用户',
             'user_id'        => 'User ID',
             'original_money' => '原价',
             'remain_money'   => '余额',
@@ -49,4 +52,8 @@ class MemberOwnCard extends \common\base\ActiveRecord
         ];
     }
 
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
 }
