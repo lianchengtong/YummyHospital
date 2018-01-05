@@ -4,6 +4,7 @@ namespace common\base;
 
 
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
@@ -42,5 +43,25 @@ class ActiveRecord extends \yii\db\ActiveRecord
         }
 
         return $errors;
+    }
+
+    public static function getByID($id)
+    {
+        return self::findOne($id);
+    }
+
+
+    public static function getMapByColumn($column, $condition = [])
+    {
+        $list = self::find()->select($column)->where($condition)->all();
+        return ArrayHelper::map($list, "id", $column);
+    }
+
+    public function saveOrError()
+    {
+        if (!$this->save()) {
+            return $this->getErrors();
+        }
+        return true;
     }
 }

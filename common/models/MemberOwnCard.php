@@ -41,11 +41,12 @@ class MemberOwnCard extends \common\base\ActiveRecord
         return [
             'id'             => 'ID',
             'user_id'        => 'User ID',
-            'original_money' => 'Original Money',
-            'remain_money'   => 'Remain Money',
-            'discount'       => 'Discount',
-            'expire_at'      => 'Expire At',
-            'created_at'     => 'Created At',
+            'original_money' => '原价',
+            'remain_money'   => '余额',
+            'discount'       => '消费折扣',
+            'expire_at'      => '过期时间',
+            'created_at'     => '购买日期',
         ];
     }
+
 }

@@ -65,4 +65,20 @@ class MemberCard extends \common\base\ActiveRecord
         $options = json_decode($this->options);
         return $options[$key];
     }
+
+    // 创建用户会员卡
+    public function createForUser($userID)
+    {
+        $model = new MemberOwnCard();
+        $model->setAttributes([
+            'user_id'        => $userID,
+            'original_money' => $this->price,
+            'remain_money'   => $this->price,
+            'discount'       => $this->pay_discount,
+            'expire_at'      => strtotime(sprintf("+%d month", $this->time_long)),
+            'created_at'     => time(),
+        ]);
+
+        return $model->saveOrError();
+    }
 }

@@ -60,4 +60,6 @@ class MemberCard extends MemberCardModel
 
         return $dataProvider;
     }
+
+
 }
