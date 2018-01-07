@@ -16,6 +16,37 @@ $border-color: #EFEFEF;
   }
 }
 
+.ui-slide-show{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 100000000001;
+
+  .ui-slide-show-content{
+    background: red;
+    position: absolute;
+    top: 0;
+    right:0;
+    width: 30%;
+    height: 100%;
+    padding: 15px;
+    overflow: auto;
+  }
+}
+
+.ui-doctor-appointment-tab{
+  .ui-tiled li{
+    padding: 10px 0;
+
+    &.active{
+      border-bottom: 1px solid red;
+    }
+  }
+
+}
+
 .ui-doctor-description {
   padding-top: 10px;
   text-align: center;

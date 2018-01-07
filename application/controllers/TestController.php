@@ -2,17 +2,20 @@
 
 namespace application\controllers;
 
+use application\base\BaseController;
 use application\base\WebController;
 use common\models\Order;
+use common\models\PatientFeedback;
 use common\utils\Json;
 use common\utils\pay\Wechat;
 
-class TestController extends WebController
+class TestController extends BaseController
 {
     public $enableCsrfValidation = false;
 
     public function actionIndex()
     {
+        return Json::success(PatientFeedback::getDoctorMark(1));
         return $this->render("index");
     }
 

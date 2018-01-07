@@ -28,6 +28,8 @@ class DoctorServiceTime extends \common\base\ActiveRecord
 
     protected $enableTimeBehavior = false;
 
+    public $time_range;
+
     public static function weekDays()
     {
         return [1 => '一', '二', '三', '四', '五', '六', '日'];
@@ -350,6 +352,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         $this->day = json_decode($this->day, true);
         $this->am = json_decode($this->am, true);
         $this->pm = json_decode($this->pm, true);
+        $this->time_range = DoctorServiceTimeRange::getStringForDoctor($this->doctor_id);
 
         parent::afterFind();
     }
@@ -375,6 +378,8 @@ class DoctorServiceTime extends \common\base\ActiveRecord
             $this->day = json_encode($this->day['month']);
         }
 
+        DoctorServiceTimeRange::saveForDoctor($this->doctor_id,$this->time_range);
+
         $this->week_service_start_at = json_encode($this->week_service_start_at);
         $this->month = json_encode($this->month);
         $this->am = json_encode($this->am);
@@ -390,7 +395,7 @@ class DoctorServiceTime extends \common\base\ActiveRecord
             [['doctor_id', 'price', 'max_time_long', 'ticket_count'], 'integer'],
             [['week',], 'string', 'max' => 255],
             ['max_time_long', 'default', 'value' => 2],
-            [['month', 'day', 'am', 'week_service_start_at', 'pm'], 'safe'],
+            [['month', 'day', 'am', 'week_service_start_at', 'pm','time_range'], 'safe'],
         ];
     }
 

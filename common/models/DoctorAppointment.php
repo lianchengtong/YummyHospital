@@ -145,4 +145,9 @@ class DoctorAppointment extends \common\base\ActiveRecord
 
         return $orderModel;
     }
+
+    public static function getCount($doctorID   )
+    {
+
+    }
 }

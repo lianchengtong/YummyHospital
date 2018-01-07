@@ -31,8 +31,8 @@ if (\common\utils\UserSession::isGuest() || !\common\utils\UserSession::isAdmin(
         ]],
         ['label' => '在线咨询', 'url' => ['@admin/patient-ask/list']],
         ['label' => '医生管理', 'items' => [
-            ['label' => '科室', 'url' => ['@admin/department/list']],
             ['label' => '医生', 'url' => ['@admin/doctor/doctor/list']],
+            ['label' => '科室', 'url' => ['@admin/department/list']],
             ['label' => '职称', 'url' => ['@admin/doctor/level/list']],
         ]],
         ['label' => '链接', 'url' => ['@admin/link/group/list']],
@@ -48,6 +48,7 @@ if (\common\utils\UserSession::isGuest() || !\common\utils\UserSession::isAdmin(
             ['label' => '配置管理', 'url' => ['@admin/website/config/list']],
             ['label' => '备份/恢复', 'url' => ['@admin/website/system']],
         ]],
+        ['label' => '代码块', 'url' => ['@admin/code-block/list']],
     ];
 
     $rightMenus[] = ['label' => '清理缓存', 'url' => [
