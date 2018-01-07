@@ -16,7 +16,7 @@
                     $showItem = $showItemIndex==0;
                     $showItemIndex++;
                     ?>
-                <li class="ui-border-b <?=$showItem?"":"ui-hide"?>">
+                <li class="ui-border-b">
                     <span class="time"><?=$date?></span>
                     <span class="location">汉典中医院</span>
                     <span class="price">&yen; <?= $model->doctorServiceTime->price ?></span>
@@ -27,7 +27,7 @@
                     ?>
 
             </ul>
-            <div class="ui-btn-show-all">查看全部排班</div>
+            <div class="ui-btn-show-all" data-toggle="0">查看全部排班</div>
         </div>
         <div class="ui-tab-item-content ui-tab-item-1 ui-hide">
             在线咨询
@@ -46,15 +46,13 @@
 <script>
     $(function(){
         $("body").on("tap",".ui-tab-item-content .ui-btn-show-all",function(){
-            $(".ui-doctor-appointment-list li").each(function(index,item){
-                if ($(item).hasClass("ui-hide")){
-                    $(item).addClass("ui-show");
-                }
-
-                if ($(item).hasClass("ui-show")){
-                    $(item).removeClass("ui-show");
-                }
-            });
+            if ($(this).attr("data-toggle") == 0){
+                $(".ui-doctor-appointment-list").attr('style',"height: auto;")
+                $(this).attr("data-toggle",1);
+            }else{
+                $(".ui-doctor-appointment-list").attr('style',"height: 60px;")
+                $(this).attr("data-toggle",0);
+            }
         });
 
         $("body").on("tap",".ui-slide-show",function(){

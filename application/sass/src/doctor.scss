@@ -47,6 +47,9 @@ $border-color: #EFEFEF;
 
 
   .ui-doctor-appointment-list{
+    height: 60px;
+    overflow: hidden;
+
     li{
       display: flex;
       justify-content: space-between;
