@@ -388,6 +388,14 @@ class DoctorServiceTime extends \common\base\ActiveRecord
         return parent::beforeSave($insert);
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        $key = "doctor.all-recent-service-time-date-" . date("Ymd");
+        Cache::delete($key);
+
+        return parent::afterSave($insert, $changedAttributes);
+    }
+
     public function rules()
     {
         return [

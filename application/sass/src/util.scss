@@ -127,9 +127,9 @@
 }
 
 .ui-hide {
-  display: none;
+  display: none !important;
 }
 
 .ui-show {
-  display: block;
+  display: block !important;
 }

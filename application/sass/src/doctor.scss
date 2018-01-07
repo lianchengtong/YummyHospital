@@ -45,6 +45,24 @@ $border-color: #EFEFEF;
     }
   }
 
+
+  .ui-doctor-appointment-list{
+    li{
+      display: flex;
+      justify-content: space-between;
+      line-height: 30px;
+      padding: 10px 0;
+    }
+  }
+
+  .ui-btn-show-all{
+    padding: 10px;
+    margin: 20px 20%;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 18px;
+    border: 1px solid red;
+  }
 }
 
 .ui-doctor-description {

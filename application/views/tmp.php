@@ -8,7 +8,26 @@
 
     <div class="ui-panel-body">
         <div class="ui-tab-item-content ui-tab-item-0 ui-hide ui-show">
+            <ul class="ui-doctor-appointment-list">
+                <?php
+                $serviceDate = \common\models\DoctorServiceTime::getAllRecentServiceTimeDateList($model->id,false);
+                $showItemIndex = 0;
+                foreach ($serviceDate as $dateKey=>$date){
+                    $showItem = $showItemIndex==0;
+                    $showItemIndex++;
+                    ?>
+                <li class="ui-border-b <?=$showItem?"":"ui-hide"?>">
+                    <span class="time"><?=$date?></span>
+                    <span class="location">汉典中医院</span>
+                    <span class="price">&yen; <?= $model->doctorServiceTime->price ?></span>
+                    <span class="btn-wrapper"><a href="<?= $dateKey ?>" class="ui-btn">预约</a></span>
+                </li>
+                <?php
+                }
+                    ?>
 
+            </ul>
+            <div class="ui-btn-show-all">查看全部排班</div>
         </div>
         <div class="ui-tab-item-content ui-tab-item-1 ui-hide">
             在线咨询
@@ -16,7 +35,7 @@
     </div>
 </section>
 
-<section class="ui-slide-show">
+<section class="ui-slide-show ui-hide">
     <div class="ui-slide-show-content">
         <?php for ($i=0;$i<100;$i++):?>
         <p>slide show content</p>
@@ -26,6 +45,18 @@
 
 <script>
     $(function(){
+        $("body").on("tap",".ui-tab-item-content .ui-btn-show-all",function(){
+            $(".ui-doctor-appointment-list li").each(function(index,item){
+                if ($(item).hasClass("ui-hide")){
+                    $(item).addClass("ui-show");
+                }
+
+                if ($(item).hasClass("ui-show")){
+                    $(item).removeClass("ui-show");
+                }
+            });
+        });
+
         $("body").on("tap",".ui-slide-show",function(){
             $(this).addClass("ui-hide");
         });

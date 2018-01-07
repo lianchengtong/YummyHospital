@@ -4,6 +4,7 @@ namespace application\controllers;
 
 use application\base\BaseController;
 use application\base\WebController;
+use common\models\Doctor;
 use common\models\Order;
 use common\models\PatientFeedback;
 use common\utils\Json;
@@ -15,6 +16,11 @@ class TestController extends BaseController
 
     public function actionIndex()
     {
+        $model = Doctor::findOne(1);
+        return Json::success($model->doctorServiceTime->price);
+        $serviceDate = \common\models\DoctorServiceTime::getAllRecentServiceTimeDateList(1,false);
+        return Json::success($serviceDate);
+
         return Json::success(PatientFeedback::getDoctorMark(1));
         return $this->render("index");
     }
