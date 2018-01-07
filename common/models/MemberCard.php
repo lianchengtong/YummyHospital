@@ -7,7 +7,7 @@ namespace common\models;
  *
  * @property int    $id
  * @property int    $name
- * @property int    $price
+ * @property double $price
  * @property int    $discount
  * @property int    $pay_discount
  * @property string $description
@@ -23,9 +23,10 @@ class MemberCard extends \common\base\ActiveRecord
     {
         return [
             [['name', 'price', 'discount', 'pay_discount'], 'required'],
-            [['price', 'discount', 'pay_discount', 'time_long', 'order', 'created_at', 'updated_at'], 'integer'],
+            [['discount', 'pay_discount', 'time_long', 'order', 'created_at', 'updated_at'], 'integer'],
             [['name', 'description', 'options'], 'string'],
             [['description', 'options'], 'default', 'value' => ''],
+            [['price'], 'number'],
         ];
     }
 

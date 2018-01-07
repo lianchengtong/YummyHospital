@@ -2,17 +2,16 @@
 
 namespace common\models\search;
 
-use Yii;
+use common\models\MemberOwnCard as MemberOwnCardModel;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\MemberOwnCard as MemberOwnCardModel;
 
 class MemberOwnCard extends MemberOwnCardModel
 {
     public function rules()
     {
         return [
-            [['id', 'user_id', 'original_money', 'remain_money', 'discount', 'expire_at', 'created_at'], 'integer'],
+            [['id', 'is_enable', 'user_id', 'original_money', 'remain_money', 'discount', 'expire_at', 'created_at'], 'integer'],
         ];
     }
 
@@ -42,13 +41,13 @@ class MemberOwnCard extends MemberOwnCardModel
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'user_id' => $this->user_id,
+            'id'             => $this->id,
+            'user_id'        => $this->user_id,
             'original_money' => $this->original_money,
-            'remain_money' => $this->remain_money,
-            'discount' => $this->discount,
-            'expire_at' => $this->expire_at,
-            'created_at' => $this->created_at,
+            'remain_money'   => $this->remain_money,
+            'discount'       => $this->discount,
+            'expire_at'      => $this->expire_at,
+            'created_at'     => $this->created_at,
         ]);
 
         return $dataProvider;

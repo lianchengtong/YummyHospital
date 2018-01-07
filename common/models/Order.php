@@ -7,6 +7,7 @@ namespace common\models;
  *
  *
  * @property integer $id
+ * @property integer $user_id
  * @property string  $order_id
  * @property string  $out_trade_id
  * @property string  $channel
@@ -64,7 +65,7 @@ class Order extends \common\base\ActiveRecord
     // 把分值转换为yuan
     public function getPriceYuan()
     {
-        return sprintf("%d.%02d", $this->price / 100, $this->price % 100);
+        return sprintf("%0.2f", $this->price / 100);
     }
 
     public function completeWithTradeNumber($outTradeNumber)
@@ -87,6 +88,7 @@ class Order extends \common\base\ActiveRecord
     {
         return [
             'id'           => 'ID',
+            'user_id'      => '购买用户',
             'order_id'     => '订单号',
             'out_trade_id' => '渠道订单号',
             'channel'      => '渠道',
@@ -102,8 +104,8 @@ class Order extends \common\base\ActiveRecord
     public function rules()
     {
         return [
-            [['order_id', 'channel', 'name', 'price'], 'required'],
-            [['price', 'status', 'complete_at', 'created_at', 'updated_at'], 'integer'],
+            [['order_id', 'user_id', 'channel', 'name', 'price'], 'required'],
+            [['price', 'status', 'user_id', 'complete_at', 'created_at', 'updated_at'], 'integer'],
             [['order_id', 'out_trade_id', 'channel', 'name'], 'string', 'max' => 255],
             [['out_trade_id'], 'default', 'value' => ''],
             [['complete_at'], 'default', 'value' => 0],
