@@ -16,6 +16,7 @@ namespace common\models;
  * @property integer $height
  * @property integer $weight
  * @property integer $is_self
+ * @property integer $default
  */
 class MyPatient extends \common\base\ActiveRecord
 {
@@ -29,9 +30,10 @@ class MyPatient extends \common\base\ActiveRecord
     {
         return [
             [['user_id', 'name', 'sex', 'phone', 'identify'], 'required'],
-            [['user_id', 'sex', 'height', 'is_self', 'weight', 'relation'], 'integer'],
+            [['user_id', 'default', 'sex', 'height', 'is_self', 'weight', 'relation'], 'integer'],
             [['name', 'birth', 'phone', 'birth', 'identify'], 'string', 'max' => 255],
             [['birthYear', 'birthMonth', 'birthDay'], 'safe'],
+            [['default'], 'default', 'value' => 0],
         ];
     }
 
@@ -120,5 +122,26 @@ class MyPatient extends \common\base\ActiveRecord
             '亲属',
             '朋友',
         ];
+    }
+
+    public static function getPatient($patientID = null, $userID = null)
+    {
+        /** @var self $model */
+        if (is_null($patientID)) {
+            $model = self::find()->where(['default' => 1, 'user_id' => $userID])->one();
+        } else {
+            $model = self::find()->where(['id' => $patientID, 'user_id' => $userID])->one();
+        }
+
+        return sprintf("%s, %s, %d岁",
+            $model->name,
+            $model->getSexDesc(),
+            $model->getAge()
+        );
+    }
+
+    public static function resetDefault($userID)
+    {
+        return self::updateAll(['default' => 0], ['user_id' => $userID]);
     }
 }

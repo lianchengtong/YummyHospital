@@ -12,9 +12,37 @@
   }
 
   .list-wrapper {
-    background: white;
-    .ui-form-item a {
-      display: block;
+    .ui-user-info {
+      &.mode-select {
+        display: flex;
+      }
+
+      .select-btn {
+        padding-left: 10px;
+        width: 50px;
+      }
+
+      a.ui-icon-checked-s.active {
+        color: green;
+      }
+
+      .ui-btn-s {
+        padding: 0 5px;
+        width: auto;
+      }
+
+      .data-wrapper {
+        flex: 1;
+      }
+
+      .ui-panel-heading {
+        display: flex;
+        justify-content: space-between;
+      }
+      .ui-panel-body {
+        display: flex;
+        justify-content: space-between;
+      }
     }
   }
 

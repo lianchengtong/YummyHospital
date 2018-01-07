@@ -58,8 +58,8 @@ class PatientFeedback extends \common\base\ActiveRecord
 
     public function maskPatientName()
     {
-        $name = $this->appointment->patientInfo->name;
-        $len = mb_strlen($name, "utf8");
+        $name  = $this->appointment->patientInfo->name;
+        $len   = mb_strlen($name, "utf8");
         $first = mb_substr($name, 0, 1, 'utf8');
 
         return $first . str_pad("*", $len);
@@ -67,7 +67,9 @@ class PatientFeedback extends \common\base\ActiveRecord
 
     public static function getDoctorMark($doctorID)
     {
-        return self::find()->where(['doctor_id' => $doctorID])->average("mark");
+        $mark = self::find()->where(['doctor_id' => $doctorID])->average("mark");;
+
+        return sprintf("%0.1f", $mark);
     }
 
     public static function getDoctorFeedbackCount($doctorID)
