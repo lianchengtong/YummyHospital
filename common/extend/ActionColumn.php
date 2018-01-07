@@ -26,4 +26,19 @@ class ActionColumn extends \yii\grid\ActionColumn
 
         $this->template = trim($this->template);
     }
+
+    protected function initDefaultButtons()
+    {
+        $this->initDefaultButton('view', 'eye-open',[
+            'class'=>'view-btn'
+        ]);
+        $this->initDefaultButton('update', 'pencil',[
+            'class'=>'update-btn'
+        ]);
+        $this->initDefaultButton('delete', 'trash', [
+            'data-confirm' => \Yii::t('yii', 'Are you sure you want to delete this item?'),
+            'data-method' => 'post',
+            'class'=>'delete-btn'
+        ]);
+    }
 }

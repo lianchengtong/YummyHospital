@@ -34,8 +34,8 @@ class CodeBlockController extends AuthController
             }
         }
 
-        $searchModel  = new CodeBlockSearch();
-        $params       = Yii::$app->request->queryParams;
+        $searchModel = new CodeBlockSearch();
+        $params = Yii::$app->request->queryParams;
         $dataProvider = $searchModel->search($params);
 
         return $this->render('list', [
@@ -77,7 +77,14 @@ class CodeBlockController extends AuthController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['update', 'id' => $model->primaryKey]);
+            if (!Request::isAjax()) {
+                return $this->redirect(['update', 'id' => $model->primaryKey]);
+            }
+        }
+        if (Request::isAjax()) {
+            return $this->renderAjax('update_ajax', [
+                'model' => $model,
+            ]);
         }
 
         return $this->render('update', [

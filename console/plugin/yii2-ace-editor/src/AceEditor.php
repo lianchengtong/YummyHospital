@@ -30,7 +30,7 @@ class AceEditor extends InputWidget
      * @var array Div options
      */
     public $containerOptions = [
-        'style' => 'width: 100%; min-height: 400px;border: 1px solid #ddd',
+        'style' => 'width: 100%; min-height: 100px;border: 1px solid #ddd',
     ];
 
     /**
@@ -45,6 +45,9 @@ class AceEditor extends InputWidget
         $this->getView()->registerJs("var {$editor_var} = ace.edit(\"{$editor_id}\")");
         $this->getView()->registerJs("{$editor_var}.setTheme(\"ace/theme/{$this->theme}\")");
         $this->getView()->registerJs("{$editor_var}.getSession().setMode(\"ace/mode/{$this->mode}\")");
+        if ($this->enableVim){
+            $this->getView()->registerJs("{$editor_var}.setKeyboardHandler('ace/keyboard/vim')");
+        }
         $this->getView()->registerJs("{$editor_var}.setReadOnly({$this->readOnly})");
 
         $textarea_var = 'acetextarea_' . $editor_id;

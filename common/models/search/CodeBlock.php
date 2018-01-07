@@ -32,7 +32,7 @@ class CodeBlock extends CodeBlockModel
             'query' => $query,
             'sort' => false,
             'pagination' => [
-                'pageSize' => 100,
+                'pageSize' => 10,
             ],
         ]);
 

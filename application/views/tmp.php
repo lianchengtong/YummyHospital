@@ -31,7 +31,7 @@
         </div>
         <div class="ui-tab-item-content ui-tab-item-1 p-20 ui-hide ">
             <?php if ($model->enable_ask) { ?>
-                <a href="#" class="ui-btn">立即咨询</a>
+                <?=\yii\helpers\Html::a("立即咨询",["ask/index","id"=>$model->id])?>
             <?php } else { ?>
                 <div class="ui-align-center">
                     对不起，此医师暂未开通咨询功能！

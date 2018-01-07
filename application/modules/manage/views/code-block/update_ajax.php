@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = '编辑';
 ?>
 
 
-<?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin(['id'=>'form']); ?>
 <div class="panel panel-default">
     <div class="panel-heading"><?=$model->name?></div>
     <div class="panel-body">
@@ -28,3 +28,16 @@ $this->params['breadcrumbs'][] = '编辑';
     </div>
 </div>
 <?php ActiveForm::end(); ?>
+
+<script>
+    $(function(){
+        $(document).on("beforeSubmit","#form",function () {
+            var data  = $("#form").serialize();
+            $.post($("#form").attr("action"),data,function(data){
+                $("#code-container").html(data);
+            });
+            return false;
+        });
+    })
+
+</script>

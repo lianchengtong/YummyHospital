@@ -12,4 +12,8 @@ use common\models\WebsiteConfigGroup;
 <?= $form->field($model, 'group_id')->dropDownList(WebsiteConfigGroup::getGroupList()) ?>
 <?= $form->field($model, 'type')->dropDownList(WebsiteConfig::getTypeList()) ?>
 <?= $form->field($model, 'order')->textInput() ?>
-<?= $form->field($model, 'const_data')->textarea(['rows' => 6]) ?>
+<?= $form->field($model, 'const_data')->widget(\rogeecn\AceEditor\AceEditor::className(), [
+    'mode'  => 'json',
+    'enableVim'  => \common\models\WebsiteConfig::getValueByKey("global.enable-ace-vim"),
+    'theme' => 'github',
+]) ?>
