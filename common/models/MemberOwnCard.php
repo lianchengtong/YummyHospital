@@ -92,6 +92,28 @@ class MemberOwnCard extends \common\base\ActiveRecord
         return self::find()->where(['user_id' => $userID, 'is_enable' => 1])->one();
     }
 
+    // 获取订单还需要支付的余额
+    public static function getRemainPayMoneyByOrder($orderID)
+    {
+        $orderModel = Order::getByOrderID($orderID);
+        if (!$orderModel) {
+            return false;
+        }
+
+        $model = self::getUserEnableCard($orderModel->user_id);
+        if (!$model) {
+            return false;
+        }
+
+        $orderPrice    = $orderModel->getPriceYuan();
+        $discountMoney = $model->getDiscountMoney($orderPrice);
+        if ($discountMoney > $orderPrice) {
+            return 0;
+        }
+
+        return $orderPrice - $discountMoney;
+    }
+
     public static function descMoneyByOrderID($orderID)
     {
         $orderModel = Order::getByOrderID($orderID);

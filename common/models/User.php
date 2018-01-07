@@ -14,17 +14,17 @@ use yii\web\IdentityInterface;
  * User model
  *
  * @property integer $id
- * @property string $nickname
- * @property string $head_image
- * @property string $password_hash
- * @property string $password_reset_token
- * @property string $email
- * @property string $phone
- * @property string $auth_key
+ * @property string  $nickname
+ * @property string  $head_image
+ * @property string  $password_hash
+ * @property string  $password_reset_token
+ * @property string  $email
+ * @property string  $phone
+ * @property string  $auth_key
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
- * @property string $password write-only password
+ * @property string  $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -32,7 +32,7 @@ class User extends ActiveRecord implements IdentityInterface
     public $code;
     public $password;
 
-    const STATUS_ACTIVE = 0;
+    const STATUS_ACTIVE   = 0;
     const STATUS_VERIFIED = 1;
     const STATUS_DISABLED = 99;
 
@@ -62,7 +62,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         return static::findOne([
             'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
+            'status'               => self::STATUS_ACTIVE,
         ]);
     }
 
@@ -73,7 +73,7 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
         $timestamp = (int)substr($token, strrpos($token, '_') + 1);
-        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+        $expire    = Yii::$app->params['user.passwordResetTokenExpire'];
 
         return $timestamp + $expire >= time();
     }
@@ -189,5 +189,10 @@ class User extends ActiveRecord implements IdentityInterface
     public static function getByPhone($phone)
     {
         return self::find()->where(['phone' => $phone])->one();
+    }
+
+    public static function getList()
+    {
+        return self::getMapByColumn("nickname");
     }
 }

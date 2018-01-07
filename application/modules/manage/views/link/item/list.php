@@ -15,11 +15,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+<?php
+\yii\widgets\ActiveForm::begin();
+?>
 <?= PanelGridView::widget([
     'dataProvider' => $dataProvider,
     'buttons'      => [
         Html::a('链接分组', ['@admin/link/group/list'], ['class' => 'btn btn-primary']),
+        Html::submitButton("保存排序", ['class' => 'btn btn-primary']),
         Html::a('创建', ['create', 'group' => $linkGroupModel->id], ['class' => 'btn btn-success']),
     ],
     //'filterModel'  => $searchModel,
@@ -36,7 +39,29 @@ $this->params['breadcrumbs'][] = $this->title;
         'pid',
         'data',
         'options',
+        [
+            'attribute' => 'order',
+            'format'    => 'raw',
+            'options'   => [
+                'style' => 'width: 80px;',
+            ],
+            'value'     => function ($data) {
+                $name      = sprintf("order[%d]", $data['id']);
+                $orderAttr = [
+                    'data-old'     => $data['order'],
+                    'data-id'      => $data['id'],
+                    'autocomplete' => 'off',
+                    'name'         => sprintf("order[%d]", $data['id']),
+                    'class'        => 'form-control input-sm',
+                ];
+
+                return Html::textInput($name, $data['order'], $orderAttr);
+            },
+        ],
 
         ['class' => '\common\extend\ActionColumn'],
     ],
 ]); ?>
+<?php
+\yii\widgets\ActiveForm::end();
+?>

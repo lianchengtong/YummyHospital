@@ -28,6 +28,12 @@ class ItemController extends AuthController
 
     public function actionList()
     {
+        if (Request::isPost()) {
+            $orderList = Request::post("order");
+            foreach ($orderList as $id => $newOrder) {
+                LinkGroupItem::updateAll(['order' => intval($newOrder)], ['id' => $id]);
+            }
+        }
         $linkGroupModel = LinkGroup::findOne(Request::input("group"));
         if (!$linkGroupModel) {
             throw new NotFoundHttpException();
