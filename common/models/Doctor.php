@@ -15,6 +15,8 @@ use yii\helpers\ArrayHelper;
  * @property integer $work_time
  * @property string $introduce
  * @property string $rank
+ * @property boolean $enable_ask
+ * @property boolean $ask_price
  *
  * @property \common\models\DoctorServiceTime $docorServiceTime
  */
@@ -42,11 +44,13 @@ class Doctor extends \common\base\ActiveRecord
     public function rules()
     {
         return [
-            [['level', 'work_time'], 'integer'],
+            [['level', 'work_time','enable_ask','ask_price'], 'integer'],
             [['name'], 'required'],
             [['summary', 'name', 'introduce'], 'string'],
             [['head_image', 'rank', 'name'], 'string', 'max' => 255],
             [['department', 'tag'], 'safe'],
+            [['ask_price'], 'default','value'=>20],
+            [['enable_ask'], 'default','value'=>1],
         ];
     }
 
@@ -63,6 +67,8 @@ class Doctor extends \common\base\ActiveRecord
             'rank' => '星级',
             'doctorServiceTime.price' => '挂号价格',
             'doctorServiceTime.ticket_count' => '号源数',
+            'enable_ask' => '开通咨询功能',
+            'ask_price' => '咨询价格',
         ];
     }
 

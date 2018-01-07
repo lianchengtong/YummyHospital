@@ -54,6 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'work_time',
         'rank',
+        'enable_ask',
+        'ask_price',
         [
             'label'  => '会诊信息',
             'format' => 'raw',
