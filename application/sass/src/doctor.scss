@@ -16,41 +16,31 @@ $border-color: #EFEFEF;
   }
 }
 
-.ui-slide-show{
-  position: fixed;
-  width: 100%;
+#sidebar{
+  z-index: $z-index-head + 1;
+}
+.sidebar-wrapper {
+  position: relative;
   height: 100%;
-  left: 0;
-  top: 0;
-  z-index: 100000000001;
-
-  .ui-slide-show-content{
-    background: red;
-    position: absolute;
-    top: 0;
-    right:0;
-    width: 30%;
-    height: 100%;
-    padding: 15px;
-    overflow: auto;
-  }
+  overflow: auto;
+  background: #EFEFEF;
+  padding: 20px;
 }
 
-.ui-doctor-appointment-tab{
-  .ui-tiled li{
+.ui-doctor-appointment-tab {
+  .ui-tiled li {
     padding: 10px 0;
 
-    &.active{
+    &.active {
       border-bottom: 1px solid red;
     }
   }
 
-
-  .ui-doctor-appointment-list{
+  .ui-doctor-appointment-list {
     height: 60px;
     overflow: hidden;
 
-    li{
+    li {
       display: flex;
       justify-content: space-between;
       line-height: 30px;
@@ -58,7 +48,7 @@ $border-color: #EFEFEF;
     }
   }
 
-  .ui-btn-show-all{
+  .ui-btn-show-all {
     padding: 10px;
     margin: 20px 20%;
     border-radius: 50px;

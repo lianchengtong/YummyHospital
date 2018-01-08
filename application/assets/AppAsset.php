@@ -12,6 +12,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        "js/jquery.simpler-sidebar.min.js"
     ];
     public $depends = [
         'yii\web\JqueryAsset',

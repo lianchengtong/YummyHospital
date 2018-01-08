@@ -10,7 +10,7 @@
         <div class="ui-tab-item-content ui-tab-item-0 ui-hide ui-show">
             <ul class="ui-doctor-appointment-list">
                 <?php
-                $serviceDate = \common\models\DoctorServiceTime::getAllRecentServiceTimeDateList($model->id, false);
+                $serviceDate   = \common\models\DoctorServiceTime::getAllRecentServiceTimeDateList($model->id, false);
                 $showItemIndex = 0;
                 foreach ($serviceDate as $dateKey => $date) {
                     $showItem = $showItemIndex == 0;
@@ -20,7 +20,7 @@
                         <span class="time"><?= $date ?></span>
                         <span class="location">汉典中医院</span>
                         <span class="price">&yen; <?= $model->doctorServiceTime->price ?></span>
-                        <span class="btn-wrapper"><a href="<?= $dateKey ?>" class="ui-btn">预约</a></span>
+                        <span class="btn-wrapper"><button href="<?= $dateKey ?>" class="ui-btn toggle-sidebar">预约</button></span>
                     </li>
                     <?php
                 }
@@ -31,7 +31,7 @@
         </div>
         <div class="ui-tab-item-content ui-tab-item-1 p-20 ui-hide ">
             <?php if ($model->enable_ask) { ?>
-                <?=\yii\helpers\Html::a("立即咨询",["ask/index","id"=>$model->id])?>
+                <?= \yii\helpers\Html::a("立即咨询", ["ask/index", "id" => $model->id]) ?>
             <?php } else { ?>
                 <div class="ui-align-center">
                     对不起，此医师暂未开通咨询功能！
@@ -41,16 +41,34 @@
     </div>
 </section>
 
-<section class="ui-slide-show ui-hide">
-    <div class="ui-slide-show-content">
+<div id="sidebar">
+    <!--
+    simpler-sidebar will handle #sidebar's position.
+
+    To let the content of your sidebar overflow, especially when you have a lot of content in it, you have to add a "wrapper" that wraps all content.
+
+    TIP: provide a background color.
+    -->
+    <div id="sidebar-wrapper" class="sidebar-wrapper">
         <?php for ($i = 0; $i < 100; $i++): ?>
             <p>slide show content</p>
         <?php endfor; ?>
     </div>
-</section>
+</div>
+
 
 <script>
     $(function () {
+        $("body").on("tap",".toggle-sidebar",function(){
+            $("#sidebar-wrapper").html("hello world!");
+        });
+        $("#sidebar").simplerSidebar({
+            selectors: {
+                trigger: ".toggle-sidebar",
+                quitter: ".close-sidebar"
+            }
+        });
+
         $("body").on("tap", ".ui-tab-item-content .ui-btn-show-all", function () {
             if ($(this).attr("data-toggle") == 0) {
                 $(".ui-doctor-appointment-list").attr('style', "height: auto;")
@@ -61,15 +79,6 @@
                 $(this).attr("data-toggle", 0);
                 $(this).text("查看全部排班");
             }
-        });
-
-        $("body").on("tap", ".ui-slide-show", function () {
-            $(this).addClass("ui-hide");
-        });
-
-        $("body").on("tap", ".ui-slide-show .ui-slide-show-content", function (e) {
-            e.stopPropagation();
-            e.preventDefault();
         });
 
         $("body").on("tap", ".ui-tab-list li", function () {
