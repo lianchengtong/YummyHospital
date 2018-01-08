@@ -54,6 +54,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public static function getMapByColumn($column, $condition = [])
     {
         $list = self::find()->select($column)->where($condition)->all();
+
         return ArrayHelper::map($list, "id", $column);
     }
 
@@ -62,11 +63,18 @@ class ActiveRecord extends \yii\db\ActiveRecord
         if (!$this->save()) {
             return $this->getErrors();
         }
+
         return true;
     }
 
     public static function count($condition = [])
     {
         return self::find()->where($condition)->count();
+    }
+
+    public static function rawTableName()
+    {
+        $tableSchema = self::getTableSchema();
+        return $tableSchema->fullName;
     }
 }

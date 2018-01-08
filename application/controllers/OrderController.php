@@ -18,7 +18,14 @@ class OrderController extends WebController
         echo "list";
     }
 
-    public function actionWechatPay()
+    public function actionPay()
+    {
+        $orderModel = $this->getOrderModel();
+
+        return "pay page";
+    }
+
+    private function getOrderModel()
     {
         $orderID    = Request::input("id");
         $orderModel = Order::getByOrderID($orderID);
@@ -29,6 +36,13 @@ class OrderController extends WebController
         if ($orderModel->status != Order::STATUS_PENDING_PAY) {
             throw new NotFoundHttpException();
         }
+
+        return $orderModel;
+    }
+
+    public function actionWechatPay()
+    {
+        $orderModel = $this->getOrderModel();
 
         return $this->output("page.order-pay", [
             'model' => $orderModel,
@@ -41,18 +55,9 @@ class OrderController extends WebController
 
     public function actionPayInfo()
     {
-        $orderID    = Request::input("id");
-        $orderModel = Order::getByOrderID($orderID);
-        if (!$orderModel) {
-            throw new NotFoundHttpException();
-        }
-
-        if ($orderModel->status != Order::STATUS_PENDING_PAY) {
-            throw new NotFoundHttpException();
-        }
-
-        $openID   = (new AuthWechat())->getByUserID(UserSession::getId())->getOpenID();
-        $response = Wechat::createJSOrder($openID, $orderModel->name, $orderModel->order_id, $orderModel->price);
+        $orderModel = $this->getOrderModel();
+        $openID     = (new AuthWechat())->getByUserID(UserSession::getId())->getOpenID();
+        $response   = Wechat::createJSOrder($openID, $orderModel->name, $orderModel->order_id, $orderModel->price);
         if ($response === false) {
             return Json::error("非法请求");
         }

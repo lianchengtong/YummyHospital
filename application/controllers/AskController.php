@@ -40,14 +40,14 @@ class AskController extends WebController
                     throw new \Exception("create order failed");
                 }
 
-                $montData = OrderMontData::addData($orderModel->primaryKey, "patient_ask_id", $model->primaryKey);
-                if (false === $montData) {
+                $montData = OrderMontData::addData($orderModel->primaryKey, PatientAsk::rawTableName(), $model->primaryKey);
+                if (true !== $montData) {
                     throw new \Exception("save montdata patient_ask_id fail");
                 }
 
                 $montDataCallback = OrderMontData::getCallback(PatientAsk::className(), "callbackPaySuccess", [$model->id]);
                 $montData         = OrderMontData::addData($orderModel->primaryKey, "callback", $montDataCallback);
-                if (false === $montData) {
+                if (true !== $montData) {
                     throw new \Exception("save order montdata callback fail");
                 }
 

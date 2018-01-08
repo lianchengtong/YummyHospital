@@ -111,14 +111,14 @@ class DoctorController extends WebController
                     throw new \Exception("save appoint ment info fail");
                 }
 
-                $montData = OrderMontData::addData($orderModel->primaryKey, "appointment_id", $appointmentModel->id);
-                if ($montData === false) {
+                $montData = OrderMontData::addData($orderModel->primaryKey, DoctorAppointment::rawTableName(), $appointmentModel->id);
+                if ($montData !== true) {
                     throw new \Exception("order mont data save fail");
                 }
 
                 $montDataCallback = OrderMontData::getCallback(DoctorAppointment::className(), "callbackPaySuccess", [$appointmentModel->id]);
                 $montData         = OrderMontData::addData($orderModel->primaryKey, "callback", $montDataCallback);
-                if ($montData === false) {
+                if ($montData !== true) {
                     throw new \Exception("order mont data save fail");
                 }
 

@@ -143,4 +143,9 @@ class Order extends \common\base\ActiveRecord
             call_user_func_array($callback['callback'], $callback['params']);
         }
     }
+
+    public function getIsPaySuccess()
+    {
+        return $this->status == self::STATUS_PAY_SUCCESS;
+    }
 }

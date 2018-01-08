@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use common\utils\Cache;
+
 /**
  * This is the model class for table "order_mont_data".
  *
@@ -33,12 +35,12 @@ class OrderMontData extends \common\base\ActiveRecord
         ];
     }
 
-    public static function addData($orderID, $name, $data)
+    public static function addData($orderID, $name, $content)
     {
         $orderMontDataModel           = new OrderMontData();
         $orderMontDataModel->order_id = $orderID;
         $orderMontDataModel->name     = $name;
-        $orderMontDataModel->content  = $data;
+        $orderMontDataModel->content  = strval($content);
 
         return $orderMontDataModel->saveOrError();
     }
@@ -66,5 +68,37 @@ class OrderMontData extends \common\base\ActiveRecord
         }
 
         return $callbacks;
+    }
+
+    /**
+     * @param $name
+     * @param $content
+     *
+     * @return bool|null|static|\common\models\Order
+     */
+    public static function getOrder($name, $content)
+    {
+        $key     = sprintf("%s_%s_%s", self::className(), $name, $content);
+        $orderID = Cache::getOrSet($key, function () use ($name, $content) {
+            $condition = [
+                'name'    => $name,
+                'content' => $content,
+            ];
+
+            /** @var self $model */
+            $model = self::find()->where($condition)->one();
+            if (!$model) {
+                return false;
+            }
+            $orderID = $model->order_id;
+
+            return $orderID;
+        });
+
+        if (!$orderID) {
+            return false;
+        }
+
+        return Order::getByID($orderID);
     }
 }

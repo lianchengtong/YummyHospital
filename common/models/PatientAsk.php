@@ -98,4 +98,28 @@ class PatientAsk extends \common\base\ActiveRecord
             throw new \Exception(self::className() . " callback set complete fail");
         }
     }
+
+    public function getIsPayed()
+    {
+        $order = OrderMontData::getOrder(self::className(), $this->id);
+        if (!$order || $order->getIsPaySuccess()) {
+            return false;
+        }
+
+        if ($order->price == 0) {
+            return true;
+        }
+
+        return true;
+    }
+
+    public function getOrderID()
+    {
+        $order = OrderMontData::getOrder(self::rawTableName(), $this->id);
+        if (!$order || $order->getIsPaySuccess()) {
+            return false;
+        }
+
+        return $order->order_id;
+    }
 }
