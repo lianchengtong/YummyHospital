@@ -1,0 +1,12 @@
+.ui-patient-ask-form {
+  display: flex;
+  .ui-ask-price-container {
+    text-align: center;
+    flex: 1;
+    line-height: 44px;
+    font-size: 22px;
+  }
+  .ui-btn-lg {
+    width: 40%;
+  }
+}

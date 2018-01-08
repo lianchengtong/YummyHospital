@@ -32,4 +32,39 @@ class OrderMontData extends \common\base\ActiveRecord
             'content'  => '内容',
         ];
     }
+
+    public static function addData($orderID, $name, $data)
+    {
+        $orderMontDataModel           = new OrderMontData();
+        $orderMontDataModel->order_id = $orderID;
+        $orderMontDataModel->name     = $name;
+        $orderMontDataModel->content  = $data;
+
+        return $orderMontDataModel->saveOrError();
+    }
+
+    public static function getCallback($className, $callback, $params)
+    {
+        return json_encode([
+            'callback' => [$className, $callback],
+            'params'   => $params,
+        ]);
+    }
+
+    public static function getCallbackList($orderID)
+    {
+        /** @var self[] $models */
+        $models = self::find()->where(['order_id' => $orderID, 'name' => 'callback'])->all();
+
+        $callbacks = [];
+        foreach ($models as $model) {
+            $callback = json_decode($model->content, true);
+            if (!$callback) {
+                continue;
+            }
+            $callbacks[] = $callback;
+        }
+
+        return $callbacks;
+    }
 }

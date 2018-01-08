@@ -146,8 +146,16 @@ class DoctorAppointment extends \common\base\ActiveRecord
         return $orderModel;
     }
 
-    public static function getCount($doctorID   )
+    public static function callbackPaySuccess($id)
     {
+        $model = self::getByID($id);
+        if (!$model) {
+            throw new \Exception("model not exist for id:" . $id);
+        }
 
+        $model->status = self::STATUS_COMPLETE;
+        if (!$model->save()) {
+            throw new \Exception(self::className() . " callback set complete fail!");
+        }
     }
 }

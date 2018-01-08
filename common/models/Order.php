@@ -25,18 +25,19 @@ class Order extends \common\base\ActiveRecord
     const STATUS_PAY_REFUND  = 2;
     const STATUS_PAY_CLOSED  = 3;
 
+    const CHANNEL_UNKNOWN   = "unknown";
     const CHANNEL_ALIPAY    = "alipay";
     const CHANNEL_WECHATPAY = "wechatpay";
     const CHANNEL_OFFLINE   = "offline";
 
-    public static function create($channel, $name, $price)
+    public static function create($userID, $name, $price)
     {
         $model = new self();
         $model->setAttributes([
             'order_id' => self::generateOrderID(),
+            'user_id'  => $userID,
             'price'    => $price * 100,
             'name'     => $name,
-            'channel'  => $channel,
         ]);
         if (!$model->save()) {
             return false;
@@ -68,10 +69,11 @@ class Order extends \common\base\ActiveRecord
         return sprintf("%0.2f", $this->price / 100);
     }
 
-    public function completeWithTradeNumber($outTradeNumber)
+    public function completeWithTradeNumber($outTradeNumber, $channel)
     {
         $this->out_trade_id = $outTradeNumber;
         $this->complete_at  = time();
+        $this->channel      = $channel;
         $this->status       = self::STATUS_PAY_SUCCESS;
 
         return $this->save();
@@ -104,11 +106,12 @@ class Order extends \common\base\ActiveRecord
     public function rules()
     {
         return [
-            [['order_id', 'user_id', 'channel', 'name', 'price'], 'required'],
+            [['order_id', 'user_id', 'name', 'price'], 'required'],
             [['price', 'status', 'user_id', 'complete_at', 'created_at', 'updated_at'], 'integer'],
             [['order_id', 'out_trade_id', 'channel', 'name'], 'string', 'max' => 255],
             [['out_trade_id'], 'default', 'value' => ''],
             [['complete_at'], 'default', 'value' => 0],
+            [['channel'], 'default', 'value' => self::CHANNEL_UNKNOWN],
             [['status'], 'default', 'value' => self::STATUS_PENDING_PAY],
         ];
     }
@@ -130,5 +133,14 @@ class Order extends \common\base\ActiveRecord
         }
 
         return $list;
+    }
+
+    public function runCallbacks()
+    {
+        $orderMontCallbacks = OrderMontData::getCallbackList($this->order_id);
+
+        foreach ($orderMontCallbacks as $callback) {
+            call_user_func_array($callback['callback'], $callback['params']);
+        }
     }
 }
