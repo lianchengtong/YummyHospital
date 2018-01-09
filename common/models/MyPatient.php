@@ -124,7 +124,7 @@ class MyPatient extends \common\base\ActiveRecord
         ];
     }
 
-    public static function getPatient($patientID = null, $userID = null)
+    public static function getPatientModel($patientID = null, $userID = null)
     {
         /** @var self $model */
         if (is_null($patientID)) {
@@ -132,6 +132,23 @@ class MyPatient extends \common\base\ActiveRecord
         } else {
             $model = self::find()->where(['id' => $patientID, 'user_id' => $userID])->one();
         }
+
+        return $model;
+    }
+
+    public function getInfo()
+    {
+        return sprintf("%s, %s, %d岁",
+            $this->name,
+            $this->getSexDesc(),
+            $this->getAge()
+        );
+    }
+
+    public static function getPatient($patientID = null, $userID = null)
+    {
+        /** @var self $model */
+        $model = self::getPatientModel($patientID, $userID);
 
         return sprintf("%s, %s, %d岁",
             $model->name,

@@ -23,6 +23,7 @@ class PatientController extends WebController
 
         return $this->output($codeID, [
             'models' => $models,
+            'from' => Request::input("from","ask"),
         ], ['title' => '就诊人管理']);
     }
 

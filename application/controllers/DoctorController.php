@@ -39,6 +39,14 @@ class DoctorController extends WebController
         ]);
     }
 
+    /**
+     * @deprecated
+     *
+     * @param $id
+     *
+     * @return string
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionOrderDate($id)
     {
         /** @var Doctor $model */
@@ -64,15 +72,19 @@ class DoctorController extends WebController
             throw new NotFoundHttpException();
         }
 
+        $patientID    = Request::input("patient");
+        $patientModel = MyPatient::getPatientModel($patientID, UserSession::getId());
+        if (is_null($patientID)) {
+            $patientID = $patientModel->id;
+        }
+        $departmentID = Request::input("department");
+        $date         = Request::input("date");
+        $time         = Request::input("time");
+
         $orderModel = new Order();
         if (Request::isPost()) {
-            $data  = Request::input("data");
             $trans = Order::getDb()->beginTransaction();
             try {
-                $patientID  = $data['patient'];
-                $doctorID   = $data['doctor_id'];
-                $department = $data['department'];
-                $date       = $data['date'];
                 list($year, $month, $day) = explode("-", $date);
 
                 $patientModel = MyPatient::findOne($patientID);
@@ -81,7 +93,7 @@ class DoctorController extends WebController
                 }
 
 
-                $doctorServiceDate = DoctorServiceTime::getAllRecentServiceTimeDate($doctorID);
+                $doctorServiceDate = DoctorServiceTime::getAllRecentServiceTimeDate($doctorModel->id);
                 if (!isset($doctorServiceDate[$date])) {
                     throw new \Exception("invalid doctor service datetime");
                 }
@@ -89,26 +101,26 @@ class DoctorController extends WebController
                 if ($doctorServiceDate[$date] <= 0) {
                     throw new \Exception("doctor has no ticket this day");
                 }
-                $departmentName = Department::getName($department);
+                $departmentName = Department::getName($departmentID);
 
                 $name  = sprintf("%s %s 医生 %s 会诊", $date, $doctorModel->name, $departmentName);
-                $price = DoctorServiceTime::getDoctorServicePrice($doctorID);
-                $order = Order::create(UserSession::getId(), $name, $price);
-                if (!$order) {
-                    throw new \Exception("order create faild!");
+                $price = DoctorServiceTime::getDoctorServicePrice($doctorModel->id);
+                $orderModel = Order::create(UserSession::getId(), $name, $price);
+                if (!$orderModel) {
+                    throw new \Exception("order create failed!");
                 }
-                $doctorServiceRange = DoctorServiceTime::getDateServiceRange($doctorID, $date, false);
+                $doctorServiceRange = DoctorServiceTime::getDateServiceRange($doctorModel->id, $date, false);
 
                 $appointmentModel               = new DoctorAppointment();
-                $appointmentModel->doctor_id    = $doctorID;
+                $appointmentModel->doctor_id    = $doctorModel->id;
                 $appointmentModel->user_id      = UserSession::getId();
                 $appointmentModel->patient_id   = $patientID;
                 $appointmentModel->status       = DoctorAppointment::STATUS_PENDING;
-                $appointmentModel->order_number = 1 + DoctorAppointment::getDayAppointmentCount($doctorID, $year, $month, $day);
+                $appointmentModel->order_number = 1 + DoctorAppointment::getDayAppointmentCount($doctorModel->id, $year, $month, $day);
                 list($appointmentModel->time_begin, $appointmentModel->time_end) = $doctorServiceRange;
 
                 if (!$appointmentModel->save()) {
-                    throw new \Exception("save appoint ment info fail");
+                    throw new \Exception("save appointment info fail");
                 }
 
                 $montData = OrderMontData::addData($orderModel->primaryKey, DoctorAppointment::rawTableName(), $appointmentModel->id);
@@ -125,7 +137,7 @@ class DoctorController extends WebController
 
                 $trans->commit();
 
-                return $this->redirect(['/order/wechat-pay', 'id' => $order->order_id]);
+                return $this->redirect(['/order/pay', 'id' => $orderModel->order_id]);
             } catch (\Exception $e) {
                 $trans->rollBack();
 
@@ -134,8 +146,13 @@ class DoctorController extends WebController
         }
 
         $params   = [
-            'doctorModel' => $doctorModel,
-            'model'       => $orderModel,
+            'doctorModel'  => $doctorModel,
+            'model'        => $orderModel,
+            'patientModel' => $patientModel,
+            'department'   => $departmentID,
+            'date'         => $date,
+            'time'         => $time,
+            'userID'       => UserSession::getId(),
         ];
         $viewData = [
             'title'   => '确认订单',

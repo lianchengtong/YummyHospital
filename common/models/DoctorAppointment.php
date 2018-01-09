@@ -58,6 +58,18 @@ class DoctorAppointment extends \common\base\ActiveRecord
         return self::find()->where($condition)->count();
     }
 
+    public static function getDayTimeAppointmentCount($doctorID, $beginTimestamp, $endTimestamp)
+    {
+        $condition = [
+            'and',
+            [">", "time_begin", $beginTimestamp],
+            ["<", "time_begin", $endTimestamp],
+            ["doctor_id" => $doctorID],
+        ];
+
+        return self::find()->where($condition)->count();
+    }
+
     public function attributeLabels()
     {
         return [
