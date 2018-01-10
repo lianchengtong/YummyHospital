@@ -33,7 +33,7 @@ class MemberOwnCard extends \common\base\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'original_money', 'remain_money', 'discount'], 'required'],
+            [['user_id', 'card_id', 'original_money', 'remain_money', 'discount'], 'required'],
             [['user_id', 'discount', 'is_enable', 'expire_at', 'created_at'], 'integer'],
             ['is_enable', 'default', 'value' => 1],
             [['original_money', 'remain_money'], 'number'],
@@ -45,6 +45,7 @@ class MemberOwnCard extends \common\base\ActiveRecord
         return [
             'id'             => 'ID',
             'user.nickname'  => '购买用户',
+            'card_id'        => '会员卡',
             'user_id'        => 'User ID',
             'original_money' => '原价',
             'remain_money'   => '余额',
@@ -75,6 +76,28 @@ class MemberOwnCard extends \common\base\ActiveRecord
         $model->expire_at      = strtotime(sprintf("+%d month", $cardModel->time_long));
 
         return $model->saveOrError();
+    }
+
+    public static function upgradeCard($userID, $cardID)
+    {
+        /** @var \common\models\MemberCard $cardModel */
+        $cardModel = MemberCard::findOne($cardID);
+        if (!$cardModel) {
+            return false;
+        }
+
+        $ownCardModel                 = self::getUserEnableCard($userID);
+        $ownCardModel->original_money = $cardModel->price;
+        $ownCardModel->remain_money   += $cardModel->price;
+        $ownCardModel->discount       = $cardModel->discount;
+        $ownCardModel->expire_at      = strtotime(sprintf("+%d month", $cardModel->time_long));
+
+        return $ownCardModel->saveOrError();
+    }
+
+    public function getMemberCard()
+    {
+        return $this->hasOne(MemberCard::className(), ['id' => 'card_id']);
     }
 
     public static function isUserHasCard($userID)
@@ -143,5 +166,19 @@ class MemberOwnCard extends \common\base\ActiveRecord
     public function getDiscountMoney($price)
     {
         return sprintf("%0.2f", $this->discount * $price / 100);
+    }
+
+    public function callbackPaySuccess(Order $order, $id)
+    {
+        $model = self::isUserHasCard($order->user_id);
+        if (!$model) {
+            $result = self::buyCard($order->user_id, $id);
+        } else {
+            $result = self::upgradeCard($order->id, $id);
+        }
+
+        if (true !== $result) {
+            throw new \Exception("create/upgrade user card failed!");
+        }
     }
 }

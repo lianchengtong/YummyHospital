@@ -35,6 +35,23 @@ class OrderMontData extends \common\base\ActiveRecord
         ];
     }
 
+    public static function addBatchData($orderID, $dataList)
+    {
+        foreach ($dataList as $name => $content) {
+            $orderMontDataModel           = new OrderMontData();
+            $orderMontDataModel->order_id = $orderID;
+            $orderMontDataModel->name     = $name;
+            $orderMontDataModel->content  = strval($content);
+            $saveResult                   = $orderMontDataModel->saveOrError();
+            if (true !== $saveResult) {
+                //todo: Exception add logger
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static function addData($orderID, $name, $content)
     {
         $orderMontDataModel           = new OrderMontData();

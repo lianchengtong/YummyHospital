@@ -140,6 +140,7 @@ class Order extends \common\base\ActiveRecord
         $orderMontCallbacks = OrderMontData::getCallbackList($this->order_id);
 
         foreach ($orderMontCallbacks as $callback) {
+            array_unshift($callback['params'], $this->id);
             call_user_func_array($callback['callback'], $callback['params']);
         }
     }

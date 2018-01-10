@@ -158,7 +158,7 @@ class DoctorAppointment extends \common\base\ActiveRecord
         return $orderModel;
     }
 
-    public static function callbackPaySuccess($id)
+    public static function callbackPaySuccess(Order $order, $id)
     {
         $model = self::getByID($id);
         if (!$model) {

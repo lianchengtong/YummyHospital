@@ -67,6 +67,7 @@ class AskController extends WebController
             'model'       => $model,
             'doctorModel' => $doctorModel,
         ]);
+
     }
 
     public function actionList()
