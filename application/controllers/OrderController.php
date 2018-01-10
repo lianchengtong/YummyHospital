@@ -15,7 +15,22 @@ class OrderController extends WebController
 {
     public function actionList()
     {
-        echo "list";
+        $models = Order::getListByUser(UserSession::getId());
+
+        return $this->render("//order-list", [
+            'models' => $models,
+        ]);
+    }
+
+    public function actionCancelPay()
+    {
+        $model = $this->getOrderModel();
+        if ($model && $model->status == Order::STATUS_PENDING_PAY) {
+            $model->status = Order::STATUS_PAY_CLOSED;
+            $model->save();
+        }
+
+        return $this->redirect(['list']);
     }
 
     public function actionPay()

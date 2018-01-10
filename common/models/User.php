@@ -139,6 +139,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->auth_key;
     }
 
+    public function getCoin()
+    {
+        return $this->hasOne(UserCoin::className(), ['user_id' => 'id']);
+    }
+
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
@@ -195,4 +200,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return self::getMapByColumn("nickname");
     }
+
+
 }

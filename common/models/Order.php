@@ -149,4 +149,9 @@ class Order extends \common\base\ActiveRecord
     {
         return $this->status == self::STATUS_PAY_SUCCESS;
     }
+
+    public static function getListByUser($userID)
+    {
+        return self::find()->where(['user_id' => $userID])->orderBy(['id' => SORT_DESC])->all();
+    }
 }
