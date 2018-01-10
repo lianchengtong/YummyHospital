@@ -5,78 +5,78 @@
 // margin
 @for $i from 1 to 20 {
   .m-#{$i*5} {
-    margin: #{$i*5}px;
+    margin: #{$i*5}px !important;
   }
 }
 
 // margin top-bottom
 @for $i from 1 to 20 {
   .mtb-#{$i*5} {
-    margin-top: #{$i*5}px;
-    margin-bottom: #{$i*5}px;
+    margin-top: #{$i*5}px !important;
+    margin-bottom: #{$i*5}px !important;
   }
 }
 
 // margin top
 @for $i from 1 to 20 {
   .mt-#{$i*5} {
-    margin-top: #{$i*5}px;
+    margin-top: #{$i*5}px !important;
   }
 }
 
 // margin bottom
 @for $i from 1 to 30 {
   .mb-#{$i*5} {
-    margin-bottom: #{$i*5}px;
+    margin-bottom: #{$i*5}px !important;
   }
 }
 
 // margin left
 @for $i from 1 to 30 {
   .ml-#{$i*5} {
-    margin-left: #{$i*5}px;
+    margin-left: #{$i*5}px !important;
   }
 }
 
 // margin right
 @for $i from 1 to 30 {
   .mr-#{$i*5} {
-    margin-right: #{$i*5}px;
+    margin-right: #{$i*5}px !important;
   }
 }
 
 //padding
 @for $i from 1 to 30 {
   .p-#{$i*5} {
-    padding: #{$i*5}px;
+    padding: #{$i*5}px !important;
   }
 }
 
 //padding top
 @for $i from 1 to 30 {
   .pt-#{$i*5} {
-    padding-top: #{$i*5}px;
+    padding-top: #{$i*5}px !important;
   }
 }
 
 //padding left
 @for $i from 1 to 30 {
   .pl-#{$i*5} {
-    padding-left: #{$i*5}px;
+    padding-left: #{$i*5}px !important;
   }
 }
 
 //padding right
 @for $i from 1 to 30 {
   .pr-#{$i*5} {
-    padding-right: #{$i*5}px;
+    padding-right: #{$i*5}px !important;
   }
 }
 
 //padding bottom
 @for $i from 1 to 30 {
   .pb-#{$i*5} {
-    padding-bottom: #{$i*5}px;
+    padding-bottom: #{$i*5}px !important;
   }
 }
 
@@ -134,7 +134,6 @@
   display: block !important;
 }
 
-
-.ui-bg-white{
+.ui-bg-white {
   background: white;
 }

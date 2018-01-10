@@ -1,12 +1,18 @@
 <?php
 /** @var $model \common\models\MemberCard */
+$this->title   = "我的会员卡";
+$this->showTab = false;
 ?>
-
-<?php
-$userID = \common\utils\UserSession::getId();
-foreach ($models as $model):
-    $buyPrice = trim(sprintf("%0.2f", $model->price * $model->discount / 100), "0.");
-    ?>
+<?php if (!$model) { ?>
+    <section class="ui-panel mt-20 mb-20">
+        <div class="ui-panel-body ui-align-center pt-30 pb-30">
+            <p>您还没有会员卡</p>
+            <p class="mt-20">
+                <?= \yii\helpers\Html::a("立即购买", ['card/index'], ['class' => 'ui-btn']) ?>
+            </p>
+        </div>
+    </section>
+<?php } else { ?>
     <section class="ui-panel mt-20 mb-20">
         <div class="ui-panel-heading ui-border-b">
             <span class="title"><?= $model->name ?></span>
@@ -25,21 +31,5 @@ foreach ($models as $model):
                 <?= $model->description ?>
             </p>
         </div>
-        <div class="ui-panel-body ui-align-right ui-border-t">
-            <?php
-            if (\common\models\MemberOwnCard::isUserHasCard($userID)) {
-                $userCard = \common\models\MemberOwnCard::getUserEnableCard($userID);
-                if ($userCard->memberCard->order > $model->order) {
-                    echo \yii\helpers\Html::a("升级", ['card/buy', 'id' => $model->id], [
-                        'class' => 'ui-btn-s ui-btn-primary',
-                    ]);
-                }
-            } else {
-                echo \yii\helpers\Html::a("购买", ['card/buy', 'id' => $model->id], [
-                    'class' => 'ui-btn-s ui-btn-primary',
-                ]);
-            }
-            ?>
-        </div>
     </section>
-<?php endforeach; ?>
+<?php } ?>

@@ -28,7 +28,7 @@ class CardController extends WebController
     {
         $model = MemberOwnCard::getUserEnableCard(UserSession::getId());
 
-        return $this->render("mine", [
+        return $this->render("//card", [
             'model' => $model,
         ]);
     }
