@@ -49,6 +49,7 @@ if (\common\utils\UserSession::isGuest() || !\common\utils\UserSession::isAdmin(
             ['label' => '备份/恢复', 'url' => ['@admin/website/system']],
         ]],
         ['label' => '代码块', 'url' => ['@admin/code-block/list']],
+        ['label' => '促销卡', 'url' => ['@admin/promotion-card/list']],
     ];
 
     $rightMenus[] = ['label' => '清理缓存', 'url' => [

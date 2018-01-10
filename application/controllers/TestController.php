@@ -3,10 +3,10 @@
 namespace application\controllers;
 
 use application\base\BaseController;
-use application\base\WebController;
 use common\models\Doctor;
 use common\models\Order;
 use common\models\PatientFeedback;
+use common\models\PromotionCard;
 use common\utils\Json;
 use common\utils\pay\Wechat;
 
@@ -16,12 +16,20 @@ class TestController extends BaseController
 
     public function actionIndex()
     {
+        $template = "{date}-{string:10}-{number:5}-{string:5}-{number:10}";
+        $data = PromotionCard::generateByTemplate($template);
+        var_dump($template);
+        var_dump($data);
+        exit;
         $model = Doctor::findOne(1);
+
         return Json::success($model->doctorServiceTime->price);
-        $serviceDate = \common\models\DoctorServiceTime::getAllRecentServiceTimeDateList(1,false);
+        $serviceDate = \common\models\DoctorServiceTime::getAllRecentServiceTimeDateList(1, false);
+
         return Json::success($serviceDate);
 
         return Json::success(PatientFeedback::getDoctorMark(1));
+
         return $this->render("index");
     }
 
@@ -69,9 +77,11 @@ class TestController extends BaseController
             }
 
             $trans->commit();
+
             return Wechat::callbackOkString();
         } catch (\Exception $e) {
             $trans->rollBack();
+
             return $e->getMessage();
         }
 
