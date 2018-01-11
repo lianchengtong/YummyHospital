@@ -26,6 +26,7 @@ class Order extends \common\base\ActiveRecord
     const STATUS_PAY_CLOSED  = 3;
 
     const CHANNEL_UNKNOWN   = "unknown";
+    const CHANNEL_CARD      = "card";
     const CHANNEL_ALIPAY    = "alipay";
     const CHANNEL_WECHATPAY = "wechatpay";
     const CHANNEL_OFFLINE   = "offline";
@@ -76,7 +77,7 @@ class Order extends \common\base\ActiveRecord
         $this->channel      = $channel;
         $this->status       = self::STATUS_PAY_SUCCESS;
 
-        return $this->save();
+        return $this->saveOrError();
     }
 
     public function setStatus($status)
@@ -119,6 +120,7 @@ class Order extends \common\base\ActiveRecord
     public static function getPayChannel($partial = [])
     {
         $list = [
+            self::CHANNEL_CARD      => '会员卡',
             self::CHANNEL_ALIPAY    => '支付宝',
             self::CHANNEL_WECHATPAY => '微信支付',
             self::CHANNEL_OFFLINE   => '到院支付',

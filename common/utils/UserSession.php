@@ -60,4 +60,9 @@ class UserSession
     {
         return ManageUser::getUser(self::getId());
     }
+
+    public static function getCoin()
+    {
+        return self::identity()->coin->coin;
+    }
 }

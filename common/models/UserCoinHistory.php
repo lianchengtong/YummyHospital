@@ -34,7 +34,7 @@ class UserCoinHistory extends \common\base\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'coin', 'action', 'desc', 'created_at'], 'required'],
+            [['user_id', 'coin', 'action', 'desc'], 'required'],
             [['user_id', 'coin', 'created_at'], 'integer'],
             [['action'], 'string', 'max' => 1],
             [['desc'], 'string', 'max' => 255],
@@ -54,5 +54,18 @@ class UserCoinHistory extends \common\base\ActiveRecord
             'desc'       => 'Desc',
             'created_at' => 'Created At',
         ];
+    }
+
+    public static function add($userID, $action, $count, $desc)
+    {
+        $model = new self();
+        $model->setAttributes([
+            'user_id' => $userID,
+            'coin'    => $count,
+            'action'  => $action,
+            'desc'    => $desc,
+        ]);
+
+        return $model->saveOrError();
     }
 }

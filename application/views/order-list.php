@@ -28,7 +28,7 @@ $this->title = "我的订单";
                         echo \yii\helpers\Html::a("取消订单", ['order/cancel-pay', 'id' => $model->order_id], [
                             'class' => 'ui-btn ui-btn-danger mr-10',
                         ]);
-                        echo \yii\helpers\Html::a("立即支付", ['order/pay', 'id' => $model->order_id], [
+                        echo \yii\helpers\Html::a("立即支付", ['pay/index', 'id' => $model->order_id], [
                             'class' => 'ui-btn ui-btn-primary',
                         ]);
                         break;

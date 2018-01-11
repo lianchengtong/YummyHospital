@@ -29,4 +29,34 @@ class UserCoin extends \common\base\ActiveRecord
             'coin'    => 'Coin',
         ];
     }
+
+    /**
+     * @param $userID
+     *
+     * @return array|null|\yii\db\ActiveRecord|self
+     */
+    public static function getByUserID($userID)
+    {
+        return self::find()->where(['user_id' => $userID])->one();
+    }
+
+    public static function cost($userID, $count, $desc = "")
+    {
+        $model = self::getByUserID($userID);
+        if (!$model) {
+            return true;
+        }
+
+        $result = UserCoinHistory::add($userID, UserCoinHistory::ACTION_DESC, $count, $desc);
+        if (true !== $result) {
+            return $result;
+        }
+
+        $model->coin -= $count;
+        if ($model->coin < 0) {
+            return false;
+        }
+
+        return $model->saveOrError();
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use yii\behaviors\TimestampBehavior;
+
 /**
  * This is the model class for table "member_card_pay_log".
  *
@@ -14,6 +16,18 @@ namespace common\models;
  */
 class MemberCardPayLog extends \common\base\ActiveRecord
 {
+    public function behaviors()
+    {
+        return [
+            [
+                'class'      => TimestampBehavior::className(),
+                'attributes' => [
+                    self::EVENT_BEFORE_INSERT => ['created_at'],
+                ],
+            ],
+        ];
+    }
+
     public function rules()
     {
         return [
@@ -33,5 +47,18 @@ class MemberCardPayLog extends \common\base\ActiveRecord
             'card_price' => 'Card Price',
             'created_at' => 'Created At',
         ];
+    }
+
+    public static function add($cardID, $orderID, $price, $cardPrice)
+    {
+        $model = new self();
+        $model->setAttributes([
+            'card_id'    => $cardID,
+            'order_id'   => $orderID,
+            'pay_price'  => $price,
+            'card_price' => $cardPrice,
+        ]);
+
+        return $model->saveOrError();
     }
 }

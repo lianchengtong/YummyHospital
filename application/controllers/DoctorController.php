@@ -137,7 +137,7 @@ class DoctorController extends WebController
 
                 $trans->commit();
 
-                return $this->redirect(['/order/pay', 'id' => $orderModel->order_id]);
+                return $this->redirect(['/pay/index', 'id' => $orderModel->order_id]);
             } catch (\Exception $e) {
                 $trans->rollBack();
 
