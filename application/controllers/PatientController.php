@@ -13,7 +13,7 @@ class PatientController extends WebController
 {
     public function actionIndex()
     {
-        $mode   = Request::input("mode", "show");
+        $mode = Request::input("mode", "show");
         $models = MyPatient::getModelList(UserSession::getId());
 
         $codeID = "page.patient-list-mode-select";
@@ -23,7 +23,7 @@ class PatientController extends WebController
 
         return $this->output($codeID, [
             'models' => $models,
-            'from' => Request::input("from","ask"),
+            'from'   => Request::input("from", "ask"),
         ], ['title' => '就诊人管理']);
     }
 
@@ -33,6 +33,10 @@ class PatientController extends WebController
         if (!$model || $model->user_id != UserSession::getId()) {
             throw new NotFoundHttpException();
         }
+        if ($model->default == 1) {
+            return Json::success();
+        }
+
         MyPatient::resetDefault($model->user_id);
 
         $model->default = 1;
@@ -76,9 +80,9 @@ class PatientController extends WebController
 
     public function actionCreate()
     {
-        $model          = new MyPatient();
+        $model = new MyPatient();
         $model->user_id = UserSession::getId();
-        $mode           = Request::input("mode", "show");
+        $mode = Request::input("mode", "show");
 
         if (Request::isPost() && $model->load(Request::input())) {
             if ($model->save()) {
@@ -104,7 +108,7 @@ class PatientController extends WebController
 
     public function actionUpdate($id)
     {
-        $model          = MyPatient::findOne($id);
+        $model = MyPatient::findOne($id);
         $model->user_id = UserSession::getId();
 
         if (!$model) {

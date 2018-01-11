@@ -19,9 +19,9 @@ class AskController extends WebController
         if (!($doctorModel = Doctor::findOne($id))) {
             throw new ForbiddenHttpException();
         }
-        $model->doctor_id  = $id;
+        $model->doctor_id = $id;
         $model->patient_id = Request::input("patient");
-        $model->user_id    = UserSession::getId();
+        $model->user_id = UserSession::getId();
 
         if (Request::isPost() && $model->load(Request::input())) {
             $trans = \Yii::$app->getDb()->beginTransaction();
@@ -46,7 +46,7 @@ class AskController extends WebController
                 }
 
                 $montDataCallback = OrderMontData::getCallback(PatientAsk::className(), "callbackPaySuccess", [$model->id]);
-                $montData         = OrderMontData::addData($orderModel->primaryKey, "callback", $montDataCallback);
+                $montData = OrderMontData::addData($orderModel->primaryKey, "callback", $montDataCallback);
                 if (true !== $montData) {
                     throw new \Exception("save order montdata callback fail");
                 }

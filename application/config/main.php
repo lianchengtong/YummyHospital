@@ -58,9 +58,6 @@ return [
         'urlManager'   => [
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
-            'rules'           => [
-                '/order-wechatpay' => 'order/wechat-pay',
-            ],
         ],
         'formatter'    => [
             'dateFormat'     => 'php:y/m/d',

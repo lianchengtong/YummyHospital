@@ -3,82 +3,44 @@
   color: #65d521
 }
 
-.ui-pay-order {
-  background: white;
-  -webkit-box-pack: start;
-
-  i {
-    margin-top: 30px;
-  }
-
-  p {
-    color: #333333;
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
-
-  .title {
-    font-size: 26px;
-    line-height: 26px;
-    color: #65d521;
-  }
+.ui-pay-order-footer {
+  display: flex;
+  text-align: center;
+  line-height: 56px;
+  font-size: 20px;
 
   .price {
-    @extend .ui-txt-highlight;
-  }
-
-  .ui-notice-btn {
-    padding-top: 0;
-    padding-left: 50px;
-    padding-right: 50px;
-  }
-}
-
-.ui-date-selector {
-  li {
-    @extend .ui-align-center;
-
-    a {
-      display: block;
-      padding: 10px;
-      border: 1px solid #efefef;
-      margin: 5px;
-      box-sizing: border-box;
-      color: #333333;
+    width: 30%;
+    .price-show {
+      color: gold;
     }
   }
 
-}
-
-.ui-order-footer {
-  display: flex;
-  font-size: 18px;
-
-  .tab-item {
-    text-align: center;
-    font-size: 18px;
-    line-height: 56px;
-    padding: 0;
-  }
-
-  .ui-price-wrapper {
+  .pay-btn {
     flex: 1;
+    background: #e37b00;
+    color: white;
+  }
+}
 
-    .ui-price-flex-wrapper {
-      padding-left: 15px;
-      text-align: left;
-      color: black;
-
-      .ui-price-show {
-        color: #d20f01;
-        letter-spacing: 0.1em;
-      }
-    }
+.ui-pay-order {
+  .ui-form-item-show label {
+    color: inherit !important;
   }
 
-  .ui-order-ensure {
-    width: 150px;
-    background: #d20f01;
-    color: white;
+  .ui-list-link {
+    li:after {
+      content: "\f602";
+    }
+
+    li.select:after {
+      color: #e37b00;
+    }
+
+    .ui-list .ui-avatar {
+      margin: 15px 10px 10px 0px;
+      width: 40px;
+      height: 40px;
+    }
   }
 }

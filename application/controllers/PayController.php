@@ -11,26 +11,15 @@ use common\utils\Request;
 use common\utils\UserSession;
 use yii\web\NotFoundHttpException;
 
-class OrderController extends WebController
+class PayController extends WebController
 {
-    public function actionList()
+    public function actionIndex()
     {
-        $models = Order::getListByUser(UserSession::getId());
+        $orderModel = $this->getOrderModel();
 
-        return $this->render("//order-list", [
-            'models' => $models,
+        return $this->render("index", [
+            'model'   => $orderModel,
         ]);
-    }
-
-    public function actionCancelPay()
-    {
-        $model = $this->getOrderModel();
-        if ($model && $model->status == Order::STATUS_PENDING_PAY) {
-            $model->status = Order::STATUS_PAY_CLOSED;
-            $model->save();
-        }
-
-        return $this->redirect(['list']);
     }
 
     private function getOrderModel()
@@ -47,4 +36,17 @@ class OrderController extends WebController
 
         return $orderModel;
     }
+
+    public function actionWechatPayInfo()
+    {
+        $orderModel = $this->getOrderModel();
+        $openID = (new AuthWechat())->getByUserID(UserSession::getId())->getOpenID();
+        $response = Wechat::createJSOrder($openID, $orderModel->name, $orderModel->order_id, $orderModel->price);
+        if ($response === false) {
+            return Json::error("非法请求");
+        }
+
+        return Json::success($response);
+    }
+
 }

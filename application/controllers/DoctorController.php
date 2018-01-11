@@ -160,6 +160,6 @@ class DoctorController extends WebController
             'errors'  => $errors,
         ];
 
-        return $this->setViewData($viewData)->output("page.order", $params);
+        return $this->setViewData($viewData)->output("page.doctor-order", $params);
     }
 }
