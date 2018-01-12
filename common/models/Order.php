@@ -28,7 +28,7 @@ class Order extends \common\base\ActiveRecord
     const CHANNEL_UNKNOWN   = "unknown";
     const CHANNEL_CARD      = "card";
     const CHANNEL_ALIPAY    = "alipay";
-    const CHANNEL_WECHATPAY = "wechatpay";
+    const CHANNEL_WECHATPAY = "wechat-pay";
     const CHANNEL_OFFLINE   = "offline";
 
     public static function create($userID, $name, $price)
@@ -67,15 +67,19 @@ class Order extends \common\base\ActiveRecord
     // 把分值转换为yuan
     public function getPriceYuan()
     {
-        return sprintf("%0.2f", $this->price / 100);
+        $floatPrice = sprintf("%0.2f", $this->price / 100);
+        if (substr($floatPrice, -3) == ".00") {
+            return intval($floatPrice);
+        }
+        return $floatPrice;
     }
 
     public function completeWithTradeNumber($outTradeNumber, $channel)
     {
         $this->out_trade_id = $outTradeNumber;
-        $this->complete_at  = time();
-        $this->channel      = $channel;
-        $this->status       = self::STATUS_PAY_SUCCESS;
+        $this->complete_at = time();
+        $this->channel = $channel;
+        $this->status = self::STATUS_PAY_SUCCESS;
 
         return $this->saveOrError();
     }
@@ -145,6 +149,13 @@ class Order extends \common\base\ActiveRecord
             array_unshift($callback['params'], $this->id);
             call_user_func_array($callback['callback'], $callback['params']);
         }
+    }
+
+    public function getMontData()
+    {
+        return $this->hasMany(OrderMontData::className(), [
+            'order_id' => 'id',
+        ]);
     }
 
     public function getIsPaySuccess()

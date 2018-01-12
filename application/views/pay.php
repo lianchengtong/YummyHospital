@@ -4,15 +4,12 @@
 /** @var $this \common\extend\View */
 
 $this->showTab = false;
-$enableCard    = 1;
-$enableCoin    = 1;
-$enableCode    = 1;
 
-$userCoin  = \common\utils\UserSession::getCoin();
-$coinRate  = \common\models\WebsiteConfig::getValueByKey("global.coin-rate");
+$userCoin = \common\utils\UserSession::getCoin();
+$coinRate = \common\models\WebsiteConfig::getValueByKey("global.coin-rate");
 $coinMoney = $userCoin * $coinRate;
 
-$userCard     = \common\models\MemberOwnCard::getUserEnableCard(\common\utils\UserSession::getId());
+$userCard = \common\models\MemberOwnCard::getUserEnableCard(\common\utils\UserSession::getId());
 $discountRate = 0;
 if ($userCard) {
     $discountRate = 1 - $userCard->discount / 100;
@@ -21,7 +18,7 @@ if ($userCard) {
 
 <footer class="ui-footer ui-footer-stable ui-pay-order-footer">
     <div class="price">总计: <span class="price-show"><?= $model->getPriceYuan() ?></span></div>
-    <div class="pay-btn">支付</div>
+    <div class="pay-btn disabled">支付</div>
 </footer>
 
 <section class="ui-container pb-10 ui-pay-order">
@@ -79,6 +76,7 @@ if ($userCard) {
 
 <?php
 $form = \yii\widgets\ActiveForm::begin(['options' => ['id' => 'form']]);
+echo \yii\helpers\Html::hiddenInput("id", $model->order_id);
 echo \yii\helpers\Html::hiddenInput("data[code]", "", ['id' => "form-code"]);
 echo \yii\helpers\Html::hiddenInput("data[coin]", 0, ['id' => "form-coin"]);
 echo \yii\helpers\Html::hiddenInput("data[channel]", "", ['id' => "form-channel"]);
@@ -88,6 +86,7 @@ echo \yii\helpers\Html::hiddenInput("data[channel]", "", ['id' => "form-channel"
 <script>
     var orderPrice =<?=$model->getPriceYuan()?>;
     var coinMoney = <?=$coinMoney?>;
+    var cardMoney = <?=floatval($userCard->remain_money) ?>;
     var discountRate = <?=$discountRate?>;
     var minusPrice = {
         code: 0,
@@ -96,7 +95,24 @@ echo \yii\helpers\Html::hiddenInput("data[channel]", "", ['id' => "form-channel"
     };
 
     function setPrice() {
-        $(".price-show").text(orderPrice - minusPrice.code - minusPrice.coin - minusPrice.discount);
+        var payPrice = orderPrice - minusPrice.code - minusPrice.coin - minusPrice.discount;
+        if (payPrice < 0) {
+            payPrice = 0;
+        }
+        $(".price-show").text(payPrice);
+    }
+
+    function goSuccessPage() {
+        location.href = "<?=\yii\helpers\Url::to(['pay/success', 'id' => $model->order_id])?>";
+    }
+
+    function togglePayBtn() {
+        if ($(".pay-btn").hasClass("disabled")) {
+            $(".pay-btn").removeClass("disabled");
+            return;
+        }
+
+        $(".pay-btn").addClass("disabled");
     }
 
     $(function () {
@@ -150,6 +166,7 @@ echo \yii\helpers\Html::hiddenInput("data[channel]", "", ['id' => "form-channel"
 
             var _name = $(this).attr("data-name");
             $("#form-channel").val(_name);
+            console.log("paychannel: ", _name);
 
             if (_name == "card") {
                 minusPrice.discount = orderPrice * discountRate;
@@ -157,15 +174,91 @@ echo \yii\helpers\Html::hiddenInput("data[channel]", "", ['id' => "form-channel"
             } else {
                 minusPrice.discount = 0;
             }
+
             setPrice();
         });
 
         $("body").on("tap", ".pay-btn", function () {
+            if ($(this).hasClass("disabled")) {
+                return;
+            }
+
             if ($("#form-channel").val().length == 0) {
                 alert("请选择支付方式");
                 return;
             }
-            $("#form").submit();
+
+            var payChannel = $("#form-channel").val();
+
+            togglePayBtn();
+
+            var formParams = $("#form").serialize();
+            //card pay
+            if (payChannel == "card") {
+                var _currentPrice = orderPrice - minusPrice.code - minusPrice.coin - minusPrice.discount;
+                if (_currentPrice > cardMoney) {
+                    alert("会员卡余额不足够，请选择其它支付方式，或充值后支付!");
+                    togglePayBtn();
+                    return false;
+                }
+
+                $.get("/pay/checkout", formParams, function (data) {
+                    if (data.code != 0) {
+                        alert(data.data);
+                        return false;
+                    }
+                    goSuccessPage();
+                });
+                return;
+            }
+
+            if (payChannel == "wechat-pay") {
+                $.get("/pay/checkout", formParams, function (data) {
+                    if (data.code != 0) {
+                        alert("支付信息拉取失败,请重新支付！");
+                        togglePayBtn();
+                        return false;
+                    }
+
+                    WeixinJSBridge.invoke(
+                        'getBrandWCPayRequest',
+                        data.data,
+                        function (res) {
+                            if (res.err_msg == "get_brand_wcpay_request:ok") {
+                                goSuccessPage();
+                            } else {
+                                alert("支付失败， 请重新支付！");
+                                togglePayBtn();
+                            }
+                        }
+                    );
+
+                });
+                return;
+            }
+
+            if (payChannel == "alipay") {
+                alert("不支持此通道");
+                togglePayBtn();
+                return;
+            }
+
         });
-    })
+    });
+
+    // wechat pay
+    function onBridgeReady() {
+        togglePayBtn();
+    }
+
+    if (typeof WeixinJSBridge == "undefined") {
+        if (document.addEventListener) {
+            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+        } else if (document.attachEvent) {
+            document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+        }
+    } else {
+        onBridgeReady();
+    }
 </script>

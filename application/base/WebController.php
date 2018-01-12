@@ -20,8 +20,8 @@ class WebController extends BaseController
 
     public function beforeAction($action)
     {
-        /*$this->app = WeChatInstance::officialAccount();
-        $userInfo  = Session::get("wechat.user");
+        $this->app = WeChatInstance::officialAccount();
+        $userInfo = Session::get("wechat.user");
         if (!$userInfo) {
             if (!$this->isAuthCallbackPage()) {
                 $this->gotoAuthPage();
@@ -68,7 +68,7 @@ class WebController extends BaseController
             $this->redirect(Url::full(['/login/index']));
 
             return false;
-        }*/
+        }
 
         return parent::beforeAction($action);
     }
@@ -102,7 +102,7 @@ class WebController extends BaseController
     {
         try {
             $authUserInfo = $this->app->oauth->user();
-            $accessToken  = $authUserInfo->getAccessToken();
+            $accessToken = $authUserInfo->getAccessToken();
             $authTokenArr = [
                 'access_token'  => $accessToken->access_token,
                 'refresh_token' => $accessToken->refresh_token,

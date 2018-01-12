@@ -10,7 +10,7 @@
   font-size: 20px;
 
   .price {
-    width: 30%;
+    width: 60%;
     .price-show {
       color: gold;
     }
@@ -20,6 +20,10 @@
     flex: 1;
     background: #e37b00;
     color: white;
+
+    &.disabled {
+      background: grey;
+    }
   }
 }
 

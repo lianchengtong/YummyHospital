@@ -58,6 +58,9 @@ return [
         'urlManager'   => [
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
+            'rules'           => [
+                '/pay' => 'pay/index',
+            ],
         ],
         'formatter'    => [
             'dateFormat'     => 'php:y/m/d',
