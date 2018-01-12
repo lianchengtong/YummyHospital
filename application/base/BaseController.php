@@ -5,6 +5,7 @@ namespace application\base;
 use application\builder\Code;
 use common\extend\View;
 use common\utils\Request;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\Controller;
 
@@ -106,6 +107,6 @@ class BaseController extends Controller
 
     public function addError($errorMsg)
     {
-        $this->errors[] = $errorMsg;
+        $this->errors[] = Html::encode($errorMsg);
     }
 }

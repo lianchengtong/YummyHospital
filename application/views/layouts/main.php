@@ -46,9 +46,9 @@ AppAsset::register($this);
     function msgConfirm(msg, yesAction, noAction) {
         layer.open({
             content: msg,
-            btn: ['取消', '确认'],
+            btn: ['确认', '取消'],
             yes: function (index) {
-                noAction();
+                yesAction();
                 layer.close(index);
             },
             no: function (index) {
@@ -58,15 +58,17 @@ AppAsset::register($this);
         });
     }
 
+    msgConfirm("1231232", function () {
+        console.log("yes");
+    }, function () {
+        console.log("no");
+    });
+
     <?php
     if (!empty($this->errors)):
-    $errMsg = Html::encode(implode('<br/>', $this->errors));
+    $errMsg = implode('<br>', $this->errors);
     ?>
-    layer.open({
-        content: "<?=$errMsg?>",
-        skin: 'msg',
-        time: 3
-    });
+    msgAlert('<?=$errMsg?>');
     <?php endif;?>
 
 </script>
