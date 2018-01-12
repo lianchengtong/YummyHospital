@@ -7,14 +7,15 @@ use yii\web\AssetBundle;
 class AppAsset extends AssetBundle
 {
     public $basePath = '@webroot';
-    public $baseUrl = '@web';
-    public $css = [
+    public $baseUrl  = '@web';
+    public $css      = [
         'css/site.css',
     ];
-    public $js = [
-        "js/jquery.simpler-sidebar.min.js"
+    public $js       = [
+        "js/jquery.simpler-sidebar.min.js",
+        "lib/layer_mobile/layer.js",
     ];
-    public $depends = [
+    public $depends  = [
         'yii\web\JqueryAsset',
     ];
 

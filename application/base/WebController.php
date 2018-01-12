@@ -20,6 +20,7 @@ class WebController extends BaseController
 
     public function beforeAction($action)
     {
+//        /*
         $this->app = WeChatInstance::officialAccount();
         $userInfo = Session::get("wechat.user");
         if (!$userInfo) {
@@ -69,7 +70,7 @@ class WebController extends BaseController
 
             return false;
         }
-
+//        */
         return parent::beforeAction($action);
     }
 

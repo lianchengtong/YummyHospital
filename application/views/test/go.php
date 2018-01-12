@@ -14,7 +14,7 @@
             <?=\yii\helpers\Json::htmlEncode($data)?>,
             function (res) {
                 if (res.err_msg == "get_brand_wcpay_request:ok") {
-                    alert("支付成功！");
+                    msgAlert("支付成功！");
                 }
             }
         );

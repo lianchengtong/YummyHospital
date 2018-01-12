@@ -147,7 +147,7 @@ echo \yii\helpers\Html::hiddenInput("data[channel]", "", ['id' => "form-channel"
                     $("#form-code").val("");
                     minusPrice.code = 0;
                     setPrice();
-                    alert(data.data);
+                    msgTip(data.data);
                     return;
                 }
 
@@ -184,7 +184,7 @@ echo \yii\helpers\Html::hiddenInput("data[channel]", "", ['id' => "form-channel"
             }
 
             if ($("#form-channel").val().length == 0) {
-                alert("请选择支付方式");
+                msgAlert("请选择支付方式");
                 return;
             }
 
@@ -197,14 +197,14 @@ echo \yii\helpers\Html::hiddenInput("data[channel]", "", ['id' => "form-channel"
             if (payChannel == "card") {
                 var _currentPrice = orderPrice - minusPrice.code - minusPrice.coin - minusPrice.discount;
                 if (_currentPrice > cardMoney) {
-                    alert("会员卡余额不足够，请选择其它支付方式，或充值后支付!");
+                    msgAlert("会员卡余额不足够，请选择其它支付方式，或充值后支付!");
                     togglePayBtn();
                     return false;
                 }
 
                 $.get("/pay/checkout", formParams, function (data) {
                     if (data.code != 0) {
-                        alert(data.data);
+                        msgAlert(data.data);
                         return false;
                     }
                     goSuccessPage();
@@ -215,7 +215,7 @@ echo \yii\helpers\Html::hiddenInput("data[channel]", "", ['id' => "form-channel"
             if (payChannel == "wechat-pay") {
                 $.get("/pay/checkout", formParams, function (data) {
                     if (data.code != 0) {
-                        alert("支付信息拉取失败,请重新支付！");
+                        msgTip("支付信息拉取失败,请重新支付！");
                         togglePayBtn();
                         return false;
                     }
@@ -227,7 +227,7 @@ echo \yii\helpers\Html::hiddenInput("data[channel]", "", ['id' => "form-channel"
                             if (res.err_msg == "get_brand_wcpay_request:ok") {
                                 goSuccessPage();
                             } else {
-                                alert("支付失败， 请重新支付！");
+                                msgTip("支付失败， 请重新支付！");
                                 togglePayBtn();
                             }
                         }
@@ -238,7 +238,7 @@ echo \yii\helpers\Html::hiddenInput("data[channel]", "", ['id' => "form-channel"
             }
 
             if (payChannel == "alipay") {
-                alert("不支持此通道");
+                msgTip("不支持此通道");
                 togglePayBtn();
                 return;
             }
