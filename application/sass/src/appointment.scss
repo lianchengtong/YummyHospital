@@ -1,22 +1,60 @@
-.ui-page-appointment {
-  .ui-label-s {
-    &, &:before {
-      border: 1px solid #EFEFEF;
-      color: #999999;
+.my-ask-list {
+  .ui-panel {
+    $head-size: 30px;
+
+    .ui-panel-heading {
+      display: flex;
+
+      .title {
+
+        display: flex;
+        line-height: $head-size;
+
+        .head-info {
+          width: $head-size;
+          height: $head-size;
+          border-radius: $head-size;
+          margin-right: 10px;
+          overflow: hidden;
+          font-size: 16px;
+
+          img {
+            width: $head-size;
+            height: $head-size;
+          }
+        }
+      }
+      .status {
+        line-height: $head-size;
+        text-align: right;
+        color: #cc0000;
+      }
     }
-  }
 
-  .ui-desc {
-    line-height: 1.5;
-  }
+    .price-wrapper {
+      display: flex;
+      justify-content: space-between;
 
-  .ui-avatar {
-    margin-top: 20px;
-  }
+      .price-show {
+        color: #cc0000;
+      }
 
-  .ui-list-info {
-    padding-top: 20px;
-    padding-bottom: 20px;
+      .ui-btn-s {
+        color: white;
+        width: auto;
+        padding-left: 5px;
+        padding-right: 5px;
+        border: none;
+
+        &:after, &:before {
+          border: none;
+        }
+      }
+
+      .ui-btn-go-appointment {
+        background: #2e1b0a;
+      }
+    }
   }
 }
 
@@ -41,9 +79,6 @@
     .info {
       padding-left: 20px;
       flex: 1;
-      span {
-        display: block;
-      }
 
       .name {
         font-size: 18px;
@@ -86,10 +121,32 @@
 .ui-appointment-feedback-list {
   font-size: 14px;
 
+  .doctor-info {
+    $head-size: 50px;
+    display: flex;
+    .head-info {
+      width: $head-size;
+      height: $head-size;
+      border-radius: $head-size;
+      overflow: hidden;
+      margin-right: 20px;
+
+      img {
+        width: $head-size;
+        height: $head-size;
+        border-radius: $head-size;
+      }
+    }
+    .name-info {
+      .name {
+        font-size: 16px;
+      }
+    }
+  }
+
   .patient-info {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 15px;
   }
 
   .feedback-mark {

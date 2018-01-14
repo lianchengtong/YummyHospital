@@ -14,6 +14,7 @@ class BaseController extends Controller
     public    $layoutSnip    = "main";
     public    $pageItemCount = 10;
     protected $errors        = [];
+    protected $hackMode      = false;
 
     public function init()
     {
@@ -98,6 +99,10 @@ class BaseController extends Controller
     public function output($codeID, $params = [], $viewSettings = [])
     {
         $params["errors"] = $this->errors;
+
+        if ($this->hackMode) {
+            return $this->render(sprintf("//%s.php", $codeID), $params);
+        }
 
         $this->setViewData($viewSettings);
         $content = Code::output($codeID, $params);

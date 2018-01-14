@@ -10,6 +10,7 @@ use common\models\DoctorServiceTime;
 use common\models\MyPatient;
 use common\models\Order;
 use common\models\OrderMontData;
+use common\models\PatientFeedback;
 use common\utils\Request;
 use common\utils\UserSession;
 use yii\web\NotFoundHttpException;
@@ -36,6 +37,23 @@ class DoctorController extends WebController
         return $this->output("page.doctor-appointment.term", [], [
             'title'   => '预约需知',
             'showTab' => false,
+        ]);
+    }
+
+    public function actionFeedback()
+    {
+        $doctorID    = Request::input("id");
+        $doctorModel = Doctor::getByID($doctorID);
+        if (!$doctorModel) {
+            throw new NotFoundHttpException();
+        }
+        $models = PatientFeedback::getDoctorFeedback($doctorModel->id);
+
+        return $this->setViewData([
+            'title'   => '患者评价',
+            'showTab' => false,
+        ])->output("page.doctor-feedback", [
+            'models' => $models,
         ]);
     }
 
@@ -103,8 +121,8 @@ class DoctorController extends WebController
                 }
                 $departmentName = Department::getName($departmentID);
 
-                $name  = sprintf("%s %s 医生 %s 会诊", $date, $doctorModel->name, $departmentName);
-                $price = DoctorServiceTime::getDoctorServicePrice($doctorModel->id);
+                $name       = sprintf("%s %s 医生 %s 会诊", $date, $doctorModel->name, $departmentName);
+                $price      = DoctorServiceTime::getDoctorServicePrice($doctorModel->id);
                 $orderModel = Order::create(UserSession::getId(), $name, $price);
                 if (!$orderModel) {
                     throw new \Exception("order create failed!");

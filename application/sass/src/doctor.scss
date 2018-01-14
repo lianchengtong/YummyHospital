@@ -16,15 +16,32 @@ $border-color: #EFEFEF;
   }
 }
 
-#sidebar{
+#sidebar {
   z-index: $z-index-head + 1;
 }
+
 .sidebar-wrapper {
   position: relative;
   height: 100%;
   overflow: auto;
   background: #EFEFEF;
   padding: 20px;
+
+  li {
+    border: 1px solid #cccccc;
+    margin-bottom: 10px;
+
+    a {
+      padding: 20px 10px;
+      color: black;
+      background: white;
+      display: block;
+
+      &.disable{
+        color: #cccccc;
+      }
+    }
+  }
 }
 
 .ui-doctor-appointment-tab {

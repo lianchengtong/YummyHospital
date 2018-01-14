@@ -107,4 +107,19 @@ class AskController extends WebController
             'models' => $models,
         ]);
     }
+
+    public function actionReply()
+    {
+        $model = PatientAsk::findOne(Request::input("id"));
+        if (!$model) {
+            throw new NotFoundHttpException();
+        }
+
+        return $this->setViewData([
+            'showTab' => false,
+            'title'   => '医生回复',
+        ])->output("page.ask-reply-content", [
+            'model' => $model,
+        ]);
+    }
 }

@@ -170,4 +170,17 @@ class DoctorAppointment extends \common\base\ActiveRecord
             throw new \Exception(self::className() . " callback set complete fail!");
         }
     }
+
+    /**
+     * @return bool|\common\models\Order|null|static|\common\models\Order
+     */
+    public function getOrder()
+    {
+        $orderModel = OrderMontData::getOrder(self::rawTableName(), $this->id);
+        if (!$orderModel) {
+            return false;
+        }
+
+        return $orderModel;
+    }
 }

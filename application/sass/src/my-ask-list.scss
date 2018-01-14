@@ -1,0 +1,61 @@
+.ui-my-patient-list {
+  .alert {
+    margin: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background: white;
+
+    a {
+      display: inline-block;
+      color: orange;
+    }
+  }
+
+  .list-wrapper {
+    .ui-user-info {
+      &.mode-select {
+        display: flex;
+      }
+
+      .select-btn {
+        padding-left: 10px;
+        width: 50px;
+      }
+
+      a.ui-icon-checked-s.active {
+        color: green;
+      }
+
+      .ui-btn-s {
+        padding: 0 5px;
+        width: auto;
+      }
+
+      .data-wrapper {
+        flex: 1;
+      }
+
+      .ui-panel-heading {
+        display: flex;
+        justify-content: space-between;
+      }
+      .ui-panel-body {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+
+  .ui-btn-wrapper {
+    margin: 10px 20px;
+    .ui-btn-add-new-patient {
+      background: orange;
+      color: white;
+      border: none;
+
+      &:before {
+        border: none;
+      }
+    }
+  }
+}

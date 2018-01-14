@@ -76,4 +76,9 @@ class PatientFeedback extends \common\base\ActiveRecord
     {
         return self::find()->where(['doctor_id' => $doctorID])->count();
     }
+
+    public static function getDoctorFeedback($doctorID)
+    {
+        return self::find()->where(['doctor_id' => $doctorID])->orderBy(['id'=>SORT_DESC])->all();
+    }
 }
