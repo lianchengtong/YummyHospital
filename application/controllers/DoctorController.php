@@ -73,13 +73,12 @@ class DoctorController extends WebController
             throw new NotFoundHttpException();
         }
 
-        return $this->output("page.doctor-appointment.date-picker",
-            ['model' => $model],
-            [
-                'title'   => '就诊日期',
-                'showTab' => false,
-            ]
-        );
+        return $this->setViewData([
+            'title'   => '就诊日期',
+            'showTab' => false,
+        ])->output("page.doctor-appointment.date-picker", [
+            'model' => $model,
+        ]);
     }
 
     public function actionOrder($id)
@@ -178,6 +177,6 @@ class DoctorController extends WebController
             'errors'  => $errors,
         ];
 
-        return $this->setViewData($viewData)->output("page.doctor-order", $params);
+        return $this->setViewData($viewData)->output("page.order", $params);
     }
 }
