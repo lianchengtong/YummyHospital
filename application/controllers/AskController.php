@@ -4,12 +4,14 @@ namespace application\controllers;
 
 use application\base\WebController;
 use common\models\Doctor;
+use common\models\MyPatient;
 use common\models\Order;
 use common\models\OrderMontData;
 use common\models\PatientAsk;
 use common\utils\Request;
 use common\utils\UserSession;
 use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 
 class AskController extends WebController
 {
@@ -19,9 +21,13 @@ class AskController extends WebController
         if (!($doctorModel = Doctor::findOne($id))) {
             throw new ForbiddenHttpException();
         }
-        $model->doctor_id = $id;
+        $model->doctor_id  = $id;
         $model->patient_id = Request::input("patient");
-        $model->user_id = UserSession::getId();
+        $model->user_id    = UserSession::getId();
+        if (!$model->patient_id) {
+            $defaultPatientModel = MyPatient::getPatientModel(null, UserSession::getId());
+            $model->patient_id   = $defaultPatientModel->id;
+        }
 
         if (Request::isPost() && $model->load(Request::input())) {
             $trans = \Yii::$app->getDb()->beginTransaction();
@@ -46,14 +52,18 @@ class AskController extends WebController
                 }
 
                 $montDataCallback = OrderMontData::getCallback(PatientAsk::className(), "callbackPaySuccess", [$model->id]);
-                $montData = OrderMontData::addData($orderModel->primaryKey, "callback", $montDataCallback);
+                $montData         = OrderMontData::addData($orderModel->primaryKey, "callback", $montDataCallback);
                 if (true !== $montData) {
                     throw new \Exception("save order montdata callback fail");
                 }
 
                 $trans->commit();
 
-                return $this->redirect(['list']);
+                return $this->redirect([
+                    'checkout',
+                    'id'    => $model->id,
+                    'order' => $orderModel->order_id,
+                ]);
             } catch (\Exception $e) {
                 $trans->rollBack();
                 $this->addError($e->getMessage());
@@ -68,6 +78,23 @@ class AskController extends WebController
             'doctorModel' => $doctorModel,
         ]);
 
+    }
+
+    public function actionCheckout($id)
+    {
+        $model = PatientAsk::findOne($id);
+        if (!$model || $model->pay_status != PatientAsk::STATUS_PENDING_PAY) {
+            throw new NotFoundHttpException();
+        }
+        $orderID = Request::input("order");
+
+        return $this->setViewData([
+            'showTab' => false,
+            'title'   => '确认订单',
+        ])->output("page.ask-checkout", [
+            'model'   => $model,
+            'orderID' => $orderID,
+        ]);
     }
 
     public function actionList()

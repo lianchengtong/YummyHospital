@@ -20,6 +20,7 @@ use yii\web\NotFoundHttpException;
  * @property integer                  $updated_at
  *
  * @property \common\models\MyPatient $patient
+ * @property \common\models\Doctor    $doctor
  */
 class PatientAsk extends \common\base\ActiveRecord
 {

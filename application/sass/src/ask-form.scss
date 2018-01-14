@@ -10,3 +10,62 @@
     width: 40%;
   }
 }
+
+.ui-patient-ask-checkout {
+  .ui-panel-heading {
+    display: flex;
+
+    $head-size: 80px;
+    .doctor-head-img {
+      border-radius: $head-size;
+      margin-right: 20px;
+      overflow: hidden;
+
+      img {
+        width: $head-size;
+        height: $head-size;
+        border-radius: $head-size;
+      }
+    }
+
+    .doctor-info {
+      flex: 1;
+
+      .doctor-name {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .ui-price-type-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .price {
+      color: #cc0000;
+      text-align: right;
+    }
+  }
+
+}
+
+.ui-patient-ask-checkout-footer {
+  display: flex;
+  line-height: 56px;
+  font-size: 18px;
+
+  .price {
+    flex: 1;
+    margin-left: 15px;
+    .price-show {
+      color: #cc0000;
+    }
+  }
+  .pay-btn {
+    width: 30%;
+    background: #2e1b0a;
+    color: white;
+    text-align: center;
+  }
+}

@@ -3,6 +3,7 @@
 /** @var $model \common\models\Order */
 /** @var $this \common\extend\View */
 
+$this->title = "订单支付";
 $this->showTab = false;
 
 $userCoin = \common\utils\UserSession::getCoin();
@@ -55,7 +56,7 @@ if ($userCard) {
             ?>
             <li data-name="<?= $channel->slug ?>">
                 <div class="ui-avatar">
-                    <span style="background-image:url(http://placeholder.qiniudn.com/100x100)"></span>
+                    <span style="background-image:url(<?=$channel->getOption("icon")?>)"></span>
                 </div>
                 <div class="ui-list-info ui-border-t">
                     <h4 class="ui-nowrap">

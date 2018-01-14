@@ -33,13 +33,17 @@ AppAsset::register($this);
         });
     }
 
-    function msgAlert(msg, btnTxt) {
+    function msgAlert(msg, yesAction, btnTxt) {
         if (!btnTxt) {
             btnTxt = "好的";
         }
         layer.open({
             content: msg,
-            btn: btnTxt
+            btn: btnTxt,
+            yes: function (index) {
+                yesAction();
+                layer.close(index);
+            }
         });
     }
 
@@ -57,12 +61,6 @@ AppAsset::register($this);
             }
         });
     }
-
-    msgConfirm("1231232", function () {
-        console.log("yes");
-    }, function () {
-        console.log("no");
-    });
 
     <?php
     if (!empty($this->errors)):
