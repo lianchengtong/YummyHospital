@@ -12,26 +12,23 @@ use yii\web\NotFoundHttpException;
 
 class AppointmentController extends WebController
 {
-    //public function actionAsk()
-    //{
-    //    $tagName = \common\utils\Request::input("tag");
-    //    $items   = \common\utils\Cache::getOrSet(
-    //        "page.doctor-appointment-list-" . $tagName,
-    //        function () use ($tagName) {
-    //            return \common\models\Doctor::getByTag($tagName);
-    //        }
-    //    );
-    //
-    //    $viewSettings = [
-    //        'title'      => "门诊预约",
-    //        'showGoBack' => false,
-    //    ];
-    //
-    //    return $this->setViewData($viewSettings)
-    //                ->output("page.doctor-appointment-ask-list", [
-    //                    'items' => $items,
-    //                ]);
-    //}
+    public function actionAsk()
+    {
+        $tagName = \common\utils\Request::input("tag");
+        $items   = \common\utils\Cache::getOrSet(
+            "page.doctor-appointment-list-" . $tagName,
+            function () use ($tagName) {
+                return \common\models\Doctor::getByTag($tagName);
+            }
+        );
+
+        return $this->setViewData([
+            'title'      => "在线问诊",
+            'showGoBack' => false,
+        ])->output("page.doctor-appointment-ask-list", [
+            'items' => $items,
+        ]);
+    }
 
     public function actionList()
     {
@@ -43,7 +40,6 @@ class AppointmentController extends WebController
             }
         );
 
-        $this->hackMode = true;
         return $this->setViewData([
             'title' => "门诊预约",
         ])->output("page.appointment.list", [
