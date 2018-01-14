@@ -120,7 +120,7 @@ class PatientAsk extends \common\base\ActiveRecord
     public function getOrderID()
     {
         $order = OrderMontData::getOrder(self::rawTableName(), $this->id);
-        if (!$order || !$order->getIsPaySuccess()) {
+        if (!$order || $order->getIsPaySuccess()) {
             return false;
         }
 
