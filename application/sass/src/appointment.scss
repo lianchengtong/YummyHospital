@@ -58,6 +58,47 @@
   }
 }
 
+.ui-page-appointment {
+  .ui-label-s {
+    &, &:before {
+      border: 1px solid #EFEFEF;
+      color: #999999;
+    }
+  }
+
+  .ui-desc {
+    line-height: 1.5;
+  }
+
+  .ui-avatar {
+    margin-top: 20px;
+  }
+
+  .ui-list-info {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .ui-btn-group-wrapper {
+    .price {
+      color: #cc0000;
+    }
+
+    .ui-btn-s {
+      border: none;
+      background: orangered;
+      color: white;
+      width: auto;
+      height: auto;
+      padding: 5px;
+
+      &:before, &:after {
+        border: none;
+      }
+    }
+  }
+}
+
 .ui-appointment-list {
   .doctor-info {
     display: flex;

@@ -43,6 +43,7 @@ class AppointmentController extends WebController
             }
         );
 
+        $this->hackMode = true;
         return $this->setViewData([
             'title' => "门诊预约",
         ])->output("page.appointment.list", [
