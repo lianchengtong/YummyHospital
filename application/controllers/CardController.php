@@ -28,7 +28,10 @@ class CardController extends WebController
     {
         $model = MemberOwnCard::getUserEnableCard(UserSession::getId());
 
-        return $this->render("//card", [
+        return $this->setViewData([
+            'title'   => '我的会员卡',
+            'showTab' => false,
+        ])->output("card.mine", [
             'model' => $model,
         ]);
     }
@@ -42,7 +45,7 @@ class CardController extends WebController
         }
 
         // 如果当前用户会员卡权限大于购买卡则报错
-        $userID = UserSession::getId();
+        $userID       = UserSession::getId();
         $ownCardModel = null;
         if (MemberOwnCard::isUserHasCard($userID)) {
             $ownCardModel = MemberOwnCard::getUserEnableCard($userID);
@@ -52,18 +55,18 @@ class CardController extends WebController
         }
 
         $goodPrice = $model->price * $model->discount / 100;
-        $trans = \Yii::$app->getDb()->beginTransaction();
+        $trans     = \Yii::$app->getDb()->beginTransaction();
 
         try {
             // order create
-            $title = sprintf("会员卡 %s 购买", $model->name);
+            $title      = sprintf("会员卡 %s 购买", $model->name);
             $orderModel = Order::create(UserSession::getId(), $title, $goodPrice);
             if ($orderModel === false) {
                 throw new \Exception("create order failed");
             }
 
             $montDataCallback = OrderMontData::getCallback(MemberOwnCard::className(), "callbackPaySuccess", [$model->id]);
-            $montDataList = [
+            $montDataList     = [
                 'enableCard'               => '0',
                 'enableCoin'               => '0',
                 'enableCode'               => '0',

@@ -3,10 +3,7 @@
 namespace application\controllers;
 
 use application\base\WebController;
-use common\models\AuthWechat;
 use common\models\Order;
-use common\utils\Json;
-use common\utils\pay\Wechat;
 use common\utils\Request;
 use common\utils\UserSession;
 use yii\web\NotFoundHttpException;
@@ -17,7 +14,10 @@ class OrderController extends WebController
     {
         $models = Order::getListByUser(UserSession::getId());
 
-        return $this->render("//order-list", [
+        return $this->setViewData([
+            'title'   => '我的订单',
+            'showTab' => 'false',
+        ])->output("page.order-list", [
             'models' => $models,
         ]);
     }
@@ -35,7 +35,7 @@ class OrderController extends WebController
 
     private function getOrderModel()
     {
-        $orderID = Request::input("id");
+        $orderID    = Request::input("id");
         $orderModel = Order::getByOrderID($orderID);
         if (!$orderModel) {
             throw new NotFoundHttpException();

@@ -4,6 +4,7 @@ namespace application\controllers;
 
 
 use application\base\WebController;
+use application\builder\Code;
 use common\models\DoctorServiceTime;
 use common\utils\Request;
 
@@ -46,7 +47,7 @@ class ServiceCalendarController extends WebController
         $nextMonth = array_combine(['year', 'month'], explode("-", $nextMonth));
 
 
-        return $this->render("index", [
+        return Code::output("element.calendar", [
             'currentMonth' => sprintf("%s年%s月", $year, $month),
             'calendarHtml' => DoctorServiceTime::calendar($id, $year, $month),
             'nextMonth'    => $nextMonth,

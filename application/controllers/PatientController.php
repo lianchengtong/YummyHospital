@@ -13,7 +13,7 @@ class PatientController extends WebController
 {
     public function actionIndex()
     {
-        $mode = Request::input("mode", "show");
+        $mode   = Request::input("mode", "show");
         $models = MyPatient::getModelList(UserSession::getId());
 
         $codeID = "page.patient-list-mode-select";
@@ -73,16 +73,20 @@ class PatientController extends WebController
             $this->getView()->errors = $model->getErrorList();
         }
 
-        return $this->render("me", [
+        return $this->setViewData([
+            'showSave' => $model->isNewRecord,
+            'showTab'  => false,
+            'title'    => '个人资料',
+        ])->output("page.patient-me", [
             'model' => $model,
         ]);
     }
 
     public function actionCreate()
     {
-        $model = new MyPatient();
+        $model          = new MyPatient();
         $model->user_id = UserSession::getId();
-        $mode = Request::input("mode", "show");
+        $mode           = Request::input("mode", "show");
 
         if (Request::isPost() && $model->load(Request::input())) {
             if ($model->save()) {
@@ -108,7 +112,7 @@ class PatientController extends WebController
 
     public function actionUpdate($id)
     {
-        $model = MyPatient::findOne($id);
+        $model          = MyPatient::findOne($id);
         $model->user_id = UserSession::getId();
 
         if (!$model) {
