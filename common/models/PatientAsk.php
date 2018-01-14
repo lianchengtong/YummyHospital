@@ -41,15 +41,18 @@ class PatientAsk extends \common\base\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'          => 'ID',
-            'user_id'     => '用户',
-            'patient_id'  => '患者',
-            'description' => '描述',
-            'images'      => '图片',
-            'reply'       => '回复内容',
-            'reply_at'    => '回复日期',
-            'created_at'  => '创建日期',
-            'updated_at'  => '更新日期',
+            'id'           => 'ID',
+            'user_id'      => '用户',
+            'patient_id'   => '患者',
+            'description'  => '描述',
+            'images'       => '图片',
+            'reply'        => '回复内容',
+            'reply_at'     => '回复日期',
+            'created_at'   => '创建日期',
+            'updated_at'   => '更新日期',
+            'doctor.name'  => '医生',
+            'patient.name' => '患者',
+            'user.nickname'    => '用户',
         ];
     }
 
@@ -102,8 +105,8 @@ class PatientAsk extends \common\base\ActiveRecord
 
     public function getIsPayed()
     {
-        $order = OrderMontData::getOrder(self::className(), $this->id);
-        if (!$order || $order->getIsPaySuccess()) {
+        $order = OrderMontData::getOrder(self::rawTableName(), $this->id);
+        if (!$order || !$order->getIsPaySuccess()) {
             return false;
         }
 
@@ -117,7 +120,7 @@ class PatientAsk extends \common\base\ActiveRecord
     public function getOrderID()
     {
         $order = OrderMontData::getOrder(self::rawTableName(), $this->id);
-        if (!$order || $order->getIsPaySuccess()) {
+        if (!$order || !$order->getIsPaySuccess()) {
             return false;
         }
 

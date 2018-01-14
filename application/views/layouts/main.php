@@ -41,7 +41,9 @@ AppAsset::register($this);
             content: msg,
             btn: btnTxt,
             yes: function (index) {
-                yesAction();
+                if (yesAction){
+                    yesAction();
+                }
                 layer.close(index);
             }
         });
@@ -52,11 +54,15 @@ AppAsset::register($this);
             content: msg,
             btn: ['确认', '取消'],
             yes: function (index) {
-                yesAction();
+                if (yesAction){
+                    yesAction();
+                }
                 layer.close(index);
             },
             no: function (index) {
-                noAction();
+                if (noAction){
+                    noAction();
+                }
                 layer.close(index);
             }
         });

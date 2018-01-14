@@ -71,15 +71,16 @@ class Order extends \common\base\ActiveRecord
         if (substr($floatPrice, -3) == ".00") {
             return intval($floatPrice);
         }
+
         return $floatPrice;
     }
 
     public function completeWithTradeNumber($outTradeNumber, $channel)
     {
         $this->out_trade_id = $outTradeNumber;
-        $this->complete_at = time();
-        $this->channel = $channel;
-        $this->status = self::STATUS_PAY_SUCCESS;
+        $this->complete_at  = time();
+        $this->channel      = $channel;
+        $this->status       = self::STATUS_PAY_SUCCESS;
 
         return $this->saveOrError();
     }
@@ -143,10 +144,10 @@ class Order extends \common\base\ActiveRecord
 
     public function runCallbacks()
     {
-        $orderMontCallbacks = OrderMontData::getCallbackList($this->order_id);
+        $orderMontCallbacks = OrderMontData::getCallbackList($this->primaryKey);
 
         foreach ($orderMontCallbacks as $callback) {
-            array_unshift($callback['params'], $this->id);
+            array_unshift($callback['params'], $this);
             call_user_func_array($callback['callback'], $callback['params']);
         }
     }

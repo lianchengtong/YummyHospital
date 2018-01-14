@@ -5,6 +5,7 @@ namespace application\controllers;
 use application\base\BaseController;
 use common\models\Doctor;
 use common\models\Order;
+use common\models\PatientAsk;
 use common\models\PatientFeedback;
 use common\models\PromotionCard;
 use common\utils\Json;
@@ -16,6 +17,12 @@ class TestController extends BaseController
 
     public function actionIndex()
     {
+        $model = PatientAsk::getByID(16);
+
+        return Json::error($model->getIsPayed());
+        $orderModel = Order::getByOrderID("201801140736245a5b40b8bc7ed00496");
+        $orderModel->runCallbacks();
+        return Json::success();
         $template = "{date}-{string:10}-{number:5}-{string:5}-{number:10}";
         $data = PromotionCard::generateByTemplate($template);
         var_dump($template);
