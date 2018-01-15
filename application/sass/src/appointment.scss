@@ -27,7 +27,7 @@
       .status {
         line-height: $head-size;
         text-align: right;
-        color: #cc0000;
+        color: $color-red;
       }
     }
 
@@ -35,8 +35,8 @@
       display: flex;
       justify-content: space-between;
 
-      .price-show {
-        color: #cc0000;
+      .price-show, .count {
+        color: $color-red;
       }
 
       .ui-btn-s {
@@ -52,7 +52,7 @@
       }
 
       .ui-btn-go-appointment {
-        background: #2e1b0a;
+        background: $color-red;
       }
     }
   }
@@ -65,9 +65,15 @@
       color: #999999;
     }
   }
+  .doctor-name {
+    color: #333333;
+  }
 
   .ui-desc {
     line-height: 1.5;
+    .count {
+      color: $color-red;
+    }
   }
 
   .ui-avatar {
@@ -81,12 +87,15 @@
 
   .ui-btn-group-wrapper {
     .price {
-      color: #cc0000;
+      width: 100%;
+      text-align: center;
+      color: $color-red;
     }
 
     .ui-btn-s {
       border: none;
-      background: orangered;
+      background: $color-red;
+      background-image: none;
       color: white;
       width: auto;
       height: auto;

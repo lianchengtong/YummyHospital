@@ -149,6 +149,9 @@ class MyPatient extends \common\base\ActiveRecord
     {
         /** @var self $model */
         $model = self::getPatientModel($patientID, $userID);
+        if (!$model) {
+            return "&nbsp;";
+        }
 
         return sprintf("%s, %s, %d岁",
             $model->name,

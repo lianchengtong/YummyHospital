@@ -1,14 +1,19 @@
 .ui-patient-ask-form {
   display: flex;
   .ui-ask-price-container {
+    color: $color-red;
     text-align: center;
     flex: 1;
     line-height: 44px;
     font-size: 22px;
   }
+
   .ui-btn-lg {
     width: 40%;
-
+    background-image: none;
+    background: $color-main;
+    border:none;
+    color: white;
   }
 }
 

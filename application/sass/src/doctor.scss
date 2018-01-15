@@ -37,7 +37,7 @@ $border-color: #EFEFEF;
       background: white;
       display: block;
 
-      &.disable{
+      &.disable {
         color: #cccccc;
       }
     }
@@ -47,6 +47,14 @@ $border-color: #EFEFEF;
 .ui-doctor-appointment-tab {
   .ui-tiled li {
     padding: 10px 0;
+    line-height: 20px;
+
+    img {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      margin-bottom: -5px;
+    }
 
     &.active {
       border-bottom: 1px solid red;
@@ -73,6 +81,7 @@ $border-color: #EFEFEF;
     font-size: 18px;
     border: 1px solid red;
   }
+
 }
 
 .ui-doctor-description {
