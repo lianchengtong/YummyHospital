@@ -13,7 +13,7 @@ class PatientController extends WebController
 {
     public function actionIndex()
     {
-        $mode   = Request::input("mode", "show");
+        $mode = Request::input("mode", "show");
         $models = MyPatient::getModelList(UserSession::getId());
 
         $codeID = "page.patient-list-mode-select";
@@ -21,10 +21,12 @@ class PatientController extends WebController
             $codeID = "page.patient-list-mode-show";
         }
 
-        return $this->output($codeID, [
+        return $this->setViewData([
+            'title' => '就诊人管理',
+        ])->output($codeID, [
             'models' => $models,
             'from'   => Request::input("from", "ask"),
-        ], ['title' => '就诊人管理']);
+        ]);
     }
 
     public function actionSetDefault($id)
@@ -66,7 +68,9 @@ class PatientController extends WebController
 
         if ($model->isNewRecord && Request::isPost() && $model->load(Request::input())) {
             $model->is_self = true;
-            $model->default = 1;
+            if (MyPatient::count(['user_id' => UserSession::getId(), 'default' => 1]) == 0) {
+                $model->default = 1;
+            }
             $model->user_id = UserSession::getId();
             if ($model->save()) {
                 $this->redirect("/me");
@@ -85,11 +89,14 @@ class PatientController extends WebController
 
     public function actionCreate()
     {
-        $model          = new MyPatient();
+        $model = new MyPatient();
         $model->user_id = UserSession::getId();
-        $mode           = Request::input("mode", "show");
+        $mode = Request::input("mode", "show");
 
         if (Request::isPost() && $model->load(Request::input())) {
+            if (MyPatient::count(['user_id' => UserSession::getId()]) == 0) {
+                $model->default = 1;
+            }
             if ($model->save()) {
                 return $this->redirect([
                     'index',
@@ -113,7 +120,7 @@ class PatientController extends WebController
 
     public function actionUpdate($id)
     {
-        $model          = MyPatient::findOne($id);
+        $model = MyPatient::findOne($id);
         $model->user_id = UserSession::getId();
 
         if (!$model) {
