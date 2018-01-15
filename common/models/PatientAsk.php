@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\utils\WeChatInstance;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -102,6 +103,22 @@ class PatientAsk extends \common\base\ActiveRecord
         if (!$model->save()) {
             throw new \Exception(self::className() . " callback set complete fail");
         }
+
+
+/*        WeChatInstance::officialAccount()->template_message->send([
+            'touser'      => $order->wechatAuth->openid,
+            'template_id' => 'PD-m5F_le-Y2aSXEXDflFkXM552VO1tmzEYhdsU4jc8',
+            'scene'       => 1000,
+            'url'         => '',
+            'data'        => [
+                'first'    => '咨询成功',
+                'keyword1' => "在线咨询",
+                'keyword2' => "成功",
+                'keyword3' => date("Y-m-d H:i:s", $order->complete_at),
+                'remark'   => "您咨询的医师将会尽快为您解答问题,请耐心等待。",
+            ],
+        ]);
+*/
     }
 
     public function getIsPayed()

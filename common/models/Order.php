@@ -78,9 +78,9 @@ class Order extends \common\base\ActiveRecord
     public function completeWithTradeNumber($outTradeNumber, $channel)
     {
         $this->out_trade_id = $outTradeNumber;
-        $this->complete_at  = time();
-        $this->channel      = $channel;
-        $this->status       = self::STATUS_PAY_SUCCESS;
+        $this->complete_at = time();
+        $this->channel = $channel;
+        $this->status = self::STATUS_PAY_SUCCESS;
 
         return $this->saveOrError();
     }
@@ -120,6 +120,16 @@ class Order extends \common\base\ActiveRecord
             [['channel'], 'default', 'value' => self::CHANNEL_UNKNOWN],
             [['status'], 'default', 'value' => self::STATUS_PENDING_PAY],
         ];
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getWechatAuth()
+    {
+        return $this->hasOne(AuthWechat::className(), ['user_id' => 'user_id']);
     }
 
     public static function getPayChannel($partial = [])
