@@ -10,10 +10,10 @@
 
   .ui-btn-lg {
     width: 40%;
-    background-image: none;
     background: $color-main;
-    border: none;
     color: white;
+    border-radius: 0;
+    -webkit-appearance: none;
   }
 }
 

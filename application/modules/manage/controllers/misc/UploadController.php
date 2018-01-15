@@ -3,6 +3,7 @@
 namespace application\modules\manage\controllers\misc;
 
 use application\base\AuthRestController;
+use application\base\RestController;
 use common\models\WebsiteConfig;
 use common\utils\AliyunOSS;
 use common\utils\Request;
@@ -11,7 +12,7 @@ use yii\db\Exception;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
-class UploadController extends AuthRestController
+class UploadController extends RestController
 {
     public function actionIndex()
     {
@@ -21,12 +22,12 @@ class UploadController extends AuthRestController
             "storage.aliyun_oss.domain",
         ]);
         try {
-            $instanceName   = Request::input("instance-name");
+            $instanceName = Request::input("instance-name");
             $uploadInstance = UploadedFile::getInstanceByName($instanceName);
-            $fileID         = md5($uploadInstance->getBaseName());
-            $path           = Yii::getAlias($config['storage.file.path']);
-            $filePath       = sprintf("%s/%s.%s", date("Y/m/d"), $fileID, $uploadInstance->getExtension());
-            $saveFilePath   = sprintf("%s/%s", rtrim($path, "/"), ltrim($filePath, "/"));
+            $fileID = md5($uploadInstance->getBaseName());
+            $path = Yii::getAlias($config['storage.file.path']);
+            $filePath = sprintf("%s/%s.%s", date("Y/m/d"), $fileID, $uploadInstance->getExtension());
+            $saveFilePath = sprintf("%s/%s", rtrim($path, "/"), ltrim($filePath, "/"));
 
             $fileSaveMode = $config['storage.mode'];
             switch ($fileSaveMode) {

@@ -21,7 +21,7 @@ class PayController extends WebController
     public function actionIndex()
     {
         $orderModel = $this->getOrderModel();
-        $montData   = $orderModel->montData;
+        $montData = $orderModel->montData;
 
         $montDataList = [];
         /** @var OrderMontData $item */
@@ -32,14 +32,29 @@ class PayController extends WebController
             $montDataList[$item->name] = $item->content;
         }
 
+        $enableCoin = true;
+        if (isset($montDataList['enableCoin']) && $montDataList['enableCoin'] == 0) {
+            $enableCoin = false;
+        }
+
+        $enableCode = true;
+        if (isset($montDataList['enableCode']) && $montDataList['enableCode'] == 0) {
+            $enableCode = false;
+        }
+
+        $enableCard = true;
+        if (isset($montDataList['enableCard']) && $montDataList['enableCard'] == 0) {
+            $enableCard = false;
+        }
+
         return $this->setViewData([
             'title'   => '订单支付',
             'showTab' => 'false',
         ])->output("page.order-checkout", [
             'model'      => $orderModel,
-            'enableCoin' => ($montDataList['enableCoin'] == 1),
-            'enableCode' => ($montDataList['enableCode'] == 1),
-            'enableCard' => ($montDataList['enableCard'] == 1),
+            'enableCoin' => $enableCoin,
+            'enableCode' => $enableCode,
+            'enableCard' => $enableCard,
         ]);
     }
 
@@ -47,9 +62,9 @@ class PayController extends WebController
     {
         $orderModel = $this->getOrderModel();
 
-        $data    = Request::input("data");
-        $code    = $data['code'];
-        $coin    = $data['coin'] == 1;
+        $data = Request::input("data");
+        $code = $data['code'];
+        $coin = $data['coin'] == 1;
         $channel = $data['channel'];
 
         $trans = \Yii::$app->getDb()->beginTransaction();
@@ -59,15 +74,15 @@ class PayController extends WebController
                 throw new \Exception("channel not exist");
             }
 
-            $payPrice   = $orderModel->getPriceYuan();
+            $payPrice = $orderModel->getPriceYuan();
             $minusMoney = [
                 'coin' => 0,
                 'code' => 0,
                 'card' => 0,
             ];
             if ($coin) {
-                $userCoin           = \common\utils\UserSession::getCoin();
-                $coinRate           = \common\models\WebsiteConfig::getValueByKey("global.coin-rate");
+                $userCoin = \common\utils\UserSession::getCoin();
+                $coinRate = \common\models\WebsiteConfig::getValueByKey("global.coin-rate");
                 $minusMoney['coin'] = $userCoin * $coinRate;
 
                 if (true !== UserCoin::cost(UserSession::getId(), $userCoin, "订单消费抵扣")) {
@@ -102,7 +117,7 @@ class PayController extends WebController
                 }
 
                 $payPrice -= $minusMoney['card'];
-                $result   = MemberCardPayLog::add($userCard->id, $orderModel->id, $orderModel->getPriceYuan(), $payPrice);
+                $result = MemberCardPayLog::add($userCard->id, $orderModel->id, $orderModel->getPriceYuan(), $payPrice);
                 if (true !== $result) {
                     throw new \Exception("member card pay log exception");
                 }
@@ -132,7 +147,7 @@ class PayController extends WebController
             }
 
             if ($channel == Order::CHANNEL_WECHATPAY) {
-                $openID   = (new AuthWechat())->getByUserID(UserSession::getId())->getOpenID();
+                $openID = (new AuthWechat())->getByUserID(UserSession::getId())->getOpenID();
                 $response = Wechat::createJSOrder($openID, $orderModel->name, $orderModel->order_id, $payPrice * 100);
                 if ($response === false) {
                     return Json::error("非法请求");
@@ -155,13 +170,19 @@ class PayController extends WebController
 
     public function actionSuccess()
     {
-        return "SUCCESS";
+//        $orderModel = $this->getOrderModel();
+//        if (!$orderModel || !$orderModel->getIsPaySuccess()) {
+//            throw new NotFoundHttpException();
+//        }
+        return $this->setViewData([
+            'showNav' => false,
+        ])->output("page.pay-success");
     }
 
     public function actionCodeInfo()
     {
         $codeID = Request::input("code");
-        $model  = PromotionCard::getByCardNumber($codeID);
+        $model = PromotionCard::getByCardNumber($codeID);
         if (!$model) {
             return Json::error("卡号不存在");
         }
@@ -172,7 +193,7 @@ class PayController extends WebController
 
     private function getOrderModel()
     {
-        $orderID    = Request::input("id");
+        $orderID = Request::input("id");
         $orderModel = Order::getByOrderID($orderID);
         if (!$orderModel) {
             throw new NotFoundHttpException();

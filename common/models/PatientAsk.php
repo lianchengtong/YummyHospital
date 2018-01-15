@@ -34,6 +34,7 @@ class PatientAsk extends \common\base\ActiveRecord
             [['user_id', 'doctor_id', 'patient_id', 'description'], 'required'],
             [['user_id', 'patient_id', 'reply_at', 'created_at', 'updated_at'], 'integer'],
             [['description', 'images', 'reply'], 'string'],
+            [['description'], 'string', 'min' => 5, 'max' => 250, 'message' => '请最少输入5个字,最多输入240个字'],
             [['pay_status'], 'default', 'value' => self::STATUS_PENDING_PAY],
         ];
     }
@@ -41,18 +42,18 @@ class PatientAsk extends \common\base\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'           => 'ID',
-            'user_id'      => '用户',
-            'patient_id'   => '患者',
-            'description'  => '描述',
-            'images'       => '图片',
-            'reply'        => '回复内容',
-            'reply_at'     => '回复日期',
-            'created_at'   => '创建日期',
-            'updated_at'   => '更新日期',
-            'doctor.name'  => '医生',
-            'patient.name' => '患者',
-            'user.nickname'    => '用户',
+            'id'            => 'ID',
+            'user_id'       => '用户',
+            'patient_id'    => '患者',
+            'description'   => '描述',
+            'images'        => '图片',
+            'reply'         => '回复内容',
+            'reply_at'      => '回复日期',
+            'created_at'    => '创建日期',
+            'updated_at'    => '更新日期',
+            'doctor.name'   => '医生',
+            'patient.name'  => '患者',
+            'user.nickname' => '用户',
         ];
     }
 

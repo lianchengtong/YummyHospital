@@ -70,12 +70,20 @@ $border-color: #EFEFEF;
       justify-content: space-between;
       line-height: 30px;
       padding: 10px 0;
+
+      .btn-wrapper {
+        .ui-btn {
+          color: white;
+          background-image: none;
+          background: $color-main;
+        }
+      }
     }
   }
 
   .ui-btn-show-all {
-    padding: 5px;
-    margin: 20px 30%;
+    padding: 10px;
+    margin: 20px 25%;
     border-radius: 50px;
     text-align: center;
     font-size: 18px;
