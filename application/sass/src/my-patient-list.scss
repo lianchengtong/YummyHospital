@@ -54,11 +54,18 @@
   }
 
   .ui-btn-wrapper {
-    margin: 10px 20px;
+    margin: 10px 10px;
+
     .ui-btn-add-new-patient {
-      background: orange;
+      background: $color-main !important;
+      background-image: none;
       color: white;
       border: none;
+
+      &:active {
+        background: $color-main;
+        background-image: none;
+      }
 
       &:before {
         border: none;
