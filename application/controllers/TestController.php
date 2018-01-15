@@ -22,14 +22,12 @@ class TestController extends BaseController
         WeChatInstance::officialAccount()->template_message->send([
 //            'touser'      => "oxrAn04zIhnA71kQBHFWzyXoHQQI",
             'touser'      => 'oxrAn08P7FtjKly1n3XinIg1BFMQ',
-            'template_id' => 'PD-m5F_le-Y2aSXEXDflFkXM552VO1tmzEYhdsU4jc8',
+            'template_id' => 'ctlJB3gdhU0w-du2WlE4LX0c4C19NDdGfyTmEmTnvYI',
             'scene'       => 1000,
             'url'         => '',
             'data'        => [
                 'first'    => '咨询成功',
                 'keyword1' => "在线咨询",
-                'keyword2' => "成功",
-                'keyword3' => date("Y-m-d H:i:s", $order->complete_at),
                 'remark'   => "您咨询的医师将会尽快为您解答问题,请耐心等待。",
             ],
         ]);
