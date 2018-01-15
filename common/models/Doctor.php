@@ -87,7 +87,7 @@ class Doctor extends \common\base\ActiveRecord
             return false;
         }
 
-        return parent::afterSave($insert);
+        return parent::afterSave($insert, $changedAttributes);
     }
 
     public function getDoctorServiceTime()
@@ -100,7 +100,7 @@ class Doctor extends \common\base\ActiveRecord
     public function afterFind()
     {
         $this->department = DoctorDepartment::getDepartmentID($this->id);
-        $this->tag        = implode(",", DoctorTag::getList($this->id));
+        $this->tag = implode(",", DoctorTag::getList($this->id));
         parent::afterFind();
     }
 
@@ -123,7 +123,7 @@ class Doctor extends \common\base\ActiveRecord
     {
         $condition = [];
         if (strlen($tagName)) {
-            $idList    = DoctorTag::getDoctorIDListByName($tagName);
+            $idList = DoctorTag::getDoctorIDListByName($tagName);
             $condition = ['id' => $idList];
         }
 
@@ -140,13 +140,13 @@ class Doctor extends \common\base\ActiveRecord
     public function getSameDepartmentDoctors($limit = 5)
     {
         $doctorDepartment = $this->departments;
-        $departmentID     = ArrayHelper::getColumn($doctorDepartment, "department_id");
+        $departmentID = ArrayHelper::getColumn($doctorDepartment, "department_id");
         $departmentDoctor = DoctorDepartment::find()->where(['department_id' => $departmentID])->all();
-        $doctorID         = ArrayHelper::getColumn($departmentDoctor, "doctor_id");
+        $doctorID = ArrayHelper::getColumn($departmentDoctor, "doctor_id");
 
         shuffle($doctorID);
         $doctorIDGroup = array_chunk($doctorID, $limit);
-        $doctors       = Doctor::find()->where(['id' => $doctorIDGroup[0]])->all();
+        $doctors = Doctor::find()->where(['id' => $doctorIDGroup[0]])->all();
 
         return $doctors;
     }
@@ -154,7 +154,7 @@ class Doctor extends \common\base\ActiveRecord
     public function departmentString()
     {
         $doctorDepartment = $this->departments;
-        $departmentName   = [];
+        $departmentName = [];
         foreach ($doctorDepartment as $departmentLinkModel) {
             $departmentName[] = $departmentLinkModel->department->name;
         }

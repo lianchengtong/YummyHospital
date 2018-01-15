@@ -20,7 +20,6 @@ class WebController extends BaseController
 
     public function beforeAction($action)
     {
-
         $this->app = WeChatInstance::officialAccount();
         $userInfo  = Session::get("wechat.user");
         if (!$userInfo) {

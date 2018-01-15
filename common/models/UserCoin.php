@@ -59,4 +59,30 @@ class UserCoin extends \common\base\ActiveRecord
 
         return $model->saveOrError();
     }
+
+    public static function add($userID, $count, $desc = "")
+    {
+        $model = self::getByUserID($userID);
+        if (!$model) {
+            return true;
+        }
+
+        $result = UserCoinHistory::add($userID, UserCoinHistory::ACTION_ADD, $count, $desc);
+        if (true !== $result) {
+            return $result;
+        }
+
+        $model->coin += $count;
+        if ($model->coin < 0) {
+            return false;
+        }
+
+        return $model->saveOrError();
+    }
+
+    public static function feedbackGain($userID)
+    {
+        $coinCount = WebsiteConfig::getValueByKey("global.feedback-gain-coin");
+        return self::add($userID, $coinCount, "评论获取积分");
+    }
 }

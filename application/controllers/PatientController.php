@@ -63,6 +63,7 @@ class PatientController extends WebController
         if (!$model) {
             $model = new MyPatient();
         }
+
         if ($model->isNewRecord && Request::isPost() && $model->load(Request::input())) {
             $model->is_self = true;
             $model->default = 1;

@@ -5,6 +5,7 @@ namespace application\controllers;
 use application\base\WebController;
 use common\models\DoctorAppointment;
 use common\models\PatientFeedback;
+use common\models\UserCoin;
 use common\utils\Request;
 use common\utils\UserSession;
 use yii\helpers\ArrayHelper;
@@ -15,7 +16,7 @@ class AppointmentController extends WebController
     public function actionAsk()
     {
         $tagName = \common\utils\Request::input("tag");
-        $items   = \common\utils\Cache::getOrSet(
+        $items = \common\utils\Cache::getOrSet(
             "page.doctor-appointment-list-" . $tagName,
             function () use ($tagName) {
                 return \common\models\Doctor::getByTag($tagName);
@@ -33,7 +34,7 @@ class AppointmentController extends WebController
     public function actionList()
     {
         $tagName = \common\utils\Request::input("tag");
-        $items   = \common\utils\Cache::getOrSet(
+        $items = \common\utils\Cache::getOrSet(
             "page.doctor-appointment-list-" . $tagName,
             function () use ($tagName) {
                 return \common\models\Doctor::getByTag($tagName);
@@ -76,10 +77,11 @@ class AppointmentController extends WebController
 
         $feedbackModel = new PatientFeedback();
         if (Request::isPost() && $feedbackModel->load(Request::input())) {
-            $feedbackModel->doctor_id      = $appointmentModel->doctor_id;
+            $feedbackModel->doctor_id = $appointmentModel->doctor_id;
             $feedbackModel->appointment_id = $appointmentModel->id;
 
             if ($feedbackModel->save()) {
+                UserCoin::feedbackGain(UserSession::getId());
                 return $this->redirect(['mine']);
             }
             $this->getView()->errors = $feedbackModel->getErrorList();
@@ -98,13 +100,13 @@ class AppointmentController extends WebController
 
     public function actionFeedbackList()
     {
-        $condition         = ['user_id' => UserSession::getId()];
+        $condition = ['user_id' => UserSession::getId()];
         $appointmentModels = DoctorAppointment::find()->select("id")->where($condition)->all();
-        $appointmentID     = ArrayHelper::getColumn($appointmentModels, "id");
-        $feedbackModels    = PatientFeedback::find()
-                                            ->where(['appointment_id' => $appointmentID])
-                                            ->orderBy(['id' => SORT_DESC])
-                                            ->all();
+        $appointmentID = ArrayHelper::getColumn($appointmentModels, "id");
+        $feedbackModels = PatientFeedback::find()
+                                         ->where(['appointment_id' => $appointmentID])
+                                         ->orderBy(['id' => SORT_DESC])
+                                         ->all();
 
 
         return $this->setViewData([
