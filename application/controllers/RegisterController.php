@@ -15,7 +15,7 @@ use common\utils\UserSession;
 class RegisterController extends WebController
 {
     public $layoutSnip = "main";
-    public $needLogin = false;
+    public $needLogin  = false;
 
     public function actionIndex()
     {
@@ -72,8 +72,8 @@ class RegisterController extends WebController
         }
 
         return $this->setViewData([
-            'title' => '用户注册',
-            'errors' => $errors
+            'title'  => '用户注册',
+            'errors' => $errors,
         ])->output('page.register', [
             'model' => $model,
         ]);
