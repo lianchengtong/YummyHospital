@@ -95,9 +95,11 @@ class ItemController extends AuthController
 
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $groupID = $model->link_group_id;
+        $model->delete();
 
-        return $this->redirect(['list']);
+        return $this->redirect(['list', 'group' => $groupID]);
     }
 
     protected function findModel($id)

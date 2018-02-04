@@ -10,6 +10,7 @@ use common\models\PatientFeedback;
 use common\models\PromotionCard;
 use common\utils\Json;
 use common\utils\pay\Wechat;
+use common\utils\UserSession;
 use common\utils\WeChatInstance;
 
 class TestController extends BaseController
@@ -18,24 +19,28 @@ class TestController extends BaseController
 
     public function actionIndex()
     {
+        $data = call_user_func_array(["\common\models\UserCoin", "getCurrentUserCoin"], []);
+        var_dump($data);
+        exit;
 
         WeChatInstance::officialAccount()->template_message->send([
 //            'touser'      => "oxrAn04zIhnA71kQBHFWzyXoHQQI",
-            'touser'      => 'oxrAn08P7FtjKly1n3XinIg1BFMQ',
-            'template_id' => 'ctlJB3gdhU0w-du2WlE4LX0c4C19NDdGfyTmEmTnvYI',
-            'scene'       => 1000,
-            'url'         => '',
-            'data'        => [
-                'first'    => '咨询成功',
-                'keyword1' => "在线咨询",
-                'remark'   => "您咨询的医师将会尽快为您解答问题,请耐心等待。",
-            ],
+'touser'      => 'oxrAn08P7FtjKly1n3XinIg1BFMQ',
+'template_id' => 'ctlJB3gdhU0w-du2WlE4LX0c4C19NDdGfyTmEmTnvYI',
+'scene'       => 1000,
+'url'         => '',
+'data'        => [
+    'first'    => '咨询成功',
+    'keyword1' => "在线咨询",
+    'remark'   => "您咨询的医师将会尽快为您解答问题,请耐心等待。",
+],
         ]);
+
         return Json::success();
 
         $templateID = "jKGnEB9U3y9FK8m54iPeYElrfhHXh6wz4j0EidaKz4k";
-        $app = WeChatInstance::officialAccount();
-        $result = $app->template_message->send([
+        $app        = WeChatInstance::officialAccount();
+        $result     = $app->template_message->send([
             'touser'      => 'oxrAn08P7FtjKly1n3XinIg1BFMQ',
             'template_id' => $templateID,
             'scene'       => 1000,
@@ -50,6 +55,7 @@ class TestController extends BaseController
                 'remark'   => "杨小小先生的订单",
             ],
         ]);
+
         return Json::success($result);
 
 
@@ -58,9 +64,10 @@ class TestController extends BaseController
         return Json::error($model->getIsPayed());
         $orderModel = Order::getByOrderID("201801140736245a5b40b8bc7ed00496");
         $orderModel->runCallbacks();
+
         return Json::success();
         $template = "{date}-{string:10}-{number:5}-{string:5}-{number:10}";
-        $data = PromotionCard::generateByTemplate($template);
+        $data     = PromotionCard::generateByTemplate($template);
         var_dump($template);
         var_dump($data);
         exit;
@@ -78,7 +85,7 @@ class TestController extends BaseController
 
     public function actionGo()
     {
-        $openID = 'oxrAn08P7FtjKly1n3XinIg1BFMQ';
+        $openID   = 'oxrAn08P7FtjKly1n3XinIg1BFMQ';
         $response = Wechat::createJSOrder($openID, "test order", Order::generateOrderID(), 1);
         if ($response === false) {
             return Json::error("非法请求");
@@ -98,9 +105,9 @@ class TestController extends BaseController
 
         $trans = \Yii::$app->getDb()->beginTransaction();
         try {
-            $totalFee = $response['total_fee'];
+            $totalFee    = $response['total_fee'];
             $outTradeNum = $response['transaction_id'];
-            $orderID = $response['out_trade_no'];
+            $orderID     = $response['out_trade_no'];
 
             $orderModel = Order::getByOrderID($orderID);
             if (!$orderModel) {

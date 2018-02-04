@@ -40,6 +40,20 @@ $user-bg-image: "/images/bg-me.jpg";
   }
 }
 
+.ui-alert-tips {
+  padding: 20px;
+  margin: 20px;
+  background: white;
+  border: 1px solid $border-color;
+  border-radius: 5px;
+
+  i img {
+    width: 25px;
+    height: 25px;
+    margin-bottom: -7px;
+  }
+}
+
 .ui-page-me-service-list {
   background: white;
   padding-left: 10px;

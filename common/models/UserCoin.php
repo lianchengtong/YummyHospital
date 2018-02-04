@@ -1,6 +1,7 @@
 <?php
 
 namespace common\models;
+use common\utils\UserSession;
 
 /**
  * This is the model class for table "user_coin".
@@ -83,6 +84,13 @@ class UserCoin extends \common\base\ActiveRecord
     public static function feedbackGain($userID)
     {
         $coinCount = WebsiteConfig::getValueByKey("global.feedback-gain-coin");
+
         return self::add($userID, $coinCount, "评论获取积分");
+    }
+
+    public static function getCurrentUserCoin()
+    {
+        $userID = UserSession::getId();
+        return intval(self::getByUserID($userID)->coin);
     }
 }

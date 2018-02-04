@@ -17,6 +17,7 @@ use common\utils\UserSession;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $feedback_at
  */
 class DoctorAppointment extends \common\base\ActiveRecord
 {
@@ -101,7 +102,7 @@ class DoctorAppointment extends \common\base\ActiveRecord
     {
         return [
             [['doctor_id', 'patient_id', 'order_number', 'status'], 'required'],
-            [['user_id', 'doctor_id', 'order_number', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'feedback_at', 'doctor_id', 'order_number', 'status', 'created_at', 'updated_at'], 'integer'],
             [['time_begin', 'time_end'], 'string'],
         ];
     }
@@ -183,4 +184,20 @@ class DoctorAppointment extends \common\base\ActiveRecord
 
         return $orderModel;
     }
+
+    /**
+     * 获取当前用户需要评价的数量
+     * @return int|string
+     */
+    public static function getNeedFeedbackCount()
+    {
+        $userID    = UserSession::getId();
+        $condition = [
+            'user_id'     => $userID,
+            'feedback_at' => 0,
+        ];
+
+        return self::find()->where($condition)->count();
+    }
+
 }
