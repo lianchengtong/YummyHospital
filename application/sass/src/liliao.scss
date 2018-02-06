@@ -1,0 +1,49 @@
+.ui-page-liliao {
+  .banner-show {
+    height: 100px;
+    margin-bottom: 20px;
+    background: $color-main;
+  }
+
+  .list {
+    background: white;
+    li {
+      padding: 20px;
+      display: flex;
+      border-bottom: 1px solid $border-color;
+
+      .head {
+        $head-size: 100px;
+        width: $head-size;
+        height: $head-size;
+        overflow: hidden;
+        img {
+          width: $head-size;
+          height: $head-size;
+        }
+      }
+      .info {
+        flex: 1;
+        margin-left: 20px;
+        .title {
+          font-size: 18px;
+        }
+        .ui-txt-info {
+          margin-bottom: 20px;
+        }
+        .footer {
+          display: flex;
+          justify-content: space-between;
+          .price {
+            font-size: 18px;
+            color: $color-red;
+          }
+          .detail {
+            text-align: right;
+            line-height: 30px;
+          }
+        }
+      }
+    }
+  }
+}

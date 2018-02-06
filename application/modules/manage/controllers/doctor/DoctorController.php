@@ -2,21 +2,20 @@
 
 namespace application\modules\manage\controllers\doctor;
 
-use Yii;
+use application\base\AuthController;
 use common\models\Doctor;
 use common\models\search\Doctor as DoctorSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use Yii;
 use yii\filters\VerbFilter;
-use application\base\AuthController;
+use yii\web\NotFoundHttpException;
 
-class DoctorController extends AuthController 
+class DoctorController extends AuthController
 {
     public function behaviors()
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class'   => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -26,12 +25,12 @@ class DoctorController extends AuthController
 
     public function actionList()
     {
-        $searchModel = new DoctorSearch();
-        $params = Yii::$app->request->queryParams;
+        $searchModel  = new DoctorSearch();
+        $params       = Yii::$app->request->queryParams;
         $dataProvider = $searchModel->search($params);
 
         return $this->render('list', [
-            'searchModel' => $searchModel,
+            'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -63,6 +62,7 @@ class DoctorController extends AuthController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['list']);
         }
+
         return $this->render('update', [
             'model' => $model,
         ]);

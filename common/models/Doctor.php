@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
  * @property integer                          $name
  * @property string                           $summary
  * @property integer                          $work_time
+ * @property integer                          $type
  * @property string                           $introduce
  * @property string                           $rank
  * @property boolean                          $enable_ask
@@ -26,6 +27,9 @@ class Doctor extends \common\base\ActiveRecord
     protected $enableTimeBehavior = false;
     public    $department;
     public    $tag;
+
+    const TYPE_DOCTOR = 0;
+    const TYPE_LILIAO = 1;
 
     public function attributeHints()
     {
@@ -45,8 +49,8 @@ class Doctor extends \common\base\ActiveRecord
     public function rules()
     {
         return [
-            [['level', 'work_time', 'enable_ask', 'ask_price'], 'integer'],
             [['name'], 'required'],
+            [['level', 'type', 'work_time', 'enable_ask', 'ask_price'], 'integer'],
             [['summary', 'name', 'introduce'], 'string'],
             [['head_image', 'rank', 'name'], 'string', 'max' => 255],
             [['department', 'tag'], 'safe'],
@@ -100,7 +104,7 @@ class Doctor extends \common\base\ActiveRecord
     public function afterFind()
     {
         $this->department = DoctorDepartment::getDepartmentID($this->id);
-        $this->tag = implode(",", DoctorTag::getList($this->id));
+        $this->tag        = implode(",", DoctorTag::getList($this->id));
         parent::afterFind();
     }
 
@@ -123,7 +127,7 @@ class Doctor extends \common\base\ActiveRecord
     {
         $condition = [];
         if (strlen($tagName)) {
-            $idList = DoctorTag::getDoctorIDListByName($tagName);
+            $idList    = DoctorTag::getDoctorIDListByName($tagName);
             $condition = ['id' => $idList];
         }
 
@@ -140,13 +144,13 @@ class Doctor extends \common\base\ActiveRecord
     public function getSameDepartmentDoctors($limit = 5)
     {
         $doctorDepartment = $this->departments;
-        $departmentID = ArrayHelper::getColumn($doctorDepartment, "department_id");
+        $departmentID     = ArrayHelper::getColumn($doctorDepartment, "department_id");
         $departmentDoctor = DoctorDepartment::find()->where(['department_id' => $departmentID])->all();
-        $doctorID = ArrayHelper::getColumn($departmentDoctor, "doctor_id");
+        $doctorID         = ArrayHelper::getColumn($departmentDoctor, "doctor_id");
 
         shuffle($doctorID);
         $doctorIDGroup = array_chunk($doctorID, $limit);
-        $doctors = Doctor::find()->where(['id' => $doctorIDGroup[0]])->all();
+        $doctors       = Doctor::find()->where(['id' => $doctorIDGroup[0]])->all();
 
         return $doctors;
     }
@@ -154,11 +158,19 @@ class Doctor extends \common\base\ActiveRecord
     public function departmentString()
     {
         $doctorDepartment = $this->departments;
-        $departmentName = [];
+        $departmentName   = [];
         foreach ($doctorDepartment as $departmentLinkModel) {
             $departmentName[] = $departmentLinkModel->department->name;
         }
 
         return implode(",", $departmentName);
+    }
+
+    public static function getTypeList()
+    {
+        return [
+            self::TYPE_DOCTOR => '医生',
+            self::TYPE_LILIAO => '理疗',
+        ];
     }
 }

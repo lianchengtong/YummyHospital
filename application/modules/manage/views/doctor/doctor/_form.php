@@ -16,8 +16,9 @@ use rogeecn\SimpleAjaxUploader\SingleImage;
         <?= $form->field($model, 'level')->dropDownList(DoctorLevel::levelList()) ?>
         <?= $form->field($model, 'work_time')->textInput() ?>
         <?= $form->field($model, 'rank')->textInput(['maxlength' => true]) ?>
-        <?= $form->field($model, 'enable_ask',['inline'=>true])->radioList(['否','是']) ?>
+        <?= $form->field($model, 'enable_ask', ['inline' => true])->radioList(['否', '是']) ?>
         <?= $form->field($model, 'ask_price')->textInput() ?>
+        <?= $form->field($model, 'type')->dropDownList(\common\models\Doctor::getTypeList()) ?>
     </div>
     <div class="col-md-9">
         <?= $form->field($model, 'department', ['inline' => true])

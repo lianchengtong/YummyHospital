@@ -14,6 +14,8 @@ namespace common\models;
  */
 class Address extends \common\base\ActiveRecord
 {
+    protected $enableTimeBehavior = false;
+
     public function rules()
     {
         return [
@@ -36,6 +38,16 @@ class Address extends \common\base\ActiveRecord
             'location' => 'Location',
             'default'  => 'Default',
         ];
+    }
+
+    public function beforeSave($insert)
+    {
+        $currentCount = self::find()->where(['user_id' => $this->user_id])->count();
+        if ($currentCount == 0) {
+            $this->default = 1;
+        }
+
+        return parent::beforeSave($insert);
     }
 
     public static function getList($userID)

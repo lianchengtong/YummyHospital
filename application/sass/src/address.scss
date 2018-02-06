@@ -6,4 +6,9 @@
       background: $color-main;
     }
   }
+
+  .ui-panel-body {
+    display: flex;
+    justify-content: space-between;
+  }
 }
