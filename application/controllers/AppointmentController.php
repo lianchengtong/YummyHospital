@@ -13,6 +13,11 @@ use yii\web\NotFoundHttpException;
 
 class AppointmentController extends WebController
 {
+    public function actionAskShow()
+    {
+        return $this->render("//ask-show");
+    }
+
     public function actionAsk()
     {
         $tagName = \common\utils\Request::input("tag");

@@ -24,21 +24,31 @@ $border-color: #EFEFEF;
   position: relative;
   height: 100%;
   overflow: auto;
-  background: #EFEFEF;
-  padding: 20px;
+  background: white;
 
-  li {
-    border: 1px solid #cccccc;
-    margin-bottom: 10px;
+  h1 {
+    font-weight: bold;
+    padding: 20px;
+  }
 
-    a {
-      padding: 20px 10px;
-      color: black;
-      background: white;
-      display: block;
+  .content {
+    margin-top: 20px;
+    ul {
+      border-top: 1px solid #cccccc;
+    }
 
-      &.disable {
-        color: #cccccc;
+    li {
+      border-bottom: 1px solid #cccccc;
+
+      a {
+        padding: 20px 20px;
+        color: black;
+        background: white;
+        display: block;
+
+        &.disable {
+          color: #cccccc;
+        }
       }
     }
   }
