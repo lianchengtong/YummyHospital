@@ -40,7 +40,7 @@
     a.btn-charge {
       background: #c00a07;
     }
-    a.btn-update {
+    a.btn-upgrade {
       background: #e27b02;
     }
   }
@@ -78,6 +78,7 @@
     background: white;
     padding-left: 20px;
     .item {
+      color: #24292e;
       display: block;
       border-bottom: 1px solid $border-color;
       padding: 10px 0;
@@ -94,5 +95,15 @@
         padding-right: 20px;
       }
     }
+  }
+}
+
+.card-cover {
+  background: white;
+  margin-bottom: 20px;
+  display: block;
+  padding: 20px;
+  img {
+    width: 100%;
   }
 }

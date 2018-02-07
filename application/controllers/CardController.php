@@ -24,6 +24,14 @@ class CardController extends WebController
         ]);
     }
 
+    public function actionRules()
+    {
+        return $this->setViewData([
+            'title'   => '会员卡使用须知',
+            'showTab' => false,
+        ])->output("page.card-rules");
+    }
+
     public function actionDetail($id)
     {
         $model = MemberCard::findOne($id);
@@ -33,7 +41,7 @@ class CardController extends WebController
 
         return $this->setViewData([
             'title' => $model->name,
-        ])->output("card.mine", [
+        ])->output("card.detail", [
             'model' => $model,
         ]);
     }
@@ -44,10 +52,6 @@ class CardController extends WebController
         if (!$model) {
             $this->redirect(['/card/index']);
         }
-        return $this->render("//card", [
-            'model' => $model,
-        ]);
-
         return $this->setViewData([
             'title' => '我的会员卡',
         ])->output("card.mine", [
