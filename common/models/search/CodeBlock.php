@@ -29,8 +29,8 @@ class CodeBlock extends CodeBlockModel
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'sort' => false,
+            'query'      => $query,
+            'sort'       => false,
             'pagination' => [
                 'pageSize' => 10,
             ],
@@ -46,13 +46,14 @@ class CodeBlock extends CodeBlockModel
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'id'    => $this->id,
             'order' => $this->order,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'code', $this->code]);
+        $query->orFilterWhere(['like', 'name', $this->name])
+              ->orFilterWhere(['like', 'slug', $this->name]);
+
+        //->andFilterWhere(['like', 'code', $this->name]);
 
         return $dataProvider;
     }

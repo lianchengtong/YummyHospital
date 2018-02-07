@@ -1,11 +1,9 @@
-$pad-size: 10px;
+$pad-size: 20px;
 .ui-panel {
   background: white;
 
   .ui-panel-heading {
     padding: $pad-size;
-    display: flex;
-    justify-content: space-between;
   }
 
   .ui-panel-body {

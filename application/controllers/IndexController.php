@@ -10,6 +10,7 @@ class IndexController extends WebAuthController
     {
         return $this->setViewData([
             'title'      => '首页',
+            'showTab' => true,
             'showGoBack' => false,
         ])->output("page.index");
     }

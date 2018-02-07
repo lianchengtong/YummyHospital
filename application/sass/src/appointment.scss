@@ -51,8 +51,9 @@
         }
       }
 
-      .ui-btn-go-appointment {
-        background: $color-main;
+      .ui-btn-go-appointment, .ui-btn-go-appointment:active {
+        border: 1px solid $color-red;
+        color: $color-red;
       }
     }
   }

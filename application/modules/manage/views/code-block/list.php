@@ -1,40 +1,41 @@
 <?php
 
 use common\extend\PanelGridView;
-use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\search\CodeBlock */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = '代码段';
+$this->title                   = '代码段';
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <div class="row">
     <div class="col-xs-4">
-
         <?php
-        \yii\bootstrap\ActiveForm::begin();
+
+        \yii\widgets\Pjax::begin();
+        //\yii\bootstrap\ActiveForm::begin();
         echo PanelGridView::widget([
             'dataProvider' => $dataProvider,
+            'filterModel'  => $searchModel,
             'buttons'      => [
-                Html::submitButton("提交排序", ['class' => 'btn btn-primary']),
+                //Html::submitButton("提交排序", ['class' => 'btn btn-primary']),
                 Html::a('创建', ['create'], ['class' => 'btn btn-success']),
             ],
-            //    'filterModel'  => $searchModel,
             'columns'      => [
                 [
-                    'label'  => '名称',
-                    'format' => 'raw',
-                    'value'  => function ($model) {
+                    'label'     => '名称',
+                    'format'    => 'raw',
+                    'attribute' => 'name',
+                    'value'     => function ($model) {
                         $html = Html::tag("strong", $model->name);
                         $html .= Html::tag("p", $model->slug);
+
                         return $html;
                     },
                 ],
-                [
+                /*[
                     'attribute' => 'order',
                     'filter'    => false,
                     'format'    => 'raw',
@@ -42,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'style' => 'width: 80px;',
                     ],
                     'value'     => function ($data) {
-                        $name = sprintf("order[%d]", $data['id']);
+                        $name      = sprintf("order[%d]", $data['id']);
                         $orderAttr = [
                             'data-old'     => $data['order'],
                             'data-id'      => $data['id'],
@@ -54,12 +55,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::textInput($name, $data['order'], $orderAttr);
                     },
                 ],
+                */
                 [
-                    'class'    => '\common\extend\ActionColumn',
+                    'class' => '\common\extend\ActionColumn',
                 ],
             ],
         ]);
-        \yii\bootstrap\ActiveForm::end();
+        //\yii\bootstrap\ActiveForm::end();
+        \yii\widgets\Pjax::end();
         ?>
     </div>
     <div class="col-xs-8" id="code-container"></div>

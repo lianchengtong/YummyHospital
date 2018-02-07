@@ -8,7 +8,7 @@ use common\utils\Param;
 
 class View extends \yii\web\View
 {
-    public $showTab = true;
+    public $showTab = false;
     public $showNav = true;
     public $showGoBack = true;
     public $showSave = false;

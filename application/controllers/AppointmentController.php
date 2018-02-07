@@ -15,7 +15,13 @@ class AppointmentController extends WebController
 {
     public function actionAskShow()
     {
-        return $this->render("//ask-show");
+        $this->hackMode = true;
+
+        return $this->setViewData([
+            'showGoBack' => false,
+            'showTab'    => true,
+            'title'      => '理疗预约',
+        ])->output("page.ask-show");
     }
 
     public function actionCancel()
@@ -27,11 +33,11 @@ class AppointmentController extends WebController
 
     public function actionAsk()
     {
-        $tagName = \common\utils\Request::input("tag");
-        $items   = \common\utils\Cache::getOrSet(
-            "page.doctor-appointment-list-" . $tagName,
-            function () use ($tagName) {
-                return \common\models\Doctor::getByTag($tagName);
+        $departmentName = \common\utils\Request::input("department");
+        $items          = \common\utils\Cache::getOrSet(
+            "page.doctor-appointment-list-" . $departmentName,
+            function () use ($departmentName) {
+                return \common\models\Doctor::getByTag($departmentName);
             }
         );
 
@@ -54,7 +60,9 @@ class AppointmentController extends WebController
         );
 
         return $this->setViewData([
-            'title' => "门诊预约",
+            'title'      => "门诊预约",
+            'showGoBack' => false,
+            'showTab'    => true,
         ])->output("page.appointment.list", [
             'items' => $items,
         ]);

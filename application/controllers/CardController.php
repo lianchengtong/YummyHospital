@@ -119,7 +119,7 @@ class CardController extends WebController
     {
         $model = MemberOwnCard::getUserEnableCard(UserSession::getId());
         if (!$model) {
-            $this->redirect(['/card/index']);
+            return $this->redirect(['/card/index']);
         }
 
         $goodPrice = floatval(Request::input("amount"));

@@ -14,6 +14,10 @@ class MeController extends WebController
             'model' => UserSession::identity(),
         ];
 
-        return $this->output("page.me", $params, ['title' => '个人中心', 'showGoBack' => false]);
+        return $this->setViewData([
+            'showGoBack' => false,
+            'showTab'    => true,
+            'title'      => '个人中心',
+        ])->output("page.me", $params);
     }
 }
