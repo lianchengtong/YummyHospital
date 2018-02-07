@@ -31,6 +31,19 @@ class AppointmentController extends WebController
         ])->output("page.appointment.cancel");
     }
 
+    public function actionCancelOrder($id)
+    {
+        $model = DoctorAppointment::findOne($id);
+        if (!$model || $model->user_id != UserSession::getId() || $model->status != DoctorAppointment::STATUS_PENDING) {
+            throw new NotFoundHttpException();
+        }
+
+        $model->status = DoctorAppointment::STATUS_CANCEL;
+        $model->save();
+
+        return $this->redirect(['/appointment/mine']);
+    }
+
     public function actionAsk()
     {
         $departmentName = \common\utils\Request::input("department");
@@ -65,6 +78,22 @@ class AppointmentController extends WebController
             'showTab'    => true,
         ])->output("page.appointment.list", [
             'items' => $items,
+        ]);
+    }
+
+    public function actionDetail($id)
+    {
+        $model = DoctorAppointment::findOne($id);
+        if (!$model || $model->user_id != UserSession::getId()) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->hackMode = true;
+
+        return $this->setViewData([
+            'title' => '预约详情',
+        ])->output("page.appointment-detail", [
+            'model' => $model,
         ]);
     }
 

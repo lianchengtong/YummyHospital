@@ -216,3 +216,49 @@
   }
 
 }
+
+.ui-page-appointment-cancel {
+  .doctor-info {
+    display: flex;
+    $head-size: 80px;
+    img {
+      width: $head-size;
+      height: $head-size;
+      border-radius: $head-size;
+    }
+    .info {
+      padding-left: 20px;
+      line-height: $head-size;
+      .name {
+        font-size: 18px;
+      }
+    }
+  }
+
+}
+
+.widget-item-list {
+  background: white;
+  padding-left: 20px;
+
+  li {
+    border-bottom: 1px solid $border-color;
+    display: flex;
+    justify-content: space-between;
+    .label {
+      width: 120px;
+      padding: 15px 0;
+    }
+    .data {
+      flex: 1;
+      text-align: right;
+      padding: 15px 20px 15px 0;
+    }
+
+    &:nth-last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+
