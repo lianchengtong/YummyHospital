@@ -85,7 +85,7 @@ class LinkGroupItem extends \common\base\ActiveRecord
         $items = [];
         $level = 0;
         if ($showRoot) {
-            $level   = 1;
+            $level = 1;
             $items[] = '------------------';
         }
         self::formatFlatIndentList($list, $items, $level);
@@ -127,7 +127,7 @@ class LinkGroupItem extends \common\base\ActiveRecord
     {
         foreach ($list as $item) {
             $treeLevel = $level;
-            $prefix    = "";
+            $prefix = "";
             if ($treeLevel > 0) {
                 $prefix = str_repeat("- ", $treeLevel * 2);
             }

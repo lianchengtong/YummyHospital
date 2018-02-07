@@ -60,6 +60,11 @@ class MemberOwnCard extends \common\base\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
+    public function getCard()
+    {
+        return $this->hasOne(MemberCard::className(), ['id' => 'card_id']);
+    }
+
     public static function buyCard($userID, $cardID)
     {
         /** @var \common\models\MemberCard $cardModel */
@@ -68,12 +73,12 @@ class MemberOwnCard extends \common\base\ActiveRecord
             return false;
         }
 
-        $model                 = new self();
-        $model->user_id        = $userID;
+        $model = new self();
+        $model->user_id = $userID;
         $model->original_money = $cardModel->price;
-        $model->remain_money   = $cardModel->price;
-        $model->discount       = $cardModel->discount;
-        $model->expire_at      = strtotime(sprintf("+%d month", $cardModel->time_long));
+        $model->remain_money = $cardModel->price;
+        $model->discount = $cardModel->discount;
+        $model->expire_at = strtotime(sprintf("+%d month", $cardModel->time_long));
 
         return $model->saveOrError();
     }
@@ -86,11 +91,11 @@ class MemberOwnCard extends \common\base\ActiveRecord
             return false;
         }
 
-        $ownCardModel                 = self::getUserEnableCard($userID);
+        $ownCardModel = self::getUserEnableCard($userID);
         $ownCardModel->original_money = $cardModel->price;
-        $ownCardModel->remain_money   += $cardModel->price;
-        $ownCardModel->discount       = $cardModel->discount;
-        $ownCardModel->expire_at      = strtotime(sprintf("+%d month", $cardModel->time_long));
+        $ownCardModel->remain_money += $cardModel->price;
+        $ownCardModel->discount = $cardModel->discount;
+        $ownCardModel->expire_at = strtotime(sprintf("+%d month", $cardModel->time_long));
 
         return $ownCardModel->saveOrError();
     }
@@ -128,7 +133,7 @@ class MemberOwnCard extends \common\base\ActiveRecord
             return false;
         }
 
-        $orderPrice    = $orderModel->getPriceYuan();
+        $orderPrice = $orderModel->getPriceYuan();
         $discountMoney = $model->getDiscountMoney($orderPrice);
         if ($discountMoney > $orderPrice) {
             return 0;
@@ -149,7 +154,7 @@ class MemberOwnCard extends \common\base\ActiveRecord
             return false;
         }
 
-        $orderPrice    = $orderModel->getPriceYuan();
+        $orderPrice = $orderModel->getPriceYuan();
         $discountMoney = $model->getDiscountMoney($orderPrice);
         if ($discountMoney < $orderPrice) {
             return false;

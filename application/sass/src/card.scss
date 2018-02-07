@@ -1,0 +1,98 @@
+.ui-page-card-detail {
+  .card-show {
+    display: flex;
+    background: white;
+
+    $img-size: 100px;
+    img {
+      width: $img-size;
+      height: $img-size;
+      border-radius: $img-size;
+    }
+    .info {
+      font-size: 18px;
+      padding-left: 20px;
+      height: $img-size;
+      overflow: hidden;
+      line-height: $img-size;
+    }
+  }
+
+  .card-info {
+    background: white;
+    padding: 20px;
+  }
+
+  .button-group {
+    background: white;
+    padding: 20px;
+    display: flex;
+
+    a {
+      display: block;
+      color: white;
+      width: 100%;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 5px;
+      font-size: 22px;
+    }
+    a.btn-charge {
+      background: #c00a07;
+    }
+    a.btn-update {
+      background: #e27b02;
+    }
+  }
+}
+
+.ui-page-my-card {
+  .card-img {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    img {
+      width: 100%;
+    }
+  }
+
+  .icon-show {
+    background: white;
+    margin-bottom: 20px;
+    padding: 20px;
+    i {
+      font-size: 22px;
+      line-height: 22px;
+    }
+    li {
+      text-align: center;
+    }
+    .money, .btn-update {
+      color: $color-red;
+    }
+    a {
+      color: #24292e;
+    }
+  }
+  .info {
+    background: white;
+    padding-left: 20px;
+    .item {
+      display: block;
+      border-bottom: 1px solid $border-color;
+      padding: 10px 0;
+    }
+
+    .item.flex-item {
+      display: flex;
+      justify-content: space-between;
+      .label {
+
+      }
+      .data {
+        text-align: right;
+        padding-right: 20px;
+      }
+    }
+  }
+}

@@ -1,3 +1,6 @@
+<?php
+$linkList = \common\models\LinkGroup::getLinkItems("online-ask-department-list");
+?>
 <div class="page-ask-show">
     <div class="show-banner">
 
@@ -43,24 +46,11 @@
         <h2>按科室找医生</h2>
         <div class="row ui-9-grids-wrapper">
             <div class="ui-9-grids">
-                <a href="#" class="ui-item">
-                    <p class="ui-grid-label">科室</p>
-                </a>
-                <a href="#" class="ui-item">
-                    <p class="ui-grid-label">科室</p>
-                </a>
-                <a href="#" class="ui-item">
-                    <p class="ui-grid-label">科室</p>
-                </a>
-                <a href="#" class="ui-item">
-                    <p class="ui-grid-label">科室</p>
-                </a>
-                <a href="#" class="ui-item">
-                    <p class="ui-grid-label">科室</p>
-                </a>
-                <a href="#" class="ui-item">
-                    <p class="ui-grid-label">科室</p>
-                </a>
+                <?php foreach ($linkList as $linkItem): ?>
+                    <a href="<?= $linkItem->getUrl() ?>" class="ui-item">
+                        <p class="ui-grid-label"><?=$linkItem->name?></p>
+                    </a>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>

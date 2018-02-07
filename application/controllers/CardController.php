@@ -24,16 +24,45 @@ class CardController extends WebController
         ]);
     }
 
-    public function actionMine()
+    public function actionDetail($id)
     {
-        $model = MemberOwnCard::getUserEnableCard(UserSession::getId());
+        $model = MemberCard::findOne($id);
+        if (!$model) {
+            throw new NotFoundHttpException();
+        }
 
         return $this->setViewData([
-            'title'   => '我的会员卡',
-            'showTab' => false,
+            'title' => $model->name,
         ])->output("card.mine", [
             'model' => $model,
         ]);
+    }
+
+    public function actionMine()
+    {
+        $model = MemberOwnCard::getUserEnableCard(UserSession::getId());
+        if (!$model) {
+            $this->redirect(['/card/index']);
+        }
+        return $this->render("//card", [
+            'model' => $model,
+        ]);
+
+        return $this->setViewData([
+            'title' => '我的会员卡',
+        ])->output("card.mine", [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionCharge()
+    {
+        $model = MemberOwnCard::getUserEnableCard(UserSession::getId());
+        if (!$model) {
+            $this->redirect(['/card/index']);
+        }
+
+        return $this->render("//card");
     }
 
     public function actionBuy($id)
@@ -45,7 +74,7 @@ class CardController extends WebController
         }
 
         // 如果当前用户会员卡权限大于购买卡则报错
-        $userID       = UserSession::getId();
+        $userID = UserSession::getId();
         $ownCardModel = null;
         if (MemberOwnCard::isUserHasCard($userID)) {
             $ownCardModel = MemberOwnCard::getUserEnableCard($userID);
@@ -55,18 +84,18 @@ class CardController extends WebController
         }
 
         $goodPrice = $model->price * $model->discount / 100;
-        $trans     = \Yii::$app->getDb()->beginTransaction();
+        $trans = \Yii::$app->getDb()->beginTransaction();
 
         try {
             // order create
-            $title      = sprintf("会员卡 %s 购买", $model->name);
+            $title = sprintf("会员卡 %s 购买", $model->name);
             $orderModel = Order::create(UserSession::getId(), $title, $goodPrice);
             if ($orderModel === false) {
                 throw new \Exception("create order failed");
             }
 
             $montDataCallback = OrderMontData::getCallback(MemberOwnCard::className(), "callbackPaySuccess", [$model->id]);
-            $montDataList     = [
+            $montDataList = [
                 'enableCard'               => '0',
                 'enableCoin'               => '0',
                 'enableCode'               => '0',

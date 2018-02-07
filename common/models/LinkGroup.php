@@ -36,6 +36,10 @@ class LinkGroup extends \common\base\ActiveRecord
         return self::find()->where(['slug' => $slug])->one();
     }
 
+    /**
+     * @param $slug
+     * @return array
+     */
     public static function getLinkItems($slug)
     {
         $model = self::getBySlug($slug);
