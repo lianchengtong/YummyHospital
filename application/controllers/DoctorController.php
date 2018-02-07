@@ -6,6 +6,7 @@ use application\base\WebController;
 use common\models\Department;
 use common\models\Doctor;
 use common\models\DoctorAppointment;
+use common\models\DoctorDepartment;
 use common\models\DoctorServiceTime;
 use common\models\MyPatient;
 use common\models\Order;
@@ -140,6 +141,11 @@ class DoctorController extends WebController
                     throw new \Exception("save appointment info fail");
                 }
 
+                $montData = OrderMontData::addData($orderModel->primaryKey, Department::rawTableName(), $departmentID);
+                if ($montData !== true) {
+                    throw new \Exception("order mont data department save fail");
+                }
+
                 $montData = OrderMontData::addData($orderModel->primaryKey, DoctorAppointment::rawTableName(), $appointmentModel->id);
                 if ($montData !== true) {
                     throw new \Exception("order mont data save fail");
@@ -172,9 +178,7 @@ class DoctorController extends WebController
             'userID'       => UserSession::getId(),
         ];
         $viewData = [
-            'title'   => '确认订单',
-            'showTab' => false,
-            'errors'  => $errors,
+            'title' => '确认订单',
         ];
 
         return $this->setViewData($viewData)->output("page.order", $params);

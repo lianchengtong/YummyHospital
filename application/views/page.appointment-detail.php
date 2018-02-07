@@ -1,5 +1,7 @@
 <?php
 /** @var $model \common\models\DoctorAppointment */
+/** @var \common\models\Order $orderInfo */
+$orderInfo = \common\models\OrderMontData::getOrderIDByName(\common\models\Department::rawTableName());
 ?>
 <div class="ui-page-appointment-cancel">
     <div class="widget doctor-info mb-20">
@@ -16,7 +18,7 @@
         </li>
         <li>
             <div class="label">就诊科室</div>
-            <div class="data">妇科</div>
+            <div class="data"><?=123?></div>
         </li>
         <li>
             <div class="label">就诊地址</div>
@@ -63,6 +65,7 @@
     </div>
 
     <div class="widget">
-        <a href="/appointment/cancel-order?id=<?= $model->id ?>" onclick="return confirm('确定要取消预约么？')" class="ui-btn-lg ui-btn-main">取消预约</a>
+        <a href="/appointment/cancel-order?id=<?= $model->id ?>" onclick="return confirm('确定要取消预约么？')"
+           class="ui-btn-lg ui-btn-main">取消预约</a>
     </div>
 </div>
