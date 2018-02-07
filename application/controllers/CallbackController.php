@@ -20,9 +20,9 @@ class CallbackController extends BaseController
 
         $trans = \Yii::$app->getDb()->beginTransaction();
         try {
-            $totalFee    = $response['total_fee'];
+            $totalFee = $response['total_fee'];
             $outTradeNum = $response['transaction_id'];
-            $orderID     = $response['out_trade_no'];
+            $orderID = $response['out_trade_no'];
 
             $orderModel = Order::getByOrderID($orderID);
             if (!$orderModel) {
@@ -37,11 +37,11 @@ class CallbackController extends BaseController
                 throw new \Exception("total fee not match db fee");
             }
 
+            $orderModel->runCallbacks();
+
             if (!$orderModel->completeWithTradeNumber($outTradeNum, Order::CHANNEL_WECHATPAY)) {
                 throw new \Exception("set to complete status fail");
             }
-
-            $orderModel->runCallbacks();
 
             $trans->commit();
 

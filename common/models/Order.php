@@ -155,6 +155,9 @@ class Order extends \common\base\ActiveRecord
     public function runCallbacks()
     {
         $orderMontCallbacks = OrderMontData::getCallbackList($this->primaryKey);
+        if ($this->status != self::STATUS_PENDING_PAY) {
+            throw new \Exception("invalid order status");
+        }
 
         foreach ($orderMontCallbacks as $callback) {
             array_unshift($callback['params'], $this);

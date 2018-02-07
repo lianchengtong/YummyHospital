@@ -19,6 +19,8 @@ class TestController extends BaseController
 
     public function actionIndex()
     {
+        $orderModel = Order::getByID(49);
+        $orderModel->runCallbacks();
         $data = call_user_func_array(["\common\models\UserCoin", "getCurrentUserCoin"], []);
         var_dump($data);
         exit;

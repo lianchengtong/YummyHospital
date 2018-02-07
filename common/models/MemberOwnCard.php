@@ -3,6 +3,7 @@
 namespace common\models;
 
 use yii\behaviors\TimestampBehavior;
+use yii\web\NotFoundHttpException;
 
 /**
  * This is the model class for table "member_own_card".
@@ -100,6 +101,17 @@ class MemberOwnCard extends \common\base\ActiveRecord
         return $ownCardModel->saveOrError();
     }
 
+    public static function chargeForCard($cardID, $amount)
+    {
+        $ownCardModel = self::findOne($cardID);
+        if (!$ownCardModel) {
+            throw new \Exception('card not exist');
+        }
+        $ownCardModel->remain_money += $amount;
+
+        return $ownCardModel->saveOrError();
+    }
+
     public function getMemberCard()
     {
         return $this->hasOne(MemberCard::className(), ['id' => 'card_id']);
@@ -184,6 +196,15 @@ class MemberOwnCard extends \common\base\ActiveRecord
 
         if (true !== $result) {
             throw new \Exception("create/upgrade user card failed!");
+        }
+    }
+
+    public function callbackChargeSuccess(Order $order, $id)
+    {
+        $result = self::chargeForCard($id, $order->price);
+
+        if (true !== $result) {
+            throw new \Exception("charge for order fail, orderID: " . $order->order_id);
         }
     }
 }

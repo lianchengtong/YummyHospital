@@ -7,6 +7,7 @@ use common\models\MemberCard;
 use common\models\MemberOwnCard;
 use common\models\Order;
 use common\models\OrderMontData;
+use common\utils\Request;
 use common\utils\UserSession;
 use yii\web\NotFoundHttpException;
 
@@ -59,15 +60,6 @@ class CardController extends WebController
         ]);
     }
 
-    public function actionCharge()
-    {
-        $model = MemberOwnCard::getUserEnableCard(UserSession::getId());
-        if (!$model) {
-            $this->redirect(['/card/index']);
-        }
-
-        return $this->render("//card");
-    }
 
     public function actionBuy($id)
     {
@@ -121,5 +113,60 @@ class CardController extends WebController
         }
 
         return $this->redirect(['index']);
+    }
+
+    public function actionCharge()
+    {
+        $model = MemberOwnCard::getUserEnableCard(UserSession::getId());
+        if (!$model) {
+            $this->redirect(['/card/index']);
+        }
+
+        $goodPrice = floatval(Request::input("amount"));
+        if ($goodPrice <= 10) {
+            $model->addError("id", "请输入合法充值金额");
+        } else {
+            $trans = \Yii::$app->getDb()->beginTransaction();
+
+            try {
+                // order create
+                $title = sprintf("%s 会员卡充值", $model->card->name);
+                $orderModel = Order::create(UserSession::getId(), $title, $goodPrice);
+                if ($orderModel === false) {
+                    throw new \Exception("create order failed");
+                }
+
+                $montDataCallback = OrderMontData::getCallback(
+                    MemberOwnCard::className(),
+                    "callbackChargeSuccess",
+                    [$model->id]
+                );
+                $montDataList = [
+                    'enableCard'                  => '0',
+                    'enableCoin'                  => '0',
+                    'enableCode'                  => '0',
+                    'callback'                    => $montDataCallback,
+                    MemberOwnCard::rawTableName() => $model->id,
+                ];
+
+                $montData = OrderMontData::addBatchData($orderModel->primaryKey, $montDataList);
+                if (true !== $montData) {
+                    throw new \Exception("save order mont data fail");
+                }
+
+                $trans->commit();
+
+                return $this->redirect(['pay/index', 'id' => $orderModel->order_id]);
+            } catch (\Exception $e) {
+                $trans->rollBack();
+                $this->addError($e->getMessage());
+            }
+        }
+
+        return $this->setViewData([
+            'title' => '会员卡充值',
+        ])->output("page.card-charge", [
+            'model' => $model,
+        ]);
     }
 }
