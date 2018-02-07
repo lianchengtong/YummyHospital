@@ -173,9 +173,9 @@ class MemberOwnCard extends \common\base\ActiveRecord
         }
 
         $model->remain_money -= $discountMoney;
-        if ($model->remain_money == 0) {
-            $model->is_enable = 0;
-        }
+//        if ($model->remain_money == 0) {
+//            $model->is_enable = 0;
+//        }
 
         return $model->save();
     }
