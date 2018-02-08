@@ -107,7 +107,6 @@ class AppointmentController extends WebController
 
         return $this->setViewData([
             'title'      => '我的预约',
-            'showGoBack' => false,
         ])->output("page.appointment.mine", [
             'models' => $models,
         ]);

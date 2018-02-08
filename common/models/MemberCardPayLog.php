@@ -7,12 +7,14 @@ use yii\behaviors\TimestampBehavior;
 /**
  * This is the model class for table "member_card_pay_log".
  *
- * @property int    $id
- * @property int    $card_id
- * @property int    $order_id
- * @property double $pay_price
- * @property double $card_price
- * @property int    $created_at
+ * @property int                  $id
+ * @property int                  $card_id
+ * @property int                  $order_id
+ * @property double               $pay_price
+ * @property double               $card_price
+ * @property int                  $created_at
+ *
+ * @property \common\models\Order $order
  */
 class MemberCardPayLog extends \common\base\ActiveRecord
 {
@@ -47,6 +49,11 @@ class MemberCardPayLog extends \common\base\ActiveRecord
             'card_price' => 'Card Price',
             'created_at' => 'Created At',
         ];
+    }
+
+    public function getOrder()
+    {
+        return $this->hasOne(Order::className(), ['id' => 'order_id']);
     }
 
     public static function add($cardID, $orderID, $price, $cardPrice)

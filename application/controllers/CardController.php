@@ -4,6 +4,7 @@ namespace application\controllers;
 
 use application\base\WebController;
 use common\models\MemberCard;
+use common\models\MemberCardPayLog;
 use common\models\MemberOwnCard;
 use common\models\Order;
 use common\models\OrderMontData;
@@ -21,6 +22,21 @@ class CardController extends WebController
             'title'   => '会员卡列表',
             'showTab' => false,
         ])->output("page.card-list", [
+            'models' => $models,
+        ]);
+    }
+
+    public function actionHistory()
+    {
+        $myCard    = MemberOwnCard::getUserEnableCard(UserSession::getId());
+        $condition = [
+            'card_id' => $myCard->id,
+        ];
+        $models    = MemberCardPayLog::find()->where($condition)->orderBy(['id' => SORT_DESC])->all();
+
+        return $this->setViewData([
+            'title' => '会员卡消费记录',
+        ])->output("page.card-history", [
             'models' => $models,
         ]);
     }
@@ -53,6 +69,7 @@ class CardController extends WebController
         if (!$model) {
             $this->redirect(['/card/index']);
         }
+
         return $this->setViewData([
             'title' => '我的会员卡',
         ])->output("card.mine", [
@@ -70,7 +87,7 @@ class CardController extends WebController
         }
 
         // 如果当前用户会员卡权限大于购买卡则报错
-        $userID = UserSession::getId();
+        $userID       = UserSession::getId();
         $ownCardModel = null;
         if (MemberOwnCard::isUserHasCard($userID)) {
             $ownCardModel = MemberOwnCard::getUserEnableCard($userID);
@@ -80,18 +97,18 @@ class CardController extends WebController
         }
 
         $goodPrice = $model->price * $model->discount / 100;
-        $trans = \Yii::$app->getDb()->beginTransaction();
+        $trans     = \Yii::$app->getDb()->beginTransaction();
 
         try {
             // order create
-            $title = sprintf("会员卡 %s 购买", $model->name);
+            $title      = sprintf("会员卡 %s 购买", $model->name);
             $orderModel = Order::create(UserSession::getId(), $title, $goodPrice);
             if ($orderModel === false) {
                 throw new \Exception("create order failed");
             }
 
             $montDataCallback = OrderMontData::getCallback(MemberOwnCard::className(), "callbackPaySuccess", [$model->id]);
-            $montDataList = [
+            $montDataList     = [
                 'enableCard'               => '0',
                 'enableCoin'               => '0',
                 'enableCode'               => '0',
@@ -130,7 +147,7 @@ class CardController extends WebController
 
             try {
                 // order create
-                $title = sprintf("%s 会员卡充值", $model->card->name);
+                $title      = sprintf("%s 会员卡充值", $model->card->name);
                 $orderModel = Order::create(UserSession::getId(), $title, $goodPrice);
                 if ($orderModel === false) {
                     throw new \Exception("create order failed");
@@ -141,7 +158,7 @@ class CardController extends WebController
                     "callbackChargeSuccess",
                     [$model->id]
                 );
-                $montDataList = [
+                $montDataList     = [
                     'enableCard'                  => '0',
                     'enableCoin'                  => '0',
                     'enableCode'                  => '0',
