@@ -82,4 +82,15 @@ class DoctorDepartment extends \common\base\ActiveRecord
                    ->batchInsert(self::tableName(), ["doctor_id", "department_id"], $dataList)
                    ->execute();
     }
+
+    public static function getByDepartmentIDList($departmentList)
+    {
+        if (empty($departmentList)) {
+            return [];
+        }
+
+        $list = self::find()->where(['department_id' => $departmentList])->all();
+
+        return ArrayHelper::getColumn($list, "doctor_id");
+    }
 }

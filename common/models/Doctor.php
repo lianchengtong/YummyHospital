@@ -127,7 +127,11 @@ class Doctor extends \common\base\ActiveRecord
     {
         $condition = [];
         if (strlen($tagName)) {
-            $idList    = DoctorTag::getDoctorIDListByName($tagName);
+            $tagIdList              = DoctorTag::getDoctorIDListByName($tagName);
+            $departmentIDList       = Department::getLikeName($tagName);
+            $doctorDepartmentIDList = DoctorDepartment::getByDepartmentIDList($departmentIDList);
+
+            $idList    = array_filter(array_unique(array_merge($tagIdList, $doctorDepartmentIDList)));
             $condition = ['id' => $idList];
         }
 

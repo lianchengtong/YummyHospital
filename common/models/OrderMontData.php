@@ -118,4 +118,16 @@ class OrderMontData extends \common\base\ActiveRecord
 
         return Order::getByID($orderID);
     }
+
+    public static function getOrderIDByName($name, $value)
+    {
+        $condition = [
+            'name'    => $name,
+            'content' => $value,
+        ];
+        /** @var self $model */
+        $model = self::find()->where($condition)->one();
+
+        return $model->order_id;
+    }
 }

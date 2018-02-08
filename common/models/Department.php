@@ -54,4 +54,11 @@ class Department extends \common\base\ActiveRecord
 
         return $model->name;
     }
+
+    public static function getLikeName($name)
+    {
+        $list = self::find()->where(["like", 'name', $name])->all();
+
+        return ArrayHelper::getColumn($list, "id");
+    }
 }

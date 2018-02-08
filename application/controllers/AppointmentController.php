@@ -15,8 +15,6 @@ class AppointmentController extends WebController
 {
     public function actionAskShow()
     {
-        $this->hackMode = true;
-
         return $this->setViewData([
             'showGoBack' => false,
             'showTab'    => true,
@@ -88,8 +86,6 @@ class AppointmentController extends WebController
             throw new NotFoundHttpException();
         }
 
-        $this->hackMode = true;
-
         return $this->setViewData([
             'title' => '预约详情',
         ])->output("page.appointment-detail", [
@@ -106,7 +102,7 @@ class AppointmentController extends WebController
                                    ->all();
 
         return $this->setViewData([
-            'title'      => '我的预约',
+            'title' => '我的预约',
         ])->output("page.appointment.mine", [
             'models' => $models,
         ]);

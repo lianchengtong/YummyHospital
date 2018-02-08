@@ -11,6 +11,11 @@ $pad-size: 20px;
     }
   }
 
+  a.ui-panel-body {
+    display: block;
+    color: #24292e;
+  }
+
   .ui-panel-body {
     padding: $pad-size;
 

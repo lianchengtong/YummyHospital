@@ -78,9 +78,9 @@ class Order extends \common\base\ActiveRecord
     public function completeWithTradeNumber($outTradeNumber, $channel)
     {
         $this->out_trade_id = $outTradeNumber;
-        $this->complete_at = time();
-        $this->channel = $channel;
-        $this->status = self::STATUS_PAY_SUCCESS;
+        $this->complete_at  = time();
+        $this->channel      = $channel;
+        $this->status       = self::STATUS_PAY_SUCCESS;
 
         return $this->saveOrError();
     }
@@ -180,5 +180,23 @@ class Order extends \common\base\ActiveRecord
     public static function getListByUser($userID)
     {
         return self::find()->where(['user_id' => $userID])->orderBy(['id' => SORT_DESC])->all();
+    }
+
+    public function montData($key)
+    {
+        foreach ($this->montData as $item) {
+            if ($item->name == $key) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+
+    public static function channelName($channelID)
+    {
+        $channelList = self::getPayChannel();
+
+        return $channelList[$channelID];
     }
 }
