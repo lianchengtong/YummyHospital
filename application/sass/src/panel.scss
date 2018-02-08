@@ -4,6 +4,11 @@ $pad-size: 20px;
 
   .ui-panel-heading {
     padding: $pad-size;
+
+    &.flex-show {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 
   .ui-panel-body {

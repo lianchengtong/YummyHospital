@@ -83,4 +83,11 @@ class MemberCard extends \common\base\ActiveRecord
 
         return $model->saveOrError();
     }
+
+    public function getOption($key)
+    {
+        $data = json_decode($this->options, true);
+
+        return $data[$key];
+    }
 }
