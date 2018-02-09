@@ -1,7 +1,11 @@
 .page-ask-show {
   .show-banner {
-    height: 80px;
+    min-height: 30px;
     background: $color-main;
+
+    img {
+      width: 100%;
+    }
   }
 
   .search-box {

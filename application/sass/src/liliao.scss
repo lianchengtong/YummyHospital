@@ -1,8 +1,11 @@
 .ui-page-liliao {
   .banner-show {
-    height: 100px;
+    min-height: 30px;
     margin-bottom: 20px;
     background: $color-main;
+    img {
+      width: 100%;
+    }
   }
 
   .list {
