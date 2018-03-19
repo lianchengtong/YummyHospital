@@ -12,12 +12,12 @@ class LoginController extends BaseController
     public function actionIndex()
     {
         if (!UserSession::isGuest()) {
-            return $this->goBack();
+            return $this->redirect("/manage/dashboard");
         }
 
         $model = new LoginForm();
         if ($model->load(Request::post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect("/manage/dashboard");
         }
 
         return $this->render([
