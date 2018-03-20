@@ -90,4 +90,16 @@ class MemberCard extends \common\base\ActiveRecord
 
         return $data[$key];
     }
+
+    public function isTopCard()
+    {
+        /** @var self $model */
+        $model = self::find()->orderBy(['order' => SORT_ASC])->one();
+
+        if ($model->order == $this->order) {
+            return true;
+        }
+
+        return false;
+    }
 }

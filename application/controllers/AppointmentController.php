@@ -18,7 +18,7 @@ class AppointmentController extends WebController
         return $this->setViewData([
             'showGoBack' => false,
             'showTab'    => true,
-            'title'      => '理疗预约',
+            'title'      => '在线问诊',
         ])->output("page.ask-show");
     }
 

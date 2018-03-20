@@ -31,6 +31,18 @@
         width: auto;
       }
 
+      .action-set-default {
+        color: #000000;
+      }
+
+      .ui-btn-primary.action-set-default {
+        background: #c5c5c5;
+        border: none;
+        color: white;
+        &:before {
+          border: none;
+        }
+      }
       .data-wrapper {
         flex: 1;
       }

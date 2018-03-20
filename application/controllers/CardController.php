@@ -139,44 +139,47 @@ class CardController extends WebController
             return $this->redirect(['/card/index']);
         }
 
-        $goodPrice = floatval(Request::input("amount"));
-        if ($goodPrice <= 10) {
-            $model->addError("id", "请输入合法充值金额");
-        } else {
-            $trans = \Yii::$app->getDb()->beginTransaction();
+        if (Request::isPost()) {
 
-            try {
-                // order create
-                $title      = sprintf("%s 会员卡充值", $model->card->name);
-                $orderModel = Order::create(UserSession::getId(), $title, $goodPrice);
-                if ($orderModel === false) {
-                    throw new \Exception("create order failed");
+            $goodPrice = floatval(Request::input("amount"));
+            if ($goodPrice <= 10) {
+                $model->addError("id", "请输入合法充值金额");
+            } else {
+                $trans = \Yii::$app->getDb()->beginTransaction();
+
+                try {
+                    // order create
+                    $title      = sprintf("%s 会员卡充值", $model->card->name);
+                    $orderModel = Order::create(UserSession::getId(), $title, $goodPrice);
+                    if ($orderModel === false) {
+                        throw new \Exception("create order failed");
+                    }
+
+                    $montDataCallback = OrderMontData::getCallback(
+                        MemberOwnCard::className(),
+                        "callbackChargeSuccess",
+                        [$model->id]
+                    );
+                    $montDataList     = [
+                        'enableCard'                  => '0',
+                        'enableCoin'                  => '0',
+                        'enableCode'                  => '0',
+                        'callback'                    => $montDataCallback,
+                        MemberOwnCard::rawTableName() => $model->id,
+                    ];
+
+                    $montData = OrderMontData::addBatchData($orderModel->primaryKey, $montDataList);
+                    if (true !== $montData) {
+                        throw new \Exception("save order mont data fail");
+                    }
+
+                    $trans->commit();
+
+                    return $this->redirect(['pay/index', 'id' => $orderModel->order_id]);
+                } catch (\Exception $e) {
+                    $trans->rollBack();
+                    $this->addError($e->getMessage());
                 }
-
-                $montDataCallback = OrderMontData::getCallback(
-                    MemberOwnCard::className(),
-                    "callbackChargeSuccess",
-                    [$model->id]
-                );
-                $montDataList     = [
-                    'enableCard'                  => '0',
-                    'enableCoin'                  => '0',
-                    'enableCode'                  => '0',
-                    'callback'                    => $montDataCallback,
-                    MemberOwnCard::rawTableName() => $model->id,
-                ];
-
-                $montData = OrderMontData::addBatchData($orderModel->primaryKey, $montDataList);
-                if (true !== $montData) {
-                    throw new \Exception("save order mont data fail");
-                }
-
-                $trans->commit();
-
-                return $this->redirect(['pay/index', 'id' => $orderModel->order_id]);
-            } catch (\Exception $e) {
-                $trans->rollBack();
-                $this->addError($e->getMessage());
             }
         }
 

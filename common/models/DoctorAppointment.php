@@ -142,7 +142,7 @@ class DoctorAppointment extends \common\base\ActiveRecord
     public function getOrderModel()
     {
         $condition = [
-            'name'    => 'appointment_id',
+            'name'    => self::rawTableName(),
             'content' => $this->id,
         ];
         /** @var \common\models\OrderMontData $orderMontInfo */
@@ -187,6 +187,7 @@ class DoctorAppointment extends \common\base\ActiveRecord
 
     /**
      * 获取当前用户需要评价的数量
+     *
      * @return int|string
      */
     public static function getNeedFeedbackCount()
