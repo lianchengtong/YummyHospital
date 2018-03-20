@@ -92,8 +92,12 @@ class DoctorAppointment extends \common\base\ActiveRecord
             $this->user_id = UserSession::getId();
         }
 
-        $this->time_begin = strtotime($this->time_begin);
-        $this->time_end   = strtotime($this->time_end);
+        if (!is_numeric($this->time_begin)) {
+            $this->time_begin = strtotime($this->time_begin);
+        }
+        if (!is_numeric($this->time_end)) {
+            $this->time_end = strtotime($this->time_end);
+        }
 
         return parent::beforeSave($insert);
     }

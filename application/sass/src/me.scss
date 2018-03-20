@@ -46,6 +46,7 @@ $user-bg-image: "/images/bg-me.jpg";
   background: white;
   border: 1px solid $border-color;
   border-radius: 5px;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 
   i img {
     width: 25px;

@@ -3,4 +3,13 @@
     display: flex;
     justify-content: space-between;
   }
+
+  .action-btn-cancel {
+    background: #c5c5c5;
+    border: none;
+
+    &:before {
+      border: none;
+    }
+  }
 }

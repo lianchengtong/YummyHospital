@@ -4,6 +4,7 @@ namespace application\controllers;
 
 use application\base\WebController;
 use common\models\DoctorAppointment;
+use common\models\Order;
 use common\models\PatientFeedback;
 use common\models\UserCoin;
 use common\utils\Request;
@@ -32,12 +33,36 @@ class AppointmentController extends WebController
     public function actionCancelOrder($id)
     {
         $model = DoctorAppointment::findOne($id);
-        if (!$model || $model->user_id != UserSession::getId() || $model->status != DoctorAppointment::STATUS_PENDING) {
-            throw new NotFoundHttpException();
-        }
+        //if (!$model || $model->user_id != UserSession::getId() || $model->status != DoctorAppointment::STATUS_PENDING) {
+        //    throw new NotFoundHttpException();
+        //}
 
-        $model->status = DoctorAppointment::STATUS_CANCEL;
-        $model->save();
+        $trans = \Yii::$app->getDb()->beginTransaction();
+        try {
+            $model->status = DoctorAppointment::STATUS_CANCEL;
+            if (!$model->save(false)) {
+                throw new \Exception("cancel faild");
+            }
+
+            $orderModel = $model->getOrder();
+            if ($orderModel) {
+                if ($orderModel == Order::STATUS_PAY_SUCCESS) {
+                    $orderModel->status = Order::STATUS_PAY_REFUND;
+                }
+
+                if ($orderModel == Order::STATUS_PENDING_PAY) {
+                    $orderModel->status = Order::STATUS_PAY_CLOSED;
+                }
+                if (!$orderModel->save(false)) {
+                    var_dump($orderModel->getErrors())  ;exit;
+                    throw new \Exception(json_encode($model->getErrors()));
+                }
+            }
+
+            $trans->commit();
+        } catch (\Exception $e) {
+            $trans->rollBack();
+        }
 
         return $this->redirect(['/appointment/mine']);
     }
