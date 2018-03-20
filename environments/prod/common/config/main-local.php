@@ -3,9 +3,9 @@ return [
     'components' => [
         'db'     => [
             'class'               => 'yii\db\Connection',
-            'dsn'                 => sprintf('mysql:host=%s;dbname=%s', DB_MASTER_INNER, "blog_711xd"),
-            'username'            => DB_USERNAME,
-            'password'            => DB_PASSWORD,
+            'dsn'                 => 'mysql:host=db-master-aliyun-hz.internal.server.ipao.cloud;dbname=yummy_hospital',
+            'username'            => 'application',
+            'password'            => 'Application@!$)@)@',
             'charset'             => 'utf8',
             'enableSchemaCache'   => TRUE,
             'schemaCacheDuration' => 3600,
