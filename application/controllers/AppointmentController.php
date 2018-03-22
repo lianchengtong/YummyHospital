@@ -3,6 +3,7 @@
 namespace application\controllers;
 
 use application\base\WebController;
+use common\models\Doctor;
 use common\models\DoctorAppointment;
 use common\models\Order;
 use common\models\PatientFeedback;
@@ -54,7 +55,8 @@ class AppointmentController extends WebController
                     $orderModel->status = Order::STATUS_PAY_CLOSED;
                 }
                 if (!$orderModel->save(false)) {
-                    var_dump($orderModel->getErrors())  ;exit;
+                    var_dump($orderModel->getErrors());
+                    exit;
                     throw new \Exception(json_encode($model->getErrors()));
                 }
             }
@@ -104,6 +106,23 @@ class AppointmentController extends WebController
         ]);
     }
 
+    public function actionAgain()
+    {
+        $ids = DoctorAppointment::find()->select("doctor_id")->where([
+            'user_id' => UserSession::getId(),
+        ]);
+
+        $items = Doctor::find()->where(['id' => $ids])->all();
+
+        return $this->setViewData([
+            'title'      => "一键复诊",
+            'showGoBack' => false,
+            'showTab'    => true,
+        ])->output("page.appointment.list", [
+            'items' => $items,
+        ]);
+    }
+
     public function actionDetail($id)
     {
         $model = DoctorAppointment::findOne($id);
@@ -128,6 +147,26 @@ class AppointmentController extends WebController
 
         return $this->setViewData([
             'title' => '我的预约',
+        ])->output("page.appointment.mine", [
+            'models' => $models,
+        ]);
+    }
+
+    // 我未评价的预约
+    public function actionPendingFeedback()
+    {
+        $condition = [
+            'user_id'     => UserSession::getId(),
+            'status'      => DoctorAppointment::STATUS_COMPLETE,
+            'feedback_at' => 0,
+        ];
+        $models    = DoctorAppointment::find()
+                                      ->where($condition)
+                                      ->orderBy(['id' => SORT_DESC])
+                                      ->all();
+
+        return $this->setViewData([
+            'title' => '待评论',
         ])->output("page.appointment.mine", [
             'models' => $models,
         ]);
