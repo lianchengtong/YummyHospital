@@ -2,6 +2,7 @@
   background: white;
 
   .filter-mask {
+    display: none;
     position: absolute;
     z-index: 100;
     width: 100%;
@@ -23,6 +24,23 @@
       &:first-child {
         border-right: 1px solid #ccc;
       }
+
+    }
+  }
+
+  .doctor-filter-items {
+    position: absolute;
+    background: white;
+    width: 100%;
+    z-index: 999;
+
+    .filter-item {
+      display: none;
+      a {
+        margin: 0 10px 10px 0;
+      }
+
+      padding: 20px;
     }
   }
 }

@@ -71,38 +71,63 @@ class AppointmentController extends WebController
 
     public function actionAsk()
     {
-        $departmentName = \common\utils\Request::input("department");
-        $items          = \common\utils\Cache::getOrSet(
-            "page.doctor-appointment-list-" . $departmentName,
-            function () use ($departmentName) {
-                return \common\models\Doctor::getByTag($departmentName);
+        $department = \common\utils\Request::input("department", "");
+        $items      = \common\models\Doctor::getByTag($department);
+        $order      = \common\utils\Request::input("order", "default");
+
+        if ($order != "default") {
+            $markMap = [];
+            $itemMap = [];
+            foreach ($items as $item) {
+                $markMap[$item->id] = \common\models\PatientFeedback::getDoctorMark($item->id);
+                $itemMap[$item->id] = $item;
             }
-        );
+            arsort($markMap);
+
+            $items = [];
+            foreach ($markMap as $id => $markItem) {
+                $items[] = $itemMap[$id];
+            }
+        }
 
         return $this->setViewData([
             'title'      => "在线问诊",
             'showGoBack' => false,
         ])->output("page.doctor-appointment-ask-list", [
-            'items' => $items,
+            'items'             => $items,
+            'currentDepartment' => $department,
         ]);
     }
 
     public function actionList()
     {
-        $tagName = \common\utils\Request::input("tag");
-        $items   = \common\utils\Cache::getOrSet(
-            "page.doctor-appointment-list-" . $tagName,
-            function () use ($tagName) {
-                return \common\models\Doctor::getByTag($tagName);
+        $department = \common\utils\Request::input("department");
+        $items      = \common\models\Doctor::getByTag($department);
+        $order      = \common\utils\Request::input("order", "default");
+
+        if ($order != "default") {
+            $markMap = [];
+            $itemMap = [];
+            foreach ($items as $item) {
+                $markMap[$item->id] = \common\models\PatientFeedback::getDoctorMark($item->id);
+                $itemMap[$item->id] = $item;
             }
-        );
+            arsort($markMap);
+
+            $items = [];
+            foreach ($markMap as $id => $markItem) {
+                $items[] = $itemMap[$id];
+            }
+        }
+
 
         return $this->setViewData([
             'title'      => "门诊预约",
             'showGoBack' => false,
             'showTab'    => true,
         ])->output("page.appointment.list", [
-            'items' => $items,
+            'items'             => $items,
+            'currentDepartment' => $department,
         ]);
     }
 
