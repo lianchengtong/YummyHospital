@@ -13,7 +13,7 @@ class PatientController extends WebController
 {
     public function actionIndex()
     {
-        $mode = Request::input("mode", "show");
+        $mode   = Request::input("mode", "show");
         $models = MyPatient::getModelList(UserSession::getId());
 
         $codeID = "page.patient-list-mode-select";
@@ -89,14 +89,15 @@ class PatientController extends WebController
 
     public function actionCreate()
     {
-        $model = new MyPatient();
+        $model          = new MyPatient();
         $model->user_id = UserSession::getId();
-        $mode = Request::input("mode", "show");
+        $mode           = Request::input("mode", "show");
 
         if (Request::isPost() && $model->load(Request::input())) {
             if (MyPatient::count(['user_id' => UserSession::getId()]) == 0) {
                 $model->default = 1;
             }
+
             if ($model->save()) {
                 return $this->redirect([
                     'index',
@@ -104,23 +105,23 @@ class PatientController extends WebController
                     "patient" => Request::input("patient"),
                     "mode"    => $mode,
                 ]);
+            } else {
+                $this->addError($model->getFirstErrorString());
             }
         }
 
-        $params = [
-            'model' => $model,
-        ];
-
-        return $this->output("page.patient-create-update-form", $params, [
-            'title'    => "就诊人",
+        return $this->setViewData([
             'showTab'  => false,
+            'title'    => "就诊人",
             'showSave' => true,
+        ])->output("page.patient-create-update-form", [
+            'model' => $model,
         ]);
     }
 
     public function actionUpdate($id)
     {
-        $model = MyPatient::findOne($id);
+        $model          = MyPatient::findOne($id);
         $model->user_id = UserSession::getId();
 
         if (!$model) {

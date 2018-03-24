@@ -33,6 +33,10 @@ class AskController extends WebController
         if (Request::isPost() && $model->load(Request::input())) {
             $trans = \Yii::$app->getDb()->beginTransaction();
             try {
+                if (!$model->patient_id) {
+                    throw new \Exception("请选择就诊人！");
+                }
+
                 if (!$model->save()) {
                     throw new \Exception($model->getFirstErrorString());
                 }
