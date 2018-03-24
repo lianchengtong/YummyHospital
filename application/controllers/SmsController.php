@@ -24,6 +24,10 @@ class SmsController extends WebController
             return Json::error("请输入手机号");
         }
 
+        if (!is_numeric($phone) || strlen($phone) != 11) {
+            return Json::error("请输入合法的手机号");
+        }
+
         switch ($mode) {
             case "register":
                 if (User::getByPhone($phone)) {

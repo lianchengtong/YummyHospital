@@ -187,15 +187,21 @@ $border-color: #EFEFEF;
   }
 
   .ui-patient-btn-view-all {
-    padding: 2em;
+    margin: 20px 30%;
     a {
       &:before {
-        border-radius: 44px;
+        border-radius: 35px;
         border-color: red;
       }
-      border-radius: 44px;
+      height: 35px;
+      line-height: 35px;
+      color: #212121;
+      display: block;
+      border-radius: 35px;
       border-color: red;
-      color: red;
+      text-align: center;
+      font-size: 16px;
+      border: 1px solid red;
     }
   }
 }

@@ -75,7 +75,7 @@ class PatientController extends WebController
             if ($model->save()) {
                 $this->redirect("/me");
             }
-            $this->getView()->errors = $model->getErrorList();
+            $this->addError($model->getFirstErrorString());
         }
 
         return $this->setViewData([

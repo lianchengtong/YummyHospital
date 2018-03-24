@@ -75,6 +75,14 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public static function rawTableName()
     {
         $tableSchema = self::getTableSchema();
+
         return $tableSchema->fullName;
+    }
+
+    public function getFirstErrorString()
+    {
+        $firstError = array_values($this->getFirstErrors());
+
+        return $firstError[0];
     }
 }

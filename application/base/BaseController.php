@@ -98,7 +98,9 @@ class BaseController extends Controller
 
     public function output($codeID, $params = [], $viewSettings = [])
     {
-        $params["errors"] = $this->errors;
+        $params["errors"]     = $this->errors;
+        $this->view->errors   = $this->errors;
+        $this->view->uniqueID = $this->action->uniqueId;
 
         if ($this->hackMode) {
             return $this->render(sprintf("//%s.php", $codeID), $params);

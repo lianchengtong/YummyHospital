@@ -33,7 +33,8 @@ class MyPatient extends \common\base\ActiveRecord
             [['user_id', 'default', 'sex', 'height', 'is_self', 'weight', 'relation'], 'integer'],
             [['name', 'birth', 'phone', 'birth', 'identify'], 'string', 'max' => 255],
             [['birthYear', 'birthMonth', 'birthDay'], 'safe'],
-            [['default'], 'default', 'value' => 0],
+            [['height', 'default', 'weight'], 'default', 'value' => 0],
+            ['phone', 'match', 'pattern' => '/^1(3|4|5|7|8)\d{9}$/', "message" => "手机号码不合法"],
         ];
     }
 
@@ -42,6 +43,16 @@ class MyPatient extends \common\base\ActiveRecord
         $this->birth = sprintf("%d-%d-%d", $this->birthYear, $this->birthMonth, $this->birthDay);
         if (!strtotime($this->birth)) {
             $this->addError("birthYear", "日期不合法");
+        }
+
+        if ($this->is_self) {
+            if (empty($this->weight) || empty($this->height)) {
+                $this->addError("user_id", "身高、体重不能为空！");
+            }
+        }
+
+        if (!in_array(strlen($this->identify), [15, 18])) {
+            $this->addError("user_id", "身份证号码不合法");
         }
 
         return parent::beforeValidate();

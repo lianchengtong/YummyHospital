@@ -3,6 +3,7 @@
 namespace application\controllers;
 
 use application\base\WebController;
+use common\exceptions\InternalException;
 use common\models\Doctor;
 use common\models\MyPatient;
 use common\models\Order;
@@ -33,7 +34,7 @@ class AskController extends WebController
             $trans = \Yii::$app->getDb()->beginTransaction();
             try {
                 if (!$model->save()) {
-                    throw new \Exception("save ask form fail");
+                    throw new \Exception($model->getFirstErrorString());
                 }
 
                 $title = sprintf("咨询 %s %s的病情",
@@ -43,18 +44,18 @@ class AskController extends WebController
 
                 $orderModel = Order::create(UserSession::getId(), $title, $doctorModel->ask_price);
                 if ($orderModel === false) {
-                    throw new \Exception("create order failed");
+                    throw new InternalException("create order failed");
                 }
 
                 $montData = OrderMontData::addData($orderModel->primaryKey, PatientAsk::rawTableName(), $model->primaryKey);
                 if (true !== $montData) {
-                    throw new \Exception("save montdata patient_ask_id fail");
+                    throw new InternalException("save montdata patient_ask_id fail");
                 }
 
                 $montDataCallback = OrderMontData::getCallback(PatientAsk::className(), "callbackPaySuccess", [$model->id]);
                 $montData         = OrderMontData::addData($orderModel->primaryKey, "callback", $montDataCallback);
                 if (true !== $montData) {
-                    throw new \Exception("save order montdata callback fail");
+                    throw new InternalException("save order montdata callback fail");
                 }
 
                 $trans->commit();
@@ -64,6 +65,9 @@ class AskController extends WebController
                     'id'    => $model->id,
                     'order' => $orderModel->order_id,
                 ]);
+            } catch (InternalException $e) {
+                $trans->rollBack();
+                $this->addError("系统错误");
             } catch (\Exception $e) {
                 $trans->rollBack();
                 $this->addError($e->getMessage());

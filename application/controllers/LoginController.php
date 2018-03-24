@@ -19,46 +19,49 @@ class LoginController extends WebController
             return $this->redirect("/");
         }
 
-        $model = new User();
+        $model  = new User();
         $errors = [];
-        $mode = Request::input("mode", "password");
+        $mode   = Request::input("mode", "password");
         if (Request::isPost() && $model->load(Request::input())) {
-            if ($mode == "password") {
-                $password = $model->password;
+            try {
 
-                if (!empty($model->password)) {
+                if ($mode == "password") {
+                    $password = $model->password;
+
+                    if (empty($model->password)) {
+                        throw new \Exception("请输入密码");
+                    }
+
                     /** @var User $model */
                     $userModel = User::getByPhone($model->phone);
                     if (!$userModel) {
-                        $errors[] = "手机号还没有注册";
-                    } else {
-                        if ($userModel->validatePassword($password)) {
-                            UserSession::login($userModel);
-
-                            return $this->redirect("/");
-                        }
-                        $errors[] = "密码错误";
+                        throw new \Exception("手机号还没有注册");
                     }
-                } else {
-                    $errors[] = "手机号为空";
-                }
-            } else {
-                $cacheCode = Cache::get("login:" . $model->phone);
-                if ($cacheCode != $model->code) {
-                    $errors[] = "验证码错误！";
-                } else {
-                    $userModel = User::getByPhone($model->phone);
-                    if (!$userModel) {
-                        $errors[] = "用户不存在";
-                    } else {
+                    if ($userModel->validatePassword($password)) {
                         UserSession::login($userModel);
-                        Cache::delete("login:" . $model->phone);
 
                         return $this->redirect("/");
                     }
-                }
-            }
+                    throw new \Exception("密码错误");
+                } else {
+                    $cacheCode = Cache::get("login:" . $model->phone);
+                    if ($cacheCode != $model->code) {
+                        throw new \Exception("验证码错误！");
+                    }
 
+                    $userModel = User::getByPhone($model->phone);
+                    if (!$userModel) {
+                        throw new \Exception("用户不存在");
+                    }
+
+                    UserSession::login($userModel);
+                    Cache::delete("login:" . $model->phone);
+
+                    return $this->redirect("/");
+                }
+            } catch (\Exception $e) {
+                $this->addError($e->getMessage());
+            }
         }
 
         return $this->setViewData([
