@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
  *
  * @property int    $id
  * @property int    $user_id
+ * @property int    $card_id
  * @property double $original_money
  * @property double $remain_money
  * @property int    $discount
@@ -76,6 +77,7 @@ class MemberOwnCard extends \common\base\ActiveRecord
 
         $model = new self();
         $model->user_id = $userID;
+        $model->card_id = $cardID;
         $model->original_money = $cardModel->price;
         $model->remain_money = $cardModel->price;
         $model->discount = $cardModel->discount;

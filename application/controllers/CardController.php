@@ -67,7 +67,7 @@ class CardController extends WebController
     {
         $model = MemberOwnCard::getUserEnableCard(UserSession::getId());
         if (!$model) {
-            $this->redirect(['/card/index']);
+            return $this->redirect(['/card/index']);
         }
 
         return $this->setViewData([
@@ -143,7 +143,8 @@ class CardController extends WebController
 
             $goodPrice = floatval(Request::input("amount"));
             if ($goodPrice <= 10) {
-                $model->addError("id", "请输入合法充值金额");
+                //$model->addError("id", "请输入合法充值金额");
+                $model->addError("id", "充值金额需大于10元");
             } else {
                 $trans = \Yii::$app->getDb()->beginTransaction();
 

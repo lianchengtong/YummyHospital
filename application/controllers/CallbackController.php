@@ -20,9 +20,9 @@ class CallbackController extends BaseController
 
         $trans = \Yii::$app->getDb()->beginTransaction();
         try {
-            $totalFee = $response['total_fee'];
+            $totalFee    = $response['total_fee'];
             $outTradeNum = $response['transaction_id'];
-            $orderID = $response['out_trade_no'];
+            $orderID     = $response['out_trade_no'];
 
             $orderModel = Order::getByOrderID($orderID);
             if (!$orderModel) {
@@ -48,6 +48,8 @@ class CallbackController extends BaseController
             return Wechat::callbackOkString();
         } catch (\Exception $e) {
             $trans->rollBack();
+
+            throw new \Exception($e->getMessage());
 
             return $e->getMessage();
         }

@@ -3,7 +3,7 @@ $background-img: "/images/bg-login.jpg";
   width: 100%;
   height: 100%;
   position: relative;
-  background: #694b36 url($background-img);
+  background: url($background-img);
   -webkit-background-size: cover;
   background-size: cover;
 
