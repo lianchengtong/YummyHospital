@@ -9,6 +9,7 @@ cp -rap application  backup  common  composer.json  console  environments  init 
 
 cd $DEPLOY_PATH
 php init --env=Production --overwrite=y
+sass application/sass/site.scss:application/web/css/site.css
 
 
 echo DONE
