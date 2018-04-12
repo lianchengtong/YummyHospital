@@ -26,6 +26,7 @@ class Order extends \common\base\ActiveRecord
     const STATUS_PAY_CLOSED  = 3;
 
     const CHANNEL_UNKNOWN   = "unknown";
+    const CHANNEL_FREE      = "free";
     const CHANNEL_CARD      = "card";
     const CHANNEL_ALIPAY    = "alipay";
     const CHANNEL_WECHATPAY = "wechat-pay";

@@ -21,7 +21,7 @@ class PayController extends WebController
     public function actionIndex()
     {
         $orderModel = $this->getOrderModel();
-        $montData = $orderModel->montData;
+        $montData   = $orderModel->montData;
 
         $montDataList = [];
         /** @var OrderMontData $item */
@@ -62,9 +62,9 @@ class PayController extends WebController
     {
         $orderModel = $this->getOrderModel();
 
-        $data = Request::input("data");
-        $code = $data['code'];
-        $coin = $data['coin'] == 1;
+        $data    = Request::input("data");
+        $code    = $data['code'];
+        $coin    = $data['coin'] == 1;
         $channel = $data['channel'];
 
         $trans = \Yii::$app->getDb()->beginTransaction();
@@ -74,15 +74,15 @@ class PayController extends WebController
                 throw new \Exception("channel not exist");
             }
 
-            $payPrice = $orderModel->getPriceYuan();
+            $payPrice   = $orderModel->getPriceYuan();
             $minusMoney = [
                 'coin' => 0,
                 'code' => 0,
                 'card' => 0,
             ];
             if ($coin) {
-                $userCoin = \common\utils\UserSession::getCoin();
-                $coinRate = \common\models\WebsiteConfig::getValueByKey("global.coin-rate");
+                $userCoin           = \common\utils\UserSession::getCoin();
+                $coinRate           = \common\models\WebsiteConfig::getValueByKey("global.coin-rate");
                 $minusMoney['coin'] = $userCoin * $coinRate;
 
                 if (true !== UserCoin::cost(UserSession::getId(), $userCoin, "订单消费抵扣")) {
@@ -104,7 +104,11 @@ class PayController extends WebController
             }
 
             $payPrice -= array_sum($minusMoney);
-            if ($channel == Order::CHANNEL_CARD) {
+            if ($payPrice <= 0) {
+                $payPrice = 0;
+            }
+
+            if ($channel == Order::CHANNEL_CARD && $payPrice > 0) {
                 $userCard = MemberOwnCard::getUserEnableCard(UserSession::getId());
                 if (!$userCard) {
                     throw new \Exception("no valid user card find");
@@ -117,7 +121,7 @@ class PayController extends WebController
                 }
 
                 $payPrice -= $minusMoney['card'];
-                $result = MemberCardPayLog::add($userCard->id, $orderModel->id, $orderModel->getPriceYuan(), $payPrice);
+                $result   = MemberCardPayLog::add($userCard->id, $orderModel->id, $orderModel->getPriceYuan(), $payPrice);
                 if (true !== $result) {
                     throw new \Exception("member card pay log exception");
                 }
@@ -146,8 +150,8 @@ class PayController extends WebController
                 throw new \Exception("add mont data fail");
             }
 
-            if ($channel == Order::CHANNEL_WECHATPAY) {
-                $openID = (new AuthWechat())->getByUserID(UserSession::getId())->getOpenID();
+            if ($channel == Order::CHANNEL_WECHATPAY && $payPrice > 0) {
+                $openID   = (new AuthWechat())->getByUserID(UserSession::getId())->getOpenID();
                 $response = Wechat::createJSOrder($openID, $orderModel->name, $orderModel->order_id, $payPrice * 100);
                 if ($response === false) {
                     return Json::error("非法请求");
@@ -156,8 +160,18 @@ class PayController extends WebController
                 return Json::success($response);
             }
 
-            if ($channel == Order::CHANNEL_ALIPAY) {
+            if ($channel == Order::CHANNEL_ALIPAY && $payPrice > 0) {
                 return Json::error("not support");
+            }
+
+            if ($payPrice == 0) {
+                $result = $orderModel->completeWithTradeNumber("free-order-pay", Order::CHANNEL_FREE);
+                if (true !== $result) {
+                    throw new \Exception("update order status fail");
+                }
+                $trans->commit();
+
+                return Json::success();
             }
 
             $trans->commit();
@@ -182,7 +196,7 @@ class PayController extends WebController
     public function actionCodeInfo()
     {
         $codeID = Request::input("code");
-        $model = PromotionCard::getByCardNumber($codeID);
+        $model  = PromotionCard::getByCardNumber($codeID);
         if (!$model) {
             return Json::error("卡号不存在");
         }
@@ -193,7 +207,7 @@ class PayController extends WebController
 
     private function getOrderModel()
     {
-        $orderID = Request::input("id");
+        $orderID    = Request::input("id");
         $orderModel = Order::getByOrderID($orderID);
         if (!$orderModel) {
             throw new NotFoundHttpException();

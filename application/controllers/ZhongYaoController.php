@@ -13,7 +13,6 @@ class ZhongYaoController extends WebController
 {
     public function actionIndex()
     {
-        $this->hackMode = true;
         return $this->setViewData([
             'title' => '品质中药',
         ])->output("page.zhongyao");
